@@ -7,7 +7,6 @@ const Footer = () => {
         <footer style={{ backgroundColor: '#0f172a', color: '#f8fafc', padding: '40px 0', marginTop: 'auto' }}>
             <Container>
                 <Row className="g-4 align-items-center">
-                    {/* Left Column: Brand & About */}
                     <Col lg={4} md={12}>
                         <div className="d-flex align-items-center gap-2 mb-3">
                             <div style={{
@@ -36,7 +35,6 @@ const Footer = () => {
                         </div>
                     </Col>
 
-                    {/* Middle Column: Address */}
                     <Col lg={5} md={6}>
                         <h6 style={{ fontWeight: 700, textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '1rem', color: '#6366f1', fontSize: '0.8rem' }}>Corporate Office</h6>
                         <div className="d-flex align-items-start gap-2">
@@ -48,8 +46,7 @@ const Footer = () => {
                             </div>
                         </div>
                     </Col>
-
-                    {/* Right Column: Mini Contact */}
+                    s
                     <Col lg={3} md={6}>
                         <div className="d-flex flex-column gap-2">
                             <div className="d-flex align-items-center gap-2">

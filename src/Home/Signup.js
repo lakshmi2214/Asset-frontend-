@@ -65,7 +65,7 @@ export default function Signup({ setUser }) {
             tokenRes = await fetch(`${API_BASE}/api/v1/auth/token/`, {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ username, password })
+              body: JSON.stringify({ username, email, password })
             });
           } catch (err) {
             setStandaloneMode(true);

@@ -39,7 +39,6 @@ const stats = [
 function Home() {
   return (
     <div className="home-wrapper" style={{ overflowX: 'hidden' }}>
-      {/* Hero Section */}
       <section className="hero-section py-5 mb-5 animate-fade-in" style={{
         background: 'radial-gradient(circle at top right, rgba(99, 102, 241, 0.05), transparent), radial-gradient(circle at bottom left, rgba(244, 63, 94, 0.05), transparent)',
         minHeight: '80vh',
@@ -132,7 +131,6 @@ function Home() {
         </Container>
       </section>
 
-      {/* Stats Section */}
       <section className="stats-section py-5 mb-5">
         <Container>
           <div className="glass-morphism rounded-pill p-4 shadow-sm">
@@ -150,7 +148,6 @@ function Home() {
         </Container>
       </section>
 
-      {/* Features Grid */}
       <section className="features-grid py-5 mb-5 overflow-hidden">
         <Container>
           <div className="text-center mb-5 animate-slide-up">
@@ -185,7 +182,6 @@ function Home() {
         </Container>
       </section>
 
-      {/* CTA Section */}
       <section className="cta-section py-5 animate-fade-in" style={{ animationDelay: '0.6s' }}>
         <Container>
           <div style={{
@@ -227,7 +223,6 @@ function Home() {
         </Container>
       </section>
 
-      {/* Footer Space padding */}
       <div className="py-5"></div>
     </div>
   );

@@ -1,16 +1,3 @@
-/**
- * ImageUploadModal – React component
- * Renders a Bootstrap Modal for uploading an asset photo
- * when receiving or returning a booking.
- *
- * Props:
- *  show          {boolean}   – controls modal visibility
- *  onHide        {Function}  – called to close the modal
- *  onSubmit      {Function}  – called when "Submit & Receive/Return" is clicked
- *  uploadAction  {string|null} – 'receive' | 'return'
- *  selectedFile  {File|null} – currently selected file
- *  setSelectedFile {Function}
- */
 
 import React from 'react';
 import { Modal, Button, Form } from 'react-bootstrap';

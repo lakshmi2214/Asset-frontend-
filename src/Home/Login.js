@@ -25,7 +25,7 @@ export default function Login({ setUser }) {
         tokenRes = await fetch(`${API_BASE}/api/v1/auth/token/`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ username, password })
+          body: JSON.stringify({ username, email: username, password })
         });
       }
 
@@ -59,10 +59,10 @@ export default function Login({ setUser }) {
       <h2>Sign In</h2>
       <Form onSubmit={submit}>
         <Form.Group className="mb-3">
-          <Form.Label>Username</Form.Label>
+          <Form.Label>Email / Username</Form.Label>
           <Form.Control
             type="text"
-            placeholder="Enter username"
+            placeholder="Enter email or username"
             value={username}
             onChange={e => setUsername(e.target.value)}
             autoComplete="username"

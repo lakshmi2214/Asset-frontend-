@@ -13,12 +13,12 @@ export default function AssetList() {
   // {type:'category', id} = main category selected
   // {type:'subcategory', id, parentId} = subcategory selected
   const [filter, setFilter] = useState(null);
+  const [searchQuery, setSearchQuery] = useState('');
 
   useEffect(() => {
     let isMounted = true;
 
     const loadData = async () => {
-      // If in standalone mode, use mock data immediately
       if (isStandaloneMode()) {
         if (isMounted) {
           setAssets(MOCK_ASSETS);
@@ -79,44 +79,49 @@ export default function AssetList() {
     return () => { isMounted = false; };
   }, []);
 
-
   const filteredAssets = useMemo(() => {
-    if (!filter) return assets;
+    let list = assets;
 
-    if (filter.type === 'category') {
-
-      return assets.filter(a => {
-        const catMatch = a.category && (
-          a.category.id === filter.id ||
-          String(a.category.id) === String(filter.id)
-        );
-
-        const nameMatch = a.category && (
-          a.category.name === (categories.find(c => c.id === filter.id) || {}).name
-        );
-        return catMatch || nameMatch;
-      });
+    if (filter) {
+      if (filter.type === 'category') {
+        list = list.filter(a => {
+          const catMatch = a.category && (
+            a.category.id === filter.id ||
+            String(a.category.id) === String(filter.id)
+          );
+          const nameMatch = a.category && (
+            a.category.name === (categories.find(c => c.id === filter.id) || {}).name
+          );
+          return catMatch || nameMatch;
+        });
+      } else if (filter.type === 'subcategory') {
+        list = list.filter(a => {
+          const subMatch = a.subcategory && (
+            a.subcategory.id === filter.id ||
+            String(a.subcategory.id) === String(filter.id)
+          );
+          const nameMatch = a.subcategory && (() => {
+            const parentCat = categories.find(c => c.id === filter.parentId);
+            const sub = parentCat && parentCat.subcategories &&
+              parentCat.subcategories.find(s => s.id === filter.id);
+            return sub && a.subcategory.name === sub.name;
+          })();
+          return subMatch || nameMatch;
+        });
+      }
     }
 
-    if (filter.type === 'subcategory') {
-      return assets.filter(a => {
-        const subMatch = a.subcategory && (
-          a.subcategory.id === filter.id ||
-          String(a.subcategory.id) === String(filter.id)
-        );
-        const nameMatch = a.subcategory && (() => {
-          const parentCat = categories.find(c => c.id === filter.parentId);
-          const sub = parentCat && parentCat.subcategories &&
-            parentCat.subcategories.find(s => s.id === filter.id);
-          return sub && a.subcategory.name === sub.name;
-        })();
-        return subMatch || nameMatch;
-      });
+    if (searchQuery.trim()) {
+      const q = searchQuery.toLowerCase();
+      list = list.filter(a =>
+        (a.name && a.name.toLowerCase().includes(q)) ||
+        (a.serial_number && a.serial_number.toLowerCase().includes(q)) ||
+        (a.location && a.location.name && a.location.name.toLowerCase().includes(q))
+      );
     }
 
-    return assets;
-  }, [assets, categories, filter]);
-
+    return list;
+  }, [assets, categories, filter, searchQuery]);
 
   const isCategoryActive = (catId) =>
     filter && filter.type === 'category' && filter.id === catId;
@@ -127,7 +132,6 @@ export default function AssetList() {
   const isDropdownActive = (cat) =>
     isCategoryActive(cat.id) ||
     (cat.subcategories && cat.subcategories.some(s => isSubcategoryActive(s.id)));
-
 
   const activeLabel = useMemo(() => {
     if (!filter) return null;
@@ -144,94 +148,129 @@ export default function AssetList() {
     return null;
   }, [filter, categories]);
 
+  const getStatusClass = (status, available) => {
+    if (status?.includes('Available') || available) return 'status-badge-available';
+    if (status === 'Pending') return 'status-badge-pending';
+    return 'status-badge-unavailable';
+  };
 
   return (
-    <Container className="mt-4">
-      <h2 className="mb-4">Available Assets</h2>
-
-      {/* ── Filter Bar ── */}
-      <div
-        className="d-flex flex-wrap gap-2 mb-5 align-items-center p-3 glass-morphism rounded-4 shadow-sm border"
-        style={{ position: 'relative', zIndex: 1000 }}
-      >
-        {/* All Assets */}
-        <Button
-          variant="light"
-          className={`filter-btn ${!filter ? 'filter-btn-active' : ''}`}
-          onClick={() => setFilter(null)}
-        >
-          All Assets
-        </Button>
-
-        <div className="vr mx-1 opacity-25" />
-
-        {/* Category dropdowns */}
-        {categories.map(cat => {
-          const active = isDropdownActive(cat);
-          return (
-            <DropdownButton
-              key={cat.id}
-              variant="light"
-              title={cat.name}
-              className={`filter-dropdown ${active ? 'filter-dropdown-active' : ''}`}
-              size="sm"
-              renderMenuOnMount={true}
-              toggleClassName={`filter-btn ${active ? 'filter-btn-active' : ''}`}
-              id={`dropdown-cat-${cat.id}`}
-            >
-              {/* "All <Category>" option */}
-              <Dropdown.Item
-                active={isCategoryActive(cat.id)}
-                onClick={() => setFilter({ type: 'category', id: cat.id })}
-              >
-                All {cat.name}
-              </Dropdown.Item>
-
-              {/* Subcategories */}
-              {cat.subcategories && cat.subcategories.length > 0 && (
-                <>
-                  <Dropdown.Divider />
-                  {cat.subcategories.map(sub => (
-                    <Dropdown.Item
-                      key={sub.id}
-                      active={isSubcategoryActive(sub.id)}
-                      onClick={() =>
-                        setFilter({ type: 'subcategory', id: sub.id, parentId: cat.id })
-                      }
-                    >
-                      {sub.name}
-                    </Dropdown.Item>
-                  ))}
-                </>
-              )}
-            </DropdownButton>
-          );
-        })}
+    <Container className="py-4">
+      {/* ── Page Hero Header ── */}
+      <div className="page-hero-banner">
+        <div className="page-hero-badge">
+          ✦ GEAR & EQUIPMENT CATALOG
+        </div>
+        <h1 className="page-hero-title">Equipment Inventory</h1>
+        <p className="page-hero-subtitle">
+          Explore production-grade cameras, lighting, audio gear, and accessories available across company studios.
+        </p>
       </div>
 
-      { }
-      {activeLabel && (
-        <div className="mb-4 d-flex align-items-center gap-2">
-          <span className="text-muted" style={{ fontSize: '0.9rem' }}>Filtering by:</span>
-          <Badge
-            style={{
-              background: 'linear-gradient(135deg, #6366f1, #f43f5e)',
-              fontSize: '0.85rem',
-              padding: '0.45em 0.9em',
-              borderRadius: '999px',
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: '0.5rem',
-              cursor: 'pointer'
-            }}
+      {/* ── Filter & Search Bar ── */}
+      <div className="catalog-filter-bar d-flex flex-wrap gap-3 align-items-center justify-content-between">
+        <div className="d-flex flex-wrap gap-2 align-items-center">
+          {/* All Assets Button */}
+          <Button
+            variant="light"
+            className={`filter-btn ${!filter ? 'filter-btn-active' : ''}`}
             onClick={() => setFilter(null)}
-            title="Click to clear filter"
           >
-            {activeLabel}
-            <span style={{ fontWeight: 400, opacity: 0.8 }}>✕</span>
-          </Badge>
-          <span style={{ fontSize: '0.85rem', color: '#64748b' }}>
-            ({filteredAssets.length} asset{filteredAssets.length !== 1 ? 's' : ''} found)
+            All Assets
+          </Button>
+
+          <div className="vr mx-1 opacity-25 d-none d-sm-block" />
+
+          {/* Category Dropdowns */}
+          {categories.map(cat => {
+            const active = isDropdownActive(cat);
+            return (
+              <DropdownButton
+                key={cat.id}
+                variant="light"
+                title={cat.name}
+                className={`filter-dropdown ${active ? 'filter-dropdown-active' : ''}`}
+                size="sm"
+                renderMenuOnMount={true}
+                toggleClassName={`filter-btn ${active ? 'filter-btn-active' : ''}`}
+                id={`dropdown-cat-${cat.id}`}
+              >
+                <Dropdown.Item
+                  active={isCategoryActive(cat.id)}
+                  onClick={() => setFilter({ type: 'category', id: cat.id })}
+                >
+                  All {cat.name}
+                </Dropdown.Item>
+
+                {cat.subcategories && cat.subcategories.length > 0 && (
+                  <>
+                    <Dropdown.Divider />
+                    {cat.subcategories.map(sub => (
+                      <Dropdown.Item
+                        key={sub.id}
+                        active={isSubcategoryActive(sub.id)}
+                        onClick={() =>
+                          setFilter({ type: 'subcategory', id: sub.id, parentId: cat.id })
+                        }
+                      >
+                        {sub.name}
+                      </Dropdown.Item>
+                    ))}
+                  </>
+                )}
+              </DropdownButton>
+            );
+          })}
+        </div>
+
+        {/* Live Search Box */}
+        <div className="search-input-wrapper">
+          <input
+            type="text"
+            className="form-control search-input-field"
+            placeholder="Search by gear name, model..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+          />
+        </div>
+      </div>
+
+      {/* ── Active Filter Chip ── */}
+      {(activeLabel || searchQuery) && (
+        <div className="mb-4 d-flex align-items-center gap-2 flex-wrap">
+          <span className="text-muted small">Filtered results:</span>
+          {activeLabel && (
+            <Badge
+              style={{
+                background: 'linear-gradient(135deg, #6366f1, #4f46e5)',
+                fontSize: '0.82rem',
+                padding: '0.45em 0.9em',
+                borderRadius: '999px',
+                cursor: 'pointer'
+              }}
+              onClick={() => setFilter(null)}
+              title="Click to remove category filter"
+            >
+              {activeLabel} <span className="ms-1 opacity-75">✕</span>
+            </Badge>
+          )}
+          {searchQuery && (
+            <Badge
+              bg="secondary"
+              style={{
+                fontSize: '0.82rem',
+                padding: '0.45em 0.9em',
+                borderRadius: '999px',
+                cursor: 'pointer'
+              }}
+              onClick={() => setSearchQuery('')}
+              title="Clear search"
+            >
+              "{searchQuery}" <span className="ms-1 opacity-75">✕</span>
+            </Badge>
+          )}
+          <span className="text-muted small ms-auto">
+            Showing {filteredAssets.length} of {assets.length} items
           </span>
         </div>
       )}
@@ -239,9 +278,22 @@ export default function AssetList() {
       {/* ── Asset Grid ── */}
       <Row className="g-4">
         {filteredAssets.map(a => (
-          <Col key={a.id} xs={12} sm={12} md={6} lg={4}>
+          <Col key={a.id} xs={12} sm={6} lg={4}>
             <Card className="h-100 asset-card">
+              {/* Image & Overlays */}
               <div className="asset-img-container">
+                {/* Floating Category Pill */}
+                {a.category && (
+                  <span className="asset-floating-cat">
+                    {a.category.name}
+                  </span>
+                )}
+
+                {/* Floating Availability Badge */}
+                <span className={`asset-floating-status ${getStatusClass(a.status, a.available)}`}>
+                  ● {a.status || (a.available ? 'Available' : 'Out of Stock')}
+                </span>
+
                 {a.image_url ? (
                   <Card.Img
                     variant="top"
@@ -250,62 +302,53 @@ export default function AssetList() {
                     alt={a.name}
                   />
                 ) : (
-                  <div style={{
-                    height: '100%',
-                    backgroundColor: '#f1f3f5',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center'
-                  }}>
-                    <span style={{ color: '#adb5bd', fontWeight: 500 }}>No Image Available</span>
+                  <div className="asset-card-placeholder">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path>
+                      <circle cx="12" cy="13" r="4"></circle>
+                    </svg>
+                    <span>No Preview Available</span>
                   </div>
                 )}
               </div>
 
+              {/* Card Body */}
               <Card.Body className="asset-card-body">
-                <Card.Title className="asset-card-title">{a.name}</Card.Title>
+                <Card.Title className="asset-card-title" title={a.name}>
+                  {a.name}
+                </Card.Title>
 
-                <div className="d-flex align-items-center mb-3 flex-wrap gap-2">
-                  {/* Category tag */}
-                  {a.category && (
-                    <Badge bg="secondary" style={{ opacity: 0.85, fontSize: '0.75rem' }}>
-                      {a.category.name}
-                    </Badge>
-                  )}
-                  {/* Subcategory tag */}
-                  {a.subcategory && (
-                    <Badge
-                      bg="light"
-                      text="dark"
-                      className="border"
-                      style={{ fontSize: '0.75rem' }}
-                    >
-                      {a.subcategory.name}
-                    </Badge>
-                  )}
-                </div>
+                {a.serial_number && (
+                  <div className="text-muted small mb-2" style={{ fontSize: '0.78rem' }}>
+                    S/N: {a.serial_number}
+                  </div>
+                )}
 
-                <div className="d-flex align-items-center mb-2 flex-wrap gap-2">
+                <div className="d-flex align-items-center gap-2 flex-wrap mt-auto pt-2">
                   {a.location && (
-                    <Badge bg="light" text="dark" className="border">
-                      <i className="bi bi-geo-alt-fill text-danger me-1" /> {a.location.name}
-                    </Badge>
+                    <span className="asset-tag-pill location">
+                      📍 {a.location.name}
+                    </span>
                   )}
-                  <Badge
-                    bg={
-                      a.status?.includes('Available') ? 'success'
-                        : a.status === 'Pending' ? 'warning' : 'danger'
-                    }
-                    className="asset-status-badge"
-                  >
-                    {a.status || (a.available ? 'Available' : 'Out of Stock')}
-                  </Badge>
+                  {a.subcategory && (
+                    <span className="asset-tag-pill">
+                      {a.subcategory.name}
+                    </span>
+                  )}
+                  {a.total_quantity && (
+                    <span className="asset-tag-pill stock">
+                      ⚡ {a.total_quantity} Total Units
+                    </span>
+                  )}
                 </div>
               </Card.Body>
 
-              <Card.Footer className="bg-white border-top-0 pt-0 pb-3 px-3">
-                <Link to={`/assets/${a.id}`}>
-                  <Button variant="primary" className="w-100">View Details</Button>
+              {/* Card Footer */}
+              <Card.Footer className="asset-card-footer">
+                <Link to={`/assets/${a.id}`} className="text-decoration-none">
+                  <button className="btn-card-action btn-card-action-primary">
+                    View Details →
+                  </button>
                 </Link>
               </Card.Footer>
             </Card>
@@ -313,13 +356,20 @@ export default function AssetList() {
         ))}
       </Row>
 
-      {/* ── Empty state ── */}
+      {/* ── Empty State ── */}
       {filteredAssets.length === 0 && (
-        <div className="text-center mt-5 py-5">
-          <div style={{ fontSize: '3rem', marginBottom: '1rem' }}>🔍</div>
-          <p className="text-muted fs-5">No assets found for the selected category.</p>
-          <Button variant="outline-primary" className="mt-2" onClick={() => setFilter(null)}>
-            Show All Assets
+        <div className="text-center py-5 my-4 bg-white rounded-4 border p-5 shadow-sm">
+          <div style={{ fontSize: '3rem', marginBottom: '1rem' }}>🎥</div>
+          <h4 className="fw-bold mb-2">No Equipment Found</h4>
+          <p className="text-muted mb-4">
+            No gear matches your current filter or search criteria.
+          </p>
+          <Button
+            variant="outline-primary"
+            className="rounded-pill px-4"
+            onClick={() => { setFilter(null); setSearchQuery(''); }}
+          >
+            Reset All Filters
           </Button>
         </div>
       )}

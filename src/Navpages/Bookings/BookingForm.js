@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import DatePicker from 'react-datepicker';
-import { Form, Button, Card, Alert, Row, Col, Badge, Modal, Dropdown, DropdownButton } from 'react-bootstrap';
+import { Form, Button, Card, Alert, Row, Col, Badge, Modal, Dropdown, DropdownButton, Container } from 'react-bootstrap';
 import 'react-datepicker/dist/react-datepicker.css';
 import { authorizedFetch, getValidAccessToken, clearTokens, API_BASE, isStandaloneMode } from '../../auth';
 
@@ -11,6 +11,7 @@ export default function AssetBooking() {
   const [locations, setLocations] = useState([]);
   const [categories, setCategories] = useState([]);
   const [selectedCategoryId, setSelectedCategoryId] = useState(null);
+  const [searchQuery, setSearchQuery] = useState('');
 
   const [selectedAssetId, setSelectedAssetId] = useState('');
   const [quantity, setQuantity] = useState(1);
@@ -35,7 +36,6 @@ export default function AssetBooking() {
     setLoading(true);
 
     const loadInitialData = async () => {
-      // If in standalone mode, use mock data immediately
       if (isStandaloneMode()) {
         if (isMounted) {
           setAssets(MOCK_ASSETS);
@@ -279,101 +279,191 @@ export default function AssetBooking() {
     end,
     purpose,
     selectedAssetId,
-    quantity
+    quantity,
   ]);
 
   const filteredAssets = useMemo(() => {
-    if (!selectedCategoryId) return assets;
+    let list = assets;
 
-    // Check if category is a parent category or a subcategory
-    const isParent = categories.some(cat => cat.id === selectedCategoryId);
-
-    if (isParent) {
-      return assets.filter(a => a.category && a.category.id === selectedCategoryId);
-    } else {
-      // Check if it's a subcategory ID
-      return assets.filter(a => a.subcategory && a.subcategory.id === selectedCategoryId);
+    if (selectedCategoryId) {
+      const isParent = categories.some(cat => cat.id === selectedCategoryId);
+      if (isParent) {
+        list = list.filter(a => a.category && a.category.id === selectedCategoryId);
+      } else {
+        list = list.filter(a => a.subcategory && a.subcategory.id === selectedCategoryId);
+      }
     }
-  }, [assets, selectedCategoryId, categories]);
+
+    if (searchQuery.trim()) {
+      const q = searchQuery.toLowerCase();
+      list = list.filter(a =>
+        (a.name && a.name.toLowerCase().includes(q)) ||
+        (a.serial_number && a.serial_number.toLowerCase().includes(q)) ||
+        (a.location && a.location.name && a.location.name.toLowerCase().includes(q))
+      );
+    }
+
+    return list;
+  }, [assets, selectedCategoryId, categories, searchQuery]);
+
+  const getStatusClass = (status, available) => {
+    if (status?.includes('Available') || available) return 'status-badge-available';
+    if (status === 'Pending') return 'status-badge-pending';
+    return 'status-badge-unavailable';
+  };
 
   if (loading) {
     return (
-      <div style={{ textAlign: 'center', padding: '50px' }}>
-        <div className="spinner-border" role="status">
+      <Container className="py-5 text-center">
+        <div className="spinner-border text-primary" role="status">
           <span className="visually-hidden">Loading...</span>
         </div>
-        <p className="mt-3">Loading assets...</p>
-      </div>
+        <p className="mt-3 text-muted">Loading equipment catalogue...</p>
+      </Container>
     );
   }
 
   return (
-    <div style={{ maxWidth: 900, margin: '20px auto', fontFamily: 'Arial, sans-serif' }}>
+    <Container className="py-4">
       {msg && (
-        <Alert variant={msg.includes('success') ? 'success' : msg.includes('Error') || msg.includes('Failed') || msg.includes('expired') ? 'danger' : 'info'}>
+        <Alert variant={msg.includes('success') ? 'success' : msg.includes('Error') || msg.includes('Failed') || msg.includes('expired') ? 'danger' : 'info'} className="mb-4">
           {msg}
         </Alert>
       )}
 
       {!selectedAssetId && (
         <>
-          <h2 className="mb-4">Available Assets for Booking</h2>
 
-          {/* Category Filter */}
-          <div className="d-flex flex-wrap gap-3 mb-5 align-items-center p-3 glass-morphism rounded-4 shadow-sm border" style={{ position: 'relative', zIndex: 1000 }}>
-            <Button
-              variant="light"
-              className={`filter-btn ${!selectedCategoryId ? 'filter-btn-active' : ''}`}
-              onClick={() => setSelectedCategoryId(null)}
-            >
-              All Assets
-            </Button>
-
-            <div className="vr mx-1 opacity-25"></div>
-
-            {categories.map(cat => {
-              const isAnySubSelected = cat.subcategories && cat.subcategories.some(sub => sub.id === selectedCategoryId);
-              const isParentSelected = selectedCategoryId === cat.id;
-              const isActive = isAnySubSelected || isParentSelected;
-
-              return (
-                <DropdownButton
-                  key={cat.id}
-                  variant="light"
-                  title={cat.name}
-                  className={`filter-dropdown ${isActive ? 'filter-dropdown-active' : ''}`}
-                  size="sm"
-                  onSelect={(ek) => setSelectedCategoryId(Number(ek))}
-                  renderMenuOnMount={true}
-                  toggleClassName={`filter-btn ${isActive ? 'filter-btn-active' : ''}`}
-                >
-                  <Dropdown.Item eventKey={cat.id} active={selectedCategoryId === cat.id}>
-                    All {cat.name}
-                  </Dropdown.Item>
-                  {cat.subcategories && cat.subcategories.length > 0 && (
-                    <>
-                      <Dropdown.Divider />
-                      {cat.subcategories.map(sub => (
-                        <Dropdown.Item
-                          key={sub.id}
-                          eventKey={sub.id}
-                          active={selectedCategoryId === sub.id}
-                        >
-                          {sub.name}
-                        </Dropdown.Item>
-                      ))}
-                    </>
-                  )}
-                </DropdownButton>
-              );
-            })}
+          <div className="page-hero-banner">
+            <div className="page-hero-badge">
+              ✦ INSTANT RESERVATIONS
+            </div>
+            <h1 className="page-hero-title">Book Equipment</h1>
+            <p className="page-hero-subtitle">
+              Choose professional gear from our studio inventory, select your rental dates, and reserve in seconds.
+            </p>
           </div>
 
-          <Row className="g-3">
+
+          <div className="catalog-filter-bar d-flex flex-wrap gap-3 align-items-center justify-content-between">
+            <div className="d-flex flex-wrap gap-2 align-items-center">
+              <Button
+                variant="light"
+                className={`filter-btn ${!selectedCategoryId ? 'filter-btn-active' : ''}`}
+                onClick={() => setSelectedCategoryId(null)}
+              >
+                All Assets
+              </Button>
+
+              <div className="vr mx-1 opacity-25 d-none d-sm-block"></div>
+
+              {categories.map(cat => {
+                const isAnySubSelected = cat.subcategories && cat.subcategories.some(sub => sub.id === selectedCategoryId);
+                const isParentSelected = selectedCategoryId === cat.id;
+                const isActive = isAnySubSelected || isParentSelected;
+
+                return (
+                  <DropdownButton
+                    key={cat.id}
+                    variant="light"
+                    title={cat.name}
+                    className={`filter-dropdown ${isActive ? 'filter-dropdown-active' : ''}`}
+                    size="sm"
+                    onSelect={(ek) => setSelectedCategoryId(Number(ek))}
+                    renderMenuOnMount={true}
+                    toggleClassName={`filter-btn ${isActive ? 'filter-btn-active' : ''}`}
+                  >
+                    <Dropdown.Item eventKey={cat.id} active={selectedCategoryId === cat.id}>
+                      All {cat.name}
+                    </Dropdown.Item>
+                    {cat.subcategories && cat.subcategories.length > 0 && (
+                      <>
+                        <Dropdown.Divider />
+                        {cat.subcategories.map(sub => (
+                          <Dropdown.Item
+                            key={sub.id}
+                            eventKey={sub.id}
+                            active={selectedCategoryId === sub.id}
+                          >
+                            {sub.name}
+                          </Dropdown.Item>
+                        ))}
+                      </>
+                    )}
+                  </DropdownButton>
+                );
+              })}
+            </div>
+
+
+            <div className="search-input-wrapper">
+              <input
+                type="text"
+                className="form-control search-input-field"
+                placeholder="Search equipment to book..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+              />
+            </div>
+          </div>
+
+
+          {(selectedCategoryId || searchQuery) && (
+            <div className="mb-4 d-flex align-items-center gap-2 flex-wrap">
+              <span className="text-muted small">Filtered by:</span>
+              {selectedCategoryId && (
+                <Badge
+                  style={{
+                    background: 'linear-gradient(135deg, #10b981, #059669)',
+                    fontSize: '0.82rem',
+                    padding: '0.45em 0.9em',
+                    borderRadius: '999px',
+                    cursor: 'pointer'
+                  }}
+                  onClick={() => setSelectedCategoryId(null)}
+                  title="Clear category filter"
+                >
+                  Category Active <span className="ms-1 opacity-75">✕</span>
+                </Badge>
+              )}
+              {searchQuery && (
+                <Badge
+                  bg="secondary"
+                  style={{
+                    fontSize: '0.82rem',
+                    padding: '0.45em 0.9em',
+                    borderRadius: '999px',
+                    cursor: 'pointer'
+                  }}
+                  onClick={() => setSearchQuery('')}
+                  title="Clear search"
+                >
+                  "{searchQuery}" <span className="ms-1 opacity-75">✕</span>
+                </Badge>
+              )}
+              <span className="text-muted small ms-auto">
+                Showing {filteredAssets.length} of {assets.length} items
+              </span>
+            </div>
+          )}
+
+
+          <Row className="g-4">
             {filteredAssets.map((asset) => (
-              <Col key={asset.id} xs={12} sm={12} md={6} lg={4}>
+              <Col key={asset.id} xs={12} sm={6} lg={4}>
                 <Card className="h-100 asset-card">
+
                   <div className="asset-img-container">
+                    {asset.category && (
+                      <span className="asset-floating-cat">
+                        {asset.category.name}
+                      </span>
+                    )}
+
+                    <span className={`asset-floating-status ${getStatusClass(asset.status, asset.available)}`}>
+                      ● {asset.status || (asset.available ? 'Available' : 'Out of Stock')}
+                    </span>
+
                     {asset.image_url ? (
                       <Card.Img
                         variant="top"
@@ -382,47 +472,77 @@ export default function AssetBooking() {
                         alt={asset.name}
                       />
                     ) : (
-                      <div style={{ height: '100%', backgroundColor: '#f1f3f5', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                        <span style={{ color: '#adb5bd' }}>No Image</span>
+                      <div className="asset-card-placeholder">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                          <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path>
+                          <circle cx="12" cy="13" r="4"></circle>
+                        </svg>
+                        <span>No Preview Available</span>
                       </div>
                     )}
                   </div>
-                  <Card.Body className="asset-card-body">
-                    <Card.Title className="asset-card-title">{asset.name}</Card.Title>
-                    {/* Hidden serial number to focus on image */}
-                    <div className="d-flex align-items-center mb-3 flex-wrap gap-2">
-                      {asset.location && (
-                        <Badge bg="light" text="dark" className="border">
-                          {asset.location.name}
-                        </Badge>
-                      )}
-                      <Badge
-                        bg={
-                          asset.status?.includes('Available') ? 'success' :
-                            asset.status === 'Pending' ? 'warning' : 'danger'
-                        }
-                        className="asset-status-badge"
-                      >
-                        {asset.status || (asset.available ? 'Available' : 'Out of Stock')}
-                      </Badge>
-                    </div>
 
-                    <Button
-                      variant="primary"
-                      className="w-100 mt-2"
+
+                  <Card.Body className="asset-card-body">
+                    <Card.Title className="asset-card-title" title={asset.name}>
+                      {asset.name}
+                    </Card.Title>
+
+                    {asset.serial_number && (
+                      <div className="text-muted small mb-2" style={{ fontSize: '0.78rem' }}>
+                        S/N: {asset.serial_number}
+                      </div>
+                    )}
+
+                    <div className="d-flex align-items-center gap-2 flex-wrap mt-auto pt-2">
+                      {asset.location && (
+                        <span className="asset-tag-pill location">
+                          📍 {asset.location.name}
+                        </span>
+                      )}
+                      {asset.subcategory && (
+                        <span className="asset-tag-pill">
+                          {asset.subcategory.name}
+                        </span>
+                      )}
+                      {asset.total_quantity && (
+                        <span className="asset-tag-pill stock">
+                          ⚡ {asset.total_quantity} Units Available
+                        </span>
+                      )}
+                    </div>
+                  </Card.Body>
+
+
+                  <Card.Footer className="asset-card-footer">
+                    <button
+                      className="btn-card-action btn-card-action-success"
                       onClick={() => openBookingForm(asset.id)}
                     >
-                      Book Now
-                    </Button>
-                  </Card.Body>
+                      Book Equipment ⚡
+                    </button>
+                  </Card.Footer>
                 </Card>
               </Col>
             ))}
           </Row>
+
+
           {filteredAssets.length === 0 && (
-            <Alert variant="info" className="mt-3">
-              No assets found in this category.
-            </Alert>
+            <div className="text-center py-5 my-4 bg-white rounded-4 border p-5 shadow-sm">
+              <div style={{ fontSize: '3rem', marginBottom: '1rem' }}>📅</div>
+              <h4 className="fw-bold mb-2">No Equipment Available</h4>
+              <p className="text-muted mb-4">
+                No items match your selected filter or search term.
+              </p>
+              <Button
+                variant="outline-success"
+                className="rounded-pill px-4"
+                onClick={() => { setSelectedCategoryId(null); setSearchQuery(''); }}
+              >
+                Reset Filters
+              </Button>
+            </div>
           )}
         </>
       )}
@@ -756,6 +876,6 @@ export default function AssetBooking() {
           </Button>
         </Modal.Footer>
       </Modal>
-    </div>
+    </Container>
   );
 }

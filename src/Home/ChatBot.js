@@ -25,12 +25,10 @@ const ChatBot = () => {
     const handleSendMessage = (text = inputValue) => {
         if (!text.trim()) return;
 
-        // Add user message
         const newUserMsg = { id: Date.now(), text: text, sender: 'user' };
         setMessages(prev => [...prev, newUserMsg]);
         setInputValue("");
 
-        // Simulate Bot Response
         setTimeout(() => {
             let botResponse = { id: Date.now() + 1, text: "I'm not sure I understand. Try checking the menu options!", sender: 'bot' };
             const lowerText = text.toLowerCase();
@@ -67,14 +65,12 @@ const ChatBot = () => {
 
     return (
         <div className="chatbot-container">
-            {/* Toggle Button */}
             {!isOpen && (
                 <button className="chatbot-toggle" onClick={() => setIsOpen(true)}>
                     <FaRobot />
                 </button>
             )}
 
-            {/* Chat Window */}
             {isOpen && (
                 <div className="chatbot-window">
                     <div className="chatbot-header">
@@ -87,7 +83,6 @@ const ChatBot = () => {
                         </button>
                     </div>
 
-                    {/* Chat Area */}
                     <div className="chatbot-messages">
                         {messages.map((msg) => (
                             <div key={msg.id} className={`message ${msg.sender}`}>
@@ -104,7 +99,6 @@ const ChatBot = () => {
                         <div ref={messagesEndRef} />
                     </div>
 
-                    {/* Input Area */}
                     <div className="chatbot-input-area">
                         <input
                             type="text"
@@ -119,7 +113,6 @@ const ChatBot = () => {
                         </button>
                     </div>
 
-                    {/* Bottom Nav */}
                     <div className="chatbot-nav">
                         <button className="nav-item" onClick={() => setIsMenuOpen(true)}>
                             <FaBars className="nav-icon" />
@@ -139,7 +132,6 @@ const ChatBot = () => {
                         </button>
                     </div>
 
-                    {/* Overlay Menu (Like in screenshot) */}
                     {isMenuOpen && (
                         <div className="menu-modal-overlay">
                             <h3 className="menu-title">Menu</h3>
