@@ -64,7 +64,6 @@ export default function Home() {
 
   return (
     <div className="home-page-root" style={{ overflowX: 'hidden' }}>
-      {/* ── 1. CINEMATIC HERO SECTION (MATCHING OPTION 5) ── */}
       <section
         className="lensloop-hero-wrap"
         style={{
@@ -74,7 +73,7 @@ export default function Home() {
         <div className="lensloop-hero-overlay" />
         <Container>
           <div className="lensloop-hero-content animate-slide-up">
-            {/* Lavender / Purple Tag */}
+
             <div
               style={{
                 color: '#a78bfa',
@@ -88,7 +87,6 @@ export default function Home() {
               CREATE | CAPTURE | PRODUCE
             </div>
 
-            {/* Headline */}
             <h1
               style={{
                 color: '#ffffff',
@@ -102,7 +100,6 @@ export default function Home() {
               Book Camera &amp; Studio Equipment for Your Next Project
             </h1>
 
-            {/* Subtitle */}
             <p
               style={{
                 color: '#cbd5e1',
@@ -115,7 +112,6 @@ export default function Home() {
               From cameras and lenses to lighting, audio and full studio setups — everything you need, all in one place.
             </p>
 
-            {/* Floating Search Pill */}
             <form onSubmit={handleSearch} className="search-capsule">
               <div className="search-capsule-item">
                 <FaSearch style={{ color: '#64748b', fontSize: '13px' }} />
@@ -154,7 +150,7 @@ export default function Home() {
         </Container>
       </section>
 
-      {/* ── 2. TRUST / FEATURE HIGHLIGHTS BAR ── */}
+
       <section className="trust-feature-bar">
         <Container>
           <Row className="g-4 align-items-center justify-content-between text-center text-md-start">
@@ -194,7 +190,6 @@ export default function Home() {
         </Container>
       </section>
 
-      {/* ── 3. DISCOVER OUR EQUIPMENT (5 CARDS) ── */}
       <section className="py-5" id="equipment">
         <Container>
           <div className="d-flex align-items-center justify-content-between mb-4">
@@ -263,7 +258,7 @@ export default function Home() {
         </Container>
       </section>
 
-      {/* ── 4. BRING YOUR IDEAS TO LIFE BANNER CARD ── */}
+
       <section className="pb-5 pt-2">
         <Container>
           <div className="ideas-banner-card">

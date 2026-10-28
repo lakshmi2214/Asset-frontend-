@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Form, Button, Container, Alert } from 'react-bootstrap';
-import { API_BASE, mockLogin, isStandaloneMode } from '../auth';
+import { API_BASE } from '../auth';
 
 export default function Login({ setUser }) {
   const [username, setUsername] = useState('');
@@ -12,27 +12,30 @@ export default function Login({ setUser }) {
   async function submit(e) {
     e.preventDefault();
     if (!username || !password) {
-      setMsg('Please enter username and password');
+      setMsg('Please enter email / username and password');
       return;
     }
     try {
       setMsg('Logging in...');
       let tokenRes;
 
-      if (isStandaloneMode()) {
-        tokenRes = await mockLogin(username, password);
-      } else {
+      try {
         tokenRes = await fetch(`${API_BASE}/api/v1/auth/token/`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ username, email: username, password })
         });
+      } catch (fetchErr) {
+        console.error('Login connection error:', fetchErr);
+        setMsg(`Unable to connect to backend at ${API_BASE}. Please ensure the server is running.`);
+        return;
       }
 
       if (tokenRes.ok) {
         const tokens = await tokenRes.json();
         localStorage.setItem('access', tokens.access);
         localStorage.setItem('refresh', tokens.refresh);
+        localStorage.removeItem('standalone_mode');
         setUser(tokens.access);
         setMsg('Login successful');
         navigate('/');

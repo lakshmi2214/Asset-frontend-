@@ -8,7 +8,6 @@ import AssetDetail from './Navpages/Assets/AssetDetail';
 import BookingList from './Navpages/Bookings/BookingList';
 import Home from './Home/Home';
 import AssetBooking from './Navpages/Bookings/BookingForm';
-import VerifyEmail from './Home/VerifyEmail';
 import Footer from './Home/Footer';
 
 import { API_BASE } from './auth';
@@ -53,15 +52,13 @@ function App() {
                   <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z" />
                 </svg>
               </div>
-              <span style={{ fontWeight: 800, letterSpacing: '-0.5px' }}>LensLoop</span>
+              <span style={{ fontWeight: 800, letterSpacing: '-0.5px' }}>Aslikahani</span>
             </Navbar.Brand>
             <Navbar.Toggle aria-controls="basic-navbar-nav" className="border-0" />
             <Navbar.Collapse id="basic-navbar-nav">
               <Nav className="me-auto ms-lg-4 gap-2">
                 <Nav.Link as={Link} to="/" className="px-3">Home</Nav.Link>
-                <Nav.Link as={Link} to="/assets" className="px-3">Equipment</Nav.Link>
-                <Nav.Link as={Link} to="/book-asset" className="px-3">Studio</Nav.Link>
-                <Nav.Link as={Link} to="/#equipment" className="px-3">How It Works</Nav.Link>
+                <Nav.Link as={Link} to="/assets" className="px-3">Equipments</Nav.Link>
                 {user && <Nav.Link as={Link} to="/bookings" className="px-3">My History</Nav.Link>}
               </Nav>
               <Nav className="gap-2 align-items-center">
@@ -87,7 +84,6 @@ function App() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/signup" element={<Container className="mt-4"><Signup setUser={setUser} /></Container>} />
-            <Route path="/verify-email" element={<Container className="mt-4"><VerifyEmail /></Container>} />
             <Route path="/login" element={<Container className="mt-4"><Login setUser={setUser} /></Container>} />
 
             <Route path="/assets" element={user ? <Container className="mt-4"><AssetList /></Container> : <Navigate to="/login" />} />

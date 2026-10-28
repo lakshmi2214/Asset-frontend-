@@ -26,7 +26,7 @@ const Footer = () => {
                                     <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z" />
                                 </svg>
                             </div>
-                            <h5 style={{ fontWeight: 800, margin: 0, letterSpacing: '-0.5px' }}>LensLoop</h5>
+                            <h5 style={{ fontWeight: 800, margin: 0, letterSpacing: '-0.5px' }}>Aslikahani</h5>
                         </div>
                         <p style={{ color: '#94a3b8', lineHeight: 1.5, fontSize: '0.9rem', marginBottom: '1rem' }}>
                             Studio camera &amp; audio equipment reservation platform.
@@ -60,14 +60,14 @@ const Footer = () => {
                             </div>
                             <div className="d-flex align-items-center gap-2">
                                 <FaEnvelope style={{ color: '#c4b5fd', fontSize: '0.8rem' }} />
-                                <a href="mailto:support@lensloop.com" style={{ color: '#a78bfa', textDecoration: 'none', fontSize: '0.85rem' }}>support@lensloop.com</a>
+                                <a href="mailto:support@aslikahani.com" style={{ color: '#a78bfa', textDecoration: 'none', fontSize: '0.85rem' }}>support@aslikahani.com</a>
                             </div>
                         </div>
                     </Col>
                 </Row>
                 <hr className="my-4" style={{ borderColor: 'rgba(255,255,255,0.05)' }} />
                 <div className="text-center" style={{ color: '#475569', fontSize: '0.8rem' }}>
-                    © {new Date().getFullYear()} LensLoop Systems. All rights reserved.
+                    © {new Date().getFullYear()} Aslikahani. All rights reserved.
                 </div>
             </Container>
         </footer>

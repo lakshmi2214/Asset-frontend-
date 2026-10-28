@@ -1,14 +1,13 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import DatePicker from 'react-datepicker';
 import { Form, Button, Card, Alert, Row, Col, Badge, Modal, Dropdown, DropdownButton, Container } from 'react-bootstrap';
 import 'react-datepicker/dist/react-datepicker.css';
-import { authorizedFetch, getValidAccessToken, clearTokens, API_BASE, isStandaloneMode } from '../../auth';
-
-import { MOCK_ASSETS, MOCK_CATEGORIES } from '../../Home/mockData';
+import { authorizedFetch, getValidAccessToken, clearTokens, API_BASE } from '../../auth';
 
 export default function AssetBooking() {
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   const [assets, setAssets] = useState([]);
   const [locations, setLocations] = useState([]);
   const [categories, setCategories] = useState([]);
@@ -33,25 +32,19 @@ export default function AssetBooking() {
   const [msg, setMsg] = useState('');
   const [loading, setLoading] = useState(true);
 
+  // Read URL query parameter (e.g. ?category=camera)
+  useEffect(() => {
+    const categoryParam = searchParams.get('category');
+    if (categoryParam) {
+      setSearchQuery(categoryParam);
+    }
+  }, [searchParams]);
+
   useEffect(() => {
     let isMounted = true;
     setLoading(true);
 
     const loadInitialData = async () => {
-      if (isStandaloneMode()) {
-        if (isMounted) {
-          setAssets(MOCK_ASSETS);
-          const map = new Map();
-          MOCK_ASSETS.forEach((a) => {
-            if (a.location) map.set(a.location.id, a.location);
-          });
-          setLocations(Array.from(map.values()));
-          setCategories(MOCK_CATEGORIES);
-        }
-        setLoading(false);
-        return;
-      }
-
       try {
         const controller = new AbortController();
         const timeoutId = setTimeout(() => controller.abort(), 8000);
@@ -80,46 +73,26 @@ export default function AssetBooking() {
               });
               setLocations(Array.from(map.values()));
             } else {
-              setMsg('No backend assets found, using mock data.');
-              setAssets(MOCK_ASSETS);
-              const map = new Map();
-              MOCK_ASSETS.forEach((a) => {
-                if (a.location) map.set(a.location.id, a.location);
-              });
-              setLocations(Array.from(map.values()));
+              setAssets([]);
             }
           } else {
-            setMsg('Error loading assets from backend, using mock data.');
-            setAssets(MOCK_ASSETS);
-            const map = new Map();
-            MOCK_ASSETS.forEach((a) => {
-              if (a.location) map.set(a.location.id, a.location);
-            });
-            setLocations(Array.from(map.values()));
+            setMsg('Unable to load equipment catalog from backend.');
+            setAssets([]);
           }
 
           if (categoriesRes && categoriesRes.ok) {
             const categoriesData = await categoriesRes.json();
-            if (categoriesData && categoriesData.length > 0) {
-              setCategories(categoriesData);
-            } else {
-              setCategories(MOCK_CATEGORIES);
-            }
+            setCategories(Array.isArray(categoriesData) ? categoriesData : []);
           } else {
-            setCategories(MOCK_CATEGORIES);
+            setCategories([]);
           }
         }
       } catch (err) {
-        console.error("Fetch error, falling back to mock data:", err);
+        console.error("Fetch error:", err);
         if (isMounted) {
-          setMsg('');
-          setAssets(MOCK_ASSETS);
-          const map = new Map();
-          MOCK_ASSETS.forEach((a) => {
-            if (a.location) map.set(a.location.id, a.location);
-          });
-          setLocations(Array.from(map.values()));
-          setCategories(MOCK_CATEGORIES);
+          setMsg('Unable to connect to backend server on port 8030.');
+          setAssets([]);
+          setCategories([]);
         }
       } finally {
         if (isMounted) setLoading(false);
@@ -180,7 +153,12 @@ export default function AssetBooking() {
       return;
     }
 
-    const asset = assets.find((a) => a.id === Number(selectedAssetId));
+    const asset = assets.find((a) => String(a.id) === String(selectedAssetId));
+    if (!asset) {
+      setMsg('Please select a valid equipment to book.');
+      setConfirmStage(false);
+      return;
+    }
 
     const body = {
       asset_id: asset.id,
@@ -211,7 +189,7 @@ export default function AssetBooking() {
         setConfirmStage(false);
         return;
       }
-      setMsg('Error: ' + err.message);
+      setMsg('Error: ' + (err.message || 'Unable to complete reservation.'));
       setConfirmStage(false);
       return;
     }

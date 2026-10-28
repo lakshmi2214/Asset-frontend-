@@ -2,16 +2,12 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Card, Button, Container, Row, Col, Badge, Dropdown, DropdownButton } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { API_BASE, isStandaloneMode } from '../../auth';
-import { MOCK_ASSETS, MOCK_CATEGORIES } from '../../Home/mockData';
+import { API_BASE } from '../../auth';
 
 export default function AssetList() {
   const [assets, setAssets] = useState([]);
   const [categories, setCategories] = useState([]);
 
-  // null  = show all assets
-  // {type:'category', id} = main category selected
-  // {type:'subcategory', id, parentId} = subcategory selected
   const [filter, setFilter] = useState(null);
   const [searchQuery, setSearchQuery] = useState('');
 
@@ -19,14 +15,6 @@ export default function AssetList() {
     let isMounted = true;
 
     const loadData = async () => {
-      if (isStandaloneMode()) {
-        if (isMounted) {
-          setAssets(MOCK_ASSETS);
-          setCategories(MOCK_CATEGORIES);
-        }
-        return;
-      }
-
       try {
         const controller = new AbortController();
         const timeoutId = setTimeout(() => controller.abort(), 8000);
@@ -47,30 +35,22 @@ export default function AssetList() {
         if (isMounted) {
           if (assetsRes && assetsRes.ok) {
             const assetsData = await assetsRes.json();
-            if (assetsData && assetsData.length > 0) {
-              setAssets(assetsData);
-            } else {
-              setAssets(MOCK_ASSETS);
-            }
+            setAssets(Array.isArray(assetsData) ? assetsData : []);
           } else {
-            setAssets(MOCK_ASSETS);
+            setAssets([]);
           }
           if (categoriesRes && categoriesRes.ok) {
             const categoriesData = await categoriesRes.json();
-            if (categoriesData && categoriesData.length > 0) {
-              setCategories(categoriesData);
-            } else {
-              setCategories(MOCK_CATEGORIES);
-            }
+            setCategories(Array.isArray(categoriesData) ? categoriesData : []);
           } else {
-            setCategories(MOCK_CATEGORIES);
+            setCategories([]);
           }
         }
       } catch (err) {
-        console.error("AssetList fetch error, falling back to mock data:", err);
+        console.error("AssetList fetch error:", err);
         if (isMounted) {
-          setAssets(MOCK_ASSETS);
-          setCategories(MOCK_CATEGORIES);
+          setAssets([]);
+          setCategories([]);
         }
       }
     };

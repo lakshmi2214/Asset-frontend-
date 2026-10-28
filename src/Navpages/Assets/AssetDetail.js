@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { Container, Row, Col, Card, Badge, Button, Spinner } from 'react-bootstrap';
-import { API_BASE, isStandaloneMode } from '../../auth';
+import { API_BASE } from '../../auth';
 
 export default function AssetDetail() {
   const { id } = useParams();
@@ -14,24 +14,6 @@ export default function AssetDetail() {
     setLoading(true);
 
     const loadData = async () => {
-      // 1. Check for standalone mode
-      if (isStandaloneMode()) {
-        if (isMounted) {
-          import('../../Home/mockData').then(m => {
-            const mockAsset = m.MOCK_ASSETS.find(a => String(a.id) === String(id));
-            if (mockAsset) {
-              setAsset(mockAsset);
-              setError(null);
-            } else {
-              setError('Failed to load asset details');
-            }
-            setLoading(false);
-          });
-        }
-        return;
-      }
-
-      // 2. Try fetch with timeout
       try {
         const controller = new AbortController();
         const timeoutId = setTimeout(() => controller.abort(), 5000);
@@ -52,19 +34,9 @@ export default function AssetDetail() {
           setError(null);
         }
       } catch (err) {
-        console.error('Error loading asset, falling back to mock:', err);
+        console.error('Error loading asset:', err);
         if (isMounted) {
-          import('../../Home/mockData').then(m => {
-            const mockAsset = m.MOCK_ASSETS.find(a => String(a.id) === String(id));
-            if (mockAsset) {
-              setAsset(mockAsset);
-              setError(null);
-            } else {
-              setError('Failed to load asset details');
-            }
-          }).catch(() => {
-            setError('Failed to load asset details');
-          });
+          setError('Failed to load asset details from backend.');
         }
       } finally {
         if (isMounted) setLoading(false);
