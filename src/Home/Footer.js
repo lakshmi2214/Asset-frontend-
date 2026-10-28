@@ -12,7 +12,7 @@ const Footer = () => {
                             <div style={{
                                 width: '28px',
                                 height: '28px',
-                                background: 'linear-gradient(135deg, #6366f1 0%, #f43f5e 100%)',
+                                background: 'linear-gradient(135deg, #7c3aed 0%, #6d28d9 100%)',
                                 borderRadius: '6px',
                                 display: 'flex',
                                 alignItems: 'center',
@@ -20,11 +20,16 @@ const Footer = () => {
                                 color: 'white',
                                 fontWeight: 800,
                                 fontSize: '0.8rem'
-                            }}>A</div>
-                            <h5 style={{ fontWeight: 800, margin: 0, letterSpacing: '-0.5px' }}>AssetFlow</h5>
+                            }}>
+                                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                                    <circle cx="12" cy="12" r="3" />
+                                    <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z" />
+                                </svg>
+                            </div>
+                            <h5 style={{ fontWeight: 800, margin: 0, letterSpacing: '-0.5px' }}>LensLoop</h5>
                         </div>
                         <p style={{ color: '#94a3b8', lineHeight: 1.5, fontSize: '0.9rem', marginBottom: '1rem' }}>
-                            Next-gen asset management for modern teams.
+                            Studio camera &amp; audio equipment reservation platform.
                         </p>
                         <div className="d-flex gap-2">
                             {[FaFacebookF, FaTwitter, FaLinkedinIn, FaGithub].map((Icon, idx) => (
@@ -36,9 +41,9 @@ const Footer = () => {
                     </Col>
 
                     <Col lg={5} md={6}>
-                        <h6 style={{ fontWeight: 700, textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '1rem', color: '#6366f1', fontSize: '0.8rem' }}>Corporate Office</h6>
+                        <h6 style={{ fontWeight: 700, textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '1rem', color: '#a78bfa', fontSize: '0.8rem' }}>Studio Hub Location</h6>
                         <div className="d-flex align-items-start gap-2">
-                            <FaMapMarkerAlt className="mt-1" style={{ color: '#f43f5e', fontSize: '0.9rem' }} />
+                            <FaMapMarkerAlt className="mt-1" style={{ color: '#c4b5fd', fontSize: '0.9rem' }} />
                             <div style={{ color: '#94a3b8', fontSize: '0.85rem', lineHeight: 1.4 }}>
                                 280/1, Anniamma Arcade, Sampige Road, <br />
                                 18th Cross Rd, Malleshwaram, <br />
@@ -50,19 +55,19 @@ const Footer = () => {
                     <Col lg={3} md={6}>
                         <div className="d-flex flex-column gap-2">
                             <div className="d-flex align-items-center gap-2">
-                                <FaPhone style={{ color: '#f43f5e', fontSize: '0.8rem' }} />
+                                <FaPhone style={{ color: '#c4b5fd', fontSize: '0.8rem' }} />
                                 <div style={{ color: '#94a3b8', fontSize: '0.85rem' }}>+91 63 66 333 444</div>
                             </div>
                             <div className="d-flex align-items-center gap-2">
-                                <FaEnvelope style={{ color: '#f43f5e', fontSize: '0.8rem' }} />
-                                <a href="mailto:support@assetflow.com" style={{ color: '#6366f1', textDecoration: 'none', fontSize: '0.85rem' }}>support@assetflow.com</a>
+                                <FaEnvelope style={{ color: '#c4b5fd', fontSize: '0.8rem' }} />
+                                <a href="mailto:support@lensloop.com" style={{ color: '#a78bfa', textDecoration: 'none', fontSize: '0.85rem' }}>support@lensloop.com</a>
                             </div>
                         </div>
                     </Col>
                 </Row>
                 <hr className="my-4" style={{ borderColor: 'rgba(255,255,255,0.05)' }} />
                 <div className="text-center" style={{ color: '#475569', fontSize: '0.8rem' }}>
-                    © {new Date().getFullYear()} AssetFlow Systems. All rights reserved.
+                    © {new Date().getFullYear()} LensLoop Systems. All rights reserved.
                 </div>
             </Container>
         </footer>

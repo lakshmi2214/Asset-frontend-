@@ -236,7 +236,7 @@ export default function AssetList() {
           {activeLabel && (
             <Badge
               style={{
-                background: 'linear-gradient(135deg, #6366f1, #4f46e5)',
+                background: 'linear-gradient(135deg, #2563eb, #1d4ed8)',
                 fontSize: '0.82rem',
                 padding: '0.45em 0.9em',
                 borderRadius: '999px',

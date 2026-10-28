@@ -1,232 +1,318 @@
-import React from 'react';
-import { Container, Row, Col, Button, Card, Badge } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import React, { useState } from 'react';
+import { Container, Row, Col, Button, Form } from 'react-bootstrap';
+import { Link, useNavigate } from 'react-router-dom';
+import {
+  FaSearch,
+  FaCalendarAlt,
+  FaCamera,
+  FaShieldAlt,
+  FaHeadset,
+  FaArrowRight,
+} from 'react-icons/fa';
 
-const features = [
+const equipmentCategories = [
   {
-    icon: '⚡',
-    title: 'Instant Booking',
-    description: 'Reserve high-end equipment in seconds with our streamlined checkout process.',
-    color: '#6366f1'
+    id: 'cameras',
+    title: 'Cameras',
+    subtitle: 'Cinema & Mirrorless',
+    image: 'https://images.unsplash.com/photo-1516724562728-afc824a36e84?auto=format&fit=crop&w=600&q=80',
+    link: '/book-asset?category=camera',
   },
   {
-    icon: '🛡️',
-    title: 'Asset Protection',
-    description: 'Every booking is tracked and insured, ensuring peace of mind for both owners and users.',
-    color: '#f43f5e'
+    id: 'lenses',
+    title: 'Lenses',
+    subtitle: 'Prime & Zoom Lenses',
+    image: 'https://images.unsplash.com/photo-1617788138017-80ad40651399?auto=format&fit=crop&w=600&q=80',
+    link: '/book-asset?category=lenses',
   },
   {
-    icon: '📊',
-    title: 'Real-time Analytics',
-    description: 'Monitor asset utilization and ROI with our built-in dashboard and detailed reports.',
-    color: '#10b981'
+    id: 'lighting',
+    title: 'Lighting',
+    subtitle: 'LED & Continuous Lights',
+    image: 'https://images.unsplash.com/photo-1527011046414-4781f1f94f8c?auto=format&fit=crop&w=600&q=80',
+    link: '/book-asset?category=lighting',
   },
   {
-    icon: '☁️',
-    title: 'Cloud Managed',
-    description: 'Access your inventory and bookings from anywhere, on any device, with zero latency.',
-    color: '#0ea5e9'
-  }
+    id: 'audio',
+    title: 'Audio',
+    subtitle: 'Mics & Wireless Kits',
+    image: 'https://images.unsplash.com/photo-1590602847861-f357a9332bbc?auto=format&fit=crop&w=600&q=80',
+    link: '/book-asset?category=audio',
+  },
+  {
+    id: 'studio-setups',
+    title: 'Studio Setups',
+    subtitle: 'Soundstages & Backdrops',
+    image: 'https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?auto=format&fit=crop&w=600&q=80',
+    link: '/book-asset?category=studio',
+  },
 ];
 
-const stats = [
-  { label: 'Active Assets', value: '1.2k+' },
-  { label: 'Monthly Bookings', value: '8.5k' },
-  { label: 'Global Locations', value: '24' },
-  { label: 'User Satisfaction', value: '99%' }
-];
+export default function Home() {
+  const navigate = useNavigate();
+  const [selectedCategory, setSelectedCategory] = useState('');
+  const [selectedDate, setSelectedDate] = useState('');
 
-function Home() {
+  const handleSearch = (e) => {
+    e.preventDefault();
+    if (selectedCategory) {
+      navigate(`/book-asset?category=${selectedCategory}`);
+    } else {
+      navigate('/book-asset');
+    }
+  };
+
   return (
-    <div className="home-wrapper" style={{ overflowX: 'hidden' }}>
-      <section className="hero-section py-5 mb-5 animate-fade-in" style={{
-        background: 'radial-gradient(circle at top right, rgba(99, 102, 241, 0.05), transparent), radial-gradient(circle at bottom left, rgba(244, 63, 94, 0.05), transparent)',
-        minHeight: '80vh',
-        display: 'flex',
-        alignItems: 'center'
-      }}>
+    <div className="home-page-root" style={{ overflowX: 'hidden' }}>
+      {/* ── 1. CINEMATIC HERO SECTION (MATCHING OPTION 5) ── */}
+      <section
+        className="lensloop-hero-wrap"
+        style={{
+          backgroundImage: `url('https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?auto=format&fit=crop&w=1920&q=80')`,
+        }}
+      >
+        <div className="lensloop-hero-overlay" />
         <Container>
-          <Row className="align-items-center g-5">
-            <Col lg={6} className="animate-slide-up">
-              <Badge bg="primary" className="mb-3 px-3 py-2 rounded-pill" style={{ opacity: 0.9 }}>
-                The Future of Inventory Management
-              </Badge>
-              <h1 style={{
-                fontSize: 'clamp(2.5rem, 5vw, 4rem)',
-                fontWeight: 800,
-                lineHeight: 1.1,
-                letterSpacing: '-2px',
-                marginBottom: '1.5rem',
-                color: '#0f172a'
-              }}>
-                Manage Assets with <br />
-                <span style={{ color: '#6366f1', display: 'inline-block' }}>Precision & Ease.</span>
-              </h1>
-              <p className="lead mb-4" style={{
-                fontSize: '1.25rem',
-                color: '#64748b',
-                maxWidth: '90%',
-                lineHeight: 1.6
-              }}>
-                Streamline your operations with the world's most intuitive asset booking platform.
-                From high-tech gear to industrial machinery, we've got you covered.
-              </p>
-              <div className="d-flex gap-3 flex-wrap">
-                <Button as={Link} to="/book-asset" className="btn-premium btn-premium-primary">
-                  Get Started for Free
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
-                </Button>
-                <Button as={Link} to="/assets" className="btn-premium btn-premium-outline">
-                  View Inventory
-                </Button>
+          <div className="lensloop-hero-content animate-slide-up">
+            {/* Lavender / Purple Tag */}
+            <div
+              style={{
+                color: '#a78bfa',
+                fontSize: '12px',
+                fontWeight: 600,
+                letterSpacing: '2px',
+                textTransform: 'uppercase',
+                marginBottom: '0.75rem',
+              }}
+            >
+              CREATE | CAPTURE | PRODUCE
+            </div>
+
+            {/* Headline */}
+            <h1
+              style={{
+                color: '#ffffff',
+                fontSize: '18px',
+                fontWeight: 600,
+                lineHeight: 1.35,
+                marginBottom: '0.85rem',
+                letterSpacing: '-0.3px',
+              }}
+            >
+              Book Camera &amp; Studio Equipment for Your Next Project
+            </h1>
+
+            {/* Subtitle */}
+            <p
+              style={{
+                color: '#cbd5e1',
+                fontSize: '14px',
+                lineHeight: 1.55,
+                marginBottom: '2rem',
+                maxWidth: '560px',
+              }}
+            >
+              From cameras and lenses to lighting, audio and full studio setups — everything you need, all in one place.
+            </p>
+
+            {/* Floating Search Pill */}
+            <form onSubmit={handleSearch} className="search-capsule">
+              <div className="search-capsule-item">
+                <FaSearch style={{ color: '#64748b', fontSize: '13px' }} />
+                <Form.Select
+                  value={selectedCategory}
+                  onChange={(e) => setSelectedCategory(e.target.value)}
+                  className="search-capsule-select"
+                >
+                  <option value="">All Categories</option>
+                  <option value="camera">Cameras</option>
+                  <option value="lenses">Lenses</option>
+                  <option value="lighting">Lighting</option>
+                  <option value="audio">Audio</option>
+                  <option value="studio">Studio Setups</option>
+                </Form.Select>
               </div>
 
-              <div className="mt-5 d-flex align-items-center gap-4 animate-fade-in" style={{ animationDelay: '0.4s' }}>
-                <div className="d-flex -space-x-2">
-                  {[1, 2, 3].map(i => (
-                    <img
-                      key={i}
-                      src={`https://i.pravatar.cc/150?u=${i}`}
-                      alt="user"
-                      style={{
-                        width: '40px',
-                        height: '40px',
-                        borderRadius: '50%',
-                        border: '2px solid white',
-                        marginLeft: i > 1 ? '-10px' : '0'
-                      }}
-                    />
-                  ))}
+              <div className="search-capsule-divider" />
+
+              <div className="search-capsule-item">
+                <FaCalendarAlt style={{ color: '#64748b', fontSize: '13px' }} />
+                <Form.Control
+                  type="date"
+                  value={selectedDate}
+                  onChange={(e) => setSelectedDate(e.target.value)}
+                  className="search-capsule-input"
+                  title="Select Date"
+                />
+              </div>
+
+              <Button type="submit" className="btn-purple-pill">
+                Search
+              </Button>
+            </form>
+          </div>
+        </Container>
+      </section>
+
+      {/* ── 2. TRUST / FEATURE HIGHLIGHTS BAR ── */}
+      <section className="trust-feature-bar">
+        <Container>
+          <Row className="g-4 align-items-center justify-content-between text-center text-md-start">
+            <Col xs={6} md={3}>
+              <div className="trust-feature-item">
+                <div className="trust-feature-icon">
+                  <FaCamera />
                 </div>
-                <div style={{ fontSize: '0.9rem', color: '#64748b' }}>
-                  <span style={{ fontWeight: 700, color: '#0f172a' }}>500+ teams</span> already tracking assets
-                </div>
+                <div>Professional Gear &amp; Accessories</div>
               </div>
             </Col>
-            <Col lg={6} className="position-relative animate-slide-up" style={{ animationDelay: '0.2s' }}>
-              <div className="position-relative">
-                <div style={{
-                  position: 'absolute',
-                  top: '-10%',
-                  right: '-10%',
-                  width: '120%',
-                  height: '120%',
-                  background: 'linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(244, 63, 94, 0.1) 100%)',
-                  borderRadius: '38% 62% 63% 37% / 41% 44% 56% 59%',
-                  filter: 'blur(40px)',
-                  zIndex: -1
-                }}></div>
-                <img
-                  src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=800&q=80"
-                  alt="Dashboard Preview"
-                  className="img-fluid rounded-4 shadow-lg border"
-                  style={{
-                    transform: 'perspective(1000px) rotateY(-5deg) rotateX(5deg)',
-                    boxShadow: '0 50px 100px -20px rgba(50, 50, 93, 0.25), 0 30px 60px -30px rgba(0, 0, 0, 0.3)'
-                  }}
-                />
+            <Col xs={6} md={3}>
+              <div className="trust-feature-item">
+                <div className="trust-feature-icon">
+                  <FaCalendarAlt />
+                </div>
+                <div>Flexible Rental Plans</div>
+              </div>
+            </Col>
+            <Col xs={6} md={3}>
+              <div className="trust-feature-item">
+                <div className="trust-feature-icon">
+                  <FaShieldAlt />
+                </div>
+                <div>Secure Payments &amp; Booking</div>
+              </div>
+            </Col>
+            <Col xs={6} md={3}>
+              <div className="trust-feature-item">
+                <div className="trust-feature-icon">
+                  <FaHeadset />
+                </div>
+                <div>Support 7 Days a Week</div>
               </div>
             </Col>
           </Row>
         </Container>
       </section>
 
-      <section className="stats-section py-5 mb-5">
+      {/* ── 3. DISCOVER OUR EQUIPMENT (5 CARDS) ── */}
+      <section className="py-5" id="equipment">
         <Container>
-          <div className="glass-morphism rounded-pill p-4 shadow-sm">
-            <Row className="g-4 text-center">
-              {stats.map((stat, idx) => (
-                <Col key={idx} xs={6} md={3}>
-                  <div className="stat-item">
-                    <h3 style={{ fontWeight: 800, color: '#6366f1', marginBottom: '0.25rem' }}>{stat.value}</h3>
-                    <p style={{ color: '#64748b', fontSize: '0.9rem', fontWeight: 500, margin: 0 }}>{stat.label}</p>
-                  </div>
-                </Col>
-              ))}
-            </Row>
+          <div className="d-flex align-items-center justify-content-between mb-4">
+            <h2
+              style={{
+                fontSize: '18px',
+                fontWeight: 600,
+                color: '#0f172a',
+                margin: 0,
+                letterSpacing: '-0.3px',
+              }}
+            >
+              Discover Our Equipment
+            </h2>
+            <Link
+              to="/assets"
+              style={{
+                fontSize: '14px',
+                fontWeight: 600,
+                color: '#64748b',
+                textDecoration: 'none',
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '0.35rem',
+              }}
+            >
+              View All <FaArrowRight size={12} />
+            </Link>
           </div>
-        </Container>
-      </section>
 
-      <section className="features-grid py-5 mb-5 overflow-hidden">
-        <Container>
-          <div className="text-center mb-5 animate-slide-up">
-            <h2 style={{ fontWeight: 800, fontSize: '2.5rem', letterSpacing: '-1px' }}>One platform. <span style={{ color: '#6366f1' }}>Limitless possibilities.</span></h2>
-            <p className="text-muted mx-auto" style={{ maxWidth: '600px' }}>
-              Everything you need to manage your inventory and bookings in one beautiful, high-performance interface.
-            </p>
-          </div>
-          <Row className="g-4">
-            {features.map((feature, idx) => (
-              <Col key={idx} md={6} lg={3}>
-                <Card className="premium-card h-100 p-4 border-0 shadow-sm animate-slide-up" style={{ animationDelay: `${0.1 * idx}s` }}>
-                  <div style={{
-                    width: '50px',
-                    height: '50px',
-                    background: `${feature.color}15`,
-                    borderRadius: '12px',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    fontSize: '1.5rem',
-                    marginBottom: '1.5rem'
-                  }}>
-                    {feature.icon}
+          <Row className="g-3">
+            {equipmentCategories.map((item) => (
+              <Col key={item.id} xs={6} md={4} lg style={{ flex: '1 0 0%' }}>
+                <Link to={item.link} className="equipment-card-v5">
+                  <img
+                    src={item.image}
+                    alt={item.title}
+                    className="equipment-card-v5-img"
+                  />
+                  <div className="equipment-card-v5-overlay" />
+                  <div className="equipment-card-v5-body">
+                    <div
+                      style={{
+                        fontSize: '16px',
+                        fontWeight: 600,
+                        color: '#ffffff',
+                        marginBottom: '2px',
+                      }}
+                    >
+                      {item.title}
+                    </div>
+                    <div
+                      style={{
+                        fontSize: '12px',
+                        fontWeight: 600,
+                        color: '#cbd5e1',
+                      }}
+                    >
+                      {item.subtitle}
+                    </div>
                   </div>
-                  <h4 style={{ fontWeight: 700, marginBottom: '1rem' }}>{feature.title}</h4>
-                  <p style={{ color: '#64748b', lineHeight: 1.6, fontSize: '0.95rem' }}>{feature.description}</p>
-                </Card>
+                </Link>
               </Col>
             ))}
           </Row>
         </Container>
       </section>
 
-      <section className="cta-section py-5 animate-fade-in" style={{ animationDelay: '0.6s' }}>
+      {/* ── 4. BRING YOUR IDEAS TO LIFE BANNER CARD ── */}
+      <section className="pb-5 pt-2">
         <Container>
-          <div style={{
-            background: 'linear-gradient(135deg, #0f172a 0%, #1e293b 100%)',
-            borderRadius: '2rem',
-            padding: '4rem 2rem',
-            position: 'relative',
-            overflow: 'hidden'
-          }}>
-            <div style={{
-              position: 'absolute',
-              top: '-50%',
-              left: '-10%',
-              width: '40%',
-              height: '200%',
-              background: 'linear-gradient(transparent, rgba(99, 102, 241, 0.1), transparent)',
-              transform: 'rotate(45deg)',
-              pointerEvents: 'none'
-            }}></div>
-            <Row className="text-center position-relative">
-              <Col lg={8} className="mx-auto">
-                <h2 style={{ color: 'white', fontWeight: 800, fontSize: '2.5rem', marginBottom: '1.5rem' }}>
-                  Ready to optimize your workflow?
-                </h2>
-                <p style={{ color: '#94a3b8', fontSize: '1.15rem', marginBottom: '2.5rem' }}>
-                  Join hundreds of forward-thinking companies already using our platform to scale their asset management.
-                </p>
-                <div className="d-flex gap-3 justify-content-center flex-wrap">
-                  <Button as={Link} to="/signup" className="btn-premium btn-premium-primary" style={{ padding: '1rem 2.5rem' }}>
-                    Create Your Account
-                  </Button>
-                  <Button variant="outline-light" className="btn-premium" style={{ borderColor: 'rgba(255,255,255,0.2)' }}>
-                    Talk to Sales
-                  </Button>
+          <div className="ideas-banner-card">
+            <Row className="g-0 align-items-stretch">
+              <Col md={5} lg={5}>
+                <img
+                  src="https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?auto=format&fit=crop&w=800&q=80"
+                  alt="Camera operator in studio setup"
+                  className="ideas-banner-img"
+                />
+              </Col>
+              <Col md={7} lg={7}>
+                <div className="ideas-banner-content">
+                  <h3
+                    style={{
+                      fontSize: '18px',
+                      fontWeight: 600,
+                      color: '#1e1b4b',
+                      marginBottom: '0.5rem',
+                    }}
+                  >
+                    Bring Your Ideas to Life
+                  </h3>
+                  <p
+                    style={{
+                      fontSize: '14px',
+                      color: '#475569',
+                      lineHeight: 1.6,
+                      marginBottom: '1.5rem',
+                      maxWidth: '520px',
+                    }}
+                  >
+                    Whether it&apos;s a commercial, wedding, short film or content creation — we&apos;ve got the right gear for you.
+                  </p>
+                  <div>
+                    <Button
+                      as={Link}
+                      to="/book-asset"
+                      className="btn-purple-pill"
+                    >
+                      Explore Equipment <FaArrowRight size={12} />
+                    </Button>
+                  </div>
                 </div>
               </Col>
             </Row>
           </div>
         </Container>
       </section>
-
-      <div className="py-5"></div>
     </div>
   );
 }
-
-export default Home;
-
