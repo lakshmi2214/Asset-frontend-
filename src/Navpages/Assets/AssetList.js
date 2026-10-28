@@ -156,7 +156,6 @@ export default function AssetList() {
 
   return (
     <Container className="py-4">
-      {/* ── Page Hero Header ── */}
       <div className="page-hero-banner">
         <div className="page-hero-badge">
           ✦ GEAR & EQUIPMENT CATALOG
@@ -167,10 +166,8 @@ export default function AssetList() {
         </p>
       </div>
 
-      {/* ── Filter & Search Bar ── */}
       <div className="catalog-filter-bar d-flex flex-wrap gap-3 align-items-center justify-content-between">
         <div className="d-flex flex-wrap gap-2 align-items-center">
-          {/* All Assets Button */}
           <Button
             variant="light"
             className={`filter-btn ${!filter ? 'filter-btn-active' : ''}`}
@@ -181,7 +178,6 @@ export default function AssetList() {
 
           <div className="vr mx-1 opacity-25 d-none d-sm-block" />
 
-          {/* Category Dropdowns */}
           {categories.map(cat => {
             const active = isDropdownActive(cat);
             return (
@@ -223,7 +219,6 @@ export default function AssetList() {
           })}
         </div>
 
-        {/* Live Search Box */}
         <div className="search-input-wrapper">
           <input
             type="text"
@@ -235,7 +230,6 @@ export default function AssetList() {
         </div>
       </div>
 
-      {/* ── Active Filter Chip ── */}
       {(activeLabel || searchQuery) && (
         <div className="mb-4 d-flex align-items-center gap-2 flex-wrap">
           <span className="text-muted small">Filtered results:</span>
@@ -275,21 +269,17 @@ export default function AssetList() {
         </div>
       )}
 
-      {/* ── Asset Grid ── */}
       <Row className="g-4">
         {filteredAssets.map(a => (
           <Col key={a.id} xs={12} sm={6} lg={4}>
             <Card className="h-100 asset-card">
-              {/* Image & Overlays */}
               <div className="asset-img-container">
-                {/* Floating Category Pill */}
                 {a.category && (
                   <span className="asset-floating-cat">
                     {a.category.name}
                   </span>
                 )}
 
-                {/* Floating Availability Badge */}
                 <span className={`asset-floating-status ${getStatusClass(a.status, a.available)}`}>
                   ● {a.status || (a.available ? 'Available' : 'Out of Stock')}
                 </span>
@@ -312,7 +302,6 @@ export default function AssetList() {
                 )}
               </div>
 
-              {/* Card Body */}
               <Card.Body className="asset-card-body">
                 <Card.Title className="asset-card-title" title={a.name}>
                   {a.name}
@@ -343,7 +332,6 @@ export default function AssetList() {
                 </div>
               </Card.Body>
 
-              {/* Card Footer */}
               <Card.Footer className="asset-card-footer">
                 <Link to={`/assets/${a.id}`} className="text-decoration-none">
                   <button className="btn-card-action btn-card-action-primary">
@@ -356,7 +344,6 @@ export default function AssetList() {
         ))}
       </Row>
 
-      {/* ── Empty State ── */}
       {filteredAssets.length === 0 && (
         <div className="text-center py-5 my-4 bg-white rounded-4 border p-5 shadow-sm">
           <div style={{ fontSize: '3rem', marginBottom: '1rem' }}>🎥</div>

@@ -1,4 +1,5 @@
 import React, { useEffect, useMemo, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import DatePicker from 'react-datepicker';
 import { Form, Button, Card, Alert, Row, Col, Badge, Modal, Dropdown, DropdownButton, Container } from 'react-bootstrap';
 import 'react-datepicker/dist/react-datepicker.css';
@@ -7,6 +8,7 @@ import { authorizedFetch, getValidAccessToken, clearTokens, API_BASE, isStandalo
 import { MOCK_ASSETS, MOCK_CATEGORIES } from '../../Home/mockData';
 
 export default function AssetBooking() {
+  const navigate = useNavigate();
   const [assets, setAssets] = useState([]);
   const [locations, setLocations] = useState([]);
   const [categories, setCategories] = useState([]);
@@ -146,6 +148,11 @@ export default function AssetBooking() {
     setEmail('');
     setAddress('');
     setSelectedLocationId('');
+    setShowSuccessModal(false);
+    setShowErrorModal(false);
+    setErrorMessage('');
+    setLoading(false);
+    setSearchQuery('');  
   }
 
   function handleInitialSubmit(e) {
@@ -312,6 +319,10 @@ export default function AssetBooking() {
     return 'status-badge-unavailable';
   };
 
+  const currentAsset = useMemo(() => {
+    return assets.find((a) => a.id === Number(selectedAssetId));
+  }, [assets, selectedAssetId]);
+
   if (loading) {
     return (
       <Container className="py-5 text-center">
@@ -394,7 +405,6 @@ export default function AssetBooking() {
                 );
               })}
             </div>
-
 
             <div className="search-input-wrapper">
               <input
@@ -548,288 +558,316 @@ export default function AssetBooking() {
       )}
 
       {selectedAssetId && !confirmStage && (
-        <>
-          <div className="mb-4">
+        <div className="booking-form-wrapper animate-fade-in">
+          <div className="d-flex align-items-center justify-content-between mb-3">
             <Button
-              variant="outline-secondary"
+              variant="light"
+              size="sm"
               onClick={() => setSelectedAssetId('')}
-              className="mb-3"
+              className="d-inline-flex align-items-center gap-1 rounded-pill px-3 py-1 border shadow-sm text-secondary fw-semibold"
             >
-              ← Back to Assets
+              ← Back to Catalogue
             </Button>
+            <span className="badge bg-light text-secondary border px-3 py-2 rounded-pill small">
+              Step 1 of 2: Reservation
+            </span>
           </div>
 
-          <Card className="mb-4 shadow-sm">
-            <Card.Body>
-              <Row>
-                <Col md={4}>
-                  {assets.find((a) => a.id === Number(selectedAssetId))?.image_url ? (
-                    <Card.Img
-                      src={assets.find((a) => a.id === Number(selectedAssetId))?.image_url}
-                      alt="Asset"
-                      style={{ maxHeight: '200px', objectFit: 'cover', borderRadius: '6px' }}
+          <div className="booking-asset-summary-bar">
+            <div className="booking-asset-thumb">
+              {currentAsset?.image_url ? (
+                <img src={currentAsset.image_url} alt={currentAsset?.name} />
+              ) : (
+                <div style={{ color: '#94a3b8' }}>
+                  <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                    <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path>
+                    <circle cx="12" cy="13" r="4"></circle>
+                  </svg>
+                </div>
+              )}
+            </div>
+            <div className="flex-grow-1 min-w-0">
+              <div className="d-flex align-items-center gap-2 mb-1 flex-wrap">
+                <h5 className="mb-0 fw-bold text-dark text-truncate">{currentAsset?.name || 'Selected Equipment'}</h5>
+                <span className={`badge ${getStatusClass(currentAsset?.status, currentAsset?.available)}`} style={{ fontSize: '0.7rem' }}>
+                  ● {currentAsset?.status || (currentAsset?.available ? 'Available' : 'Out of Stock')}
+                </span>
+              </div>
+              <div className="d-flex align-items-center gap-2 text-muted small flex-wrap">
+                {currentAsset?.serial_number && <span>S/N: {currentAsset.serial_number}</span>}
+                {currentAsset?.location && <span>• 📍 {currentAsset.location.name}</span>}
+                {currentAsset?.total_quantity && <span>• ⚡ {currentAsset.total_quantity} Units Total</span>}
+              </div>
+            </div>
+          </div>
+
+          <div className="booking-form-container">
+            <div className="mb-3 border-bottom pb-2">
+              <div className="booking-section-badge">✦ BOOKING DETAILS</div>
+              <h5 className="fw-bold mb-0 text-dark">Reserve This Equipment</h5>
+            </div>
+
+            <Form onSubmit={handleInitialSubmit}>
+              <Row className="g-2 mb-3">
+                <Col sm={6}>
+                  <Form.Group>
+                    <Form.Label className="booking-label-compact">Quantity *</Form.Label>
+                    <Form.Control
+                      type="number"
+                      min="1"
+                      max={currentAsset?.total_quantity || 1}
+                      value={quantity}
+                      onChange={(e) => setQuantity(e.target.value)}
+                      className="booking-input-compact"
+                      required
                     />
-                  ) : (
-                    <div style={{ height: '200px', backgroundColor: '#e9ecef', borderRadius: '6px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#999' }}>
-                      No Image
-                    </div>
-                  )}
+                    <Form.Text className="text-muted small" style={{ fontSize: '0.75rem' }}>
+                      Max available: {currentAsset?.total_quantity || 1}
+                    </Form.Text>
+                  </Form.Group>
                 </Col>
-                <Col md={8}>
-                  <div className="d-flex justify-content-between align-items-start">
-                    <h4>{assets.find((a) => a.id === Number(selectedAssetId))?.name}</h4>
-                    <Badge bg="info" style={{ fontSize: '0.9rem' }}>
-                      {assets.find((a) => a.id === Number(selectedAssetId))?.status}
-                    </Badge>
-                  </div>
-                  {assets.find((a) => a.id === Number(selectedAssetId))?.serial_number && (
-                    <p className="mb-1"><strong>Serial:</strong> {assets.find((a) => a.id === Number(selectedAssetId))?.serial_number}</p>
-                  )}
-                  {assets.find((a) => a.id === Number(selectedAssetId))?.location && (
-                    <p className="mb-1"><strong>Location:</strong> {assets.find((a) => a.id === Number(selectedAssetId))?.location.name}</p>
-                  )}
-                  {assets.find((a) => a.id === Number(selectedAssetId))?.description && (
-                    <p className="mt-2 text-muted small">{assets.find((a) => a.id === Number(selectedAssetId))?.description}</p>
-                  )}
+                <Col sm={6}>
+                  <Form.Group>
+                    <Form.Label className="booking-label-compact">Pickup Location</Form.Label>
+                    <Form.Select
+                      value={selectedLocationId}
+                      onChange={(e) => setSelectedLocationId(e.target.value)}
+                      className="booking-input-compact"
+                    >
+                      <option value="">Default Location</option>
+                      {locations.map((l) => (
+                        <option key={l.id} value={l.id}>
+                          {l.name}
+                        </option>
+                      ))}
+                    </Form.Select>
+                  </Form.Group>
                 </Col>
               </Row>
-            </Card.Body>
-          </Card>
 
-          <Card className="shadow-sm">
-            <Card.Header className="bg-primary text-white">
-              <h5 className="mb-0">Book This Asset</h5>
-            </Card.Header>
-            <Card.Body>
-              <Form onSubmit={handleInitialSubmit}>
-                <div className="mb-4">
-                  <h6 className="mb-3 text-muted">Asset Quantity</h6>
-                  <Row>
-                    <Col md={6}>
-                      <Form.Group>
-                        <Form.Label><strong>How many units? *</strong></Form.Label>
-                        <Form.Control
-                          type="number"
-                          min="1"
-                          max={assets.find((a) => a.id === Number(selectedAssetId))?.total_quantity || 1}
-                          value={quantity}
-                          onChange={(e) => setQuantity(e.target.value)}
-                          required
-                        />
-                        <Form.Text className="text-muted">
-                          Available total: {assets.find((a) => a.id === Number(selectedAssetId))?.total_quantity || 1} units
-                        </Form.Text>
-                      </Form.Group>
-                    </Col>
-                  </Row>
-                </div>
+              <Row className="g-2 mb-3">
+                <Col sm={6}>
+                  <Form.Group>
+                    <Form.Label className="booking-label-compact">Start Date &amp; Time *</Form.Label>
+                    <DatePicker
+                      selected={start}
+                      onChange={(date) => setStart(date)}
+                      showTimeSelect
+                      dateFormat="Pp"
+                      placeholderText="Select start date"
+                      className="form-control booking-input-compact"
+                      minDate={new Date()}
+                      filterTime={(time) => {
+                        const currentDate = new Date();
+                        const selectedDate = new Date(time);
+                        return currentDate.getTime() < selectedDate.getTime();
+                      }}
+                    />
+                  </Form.Group>
+                </Col>
+                <Col sm={6}>
+                  <Form.Group>
+                    <Form.Label className="booking-label-compact">End Date &amp; Time *</Form.Label>
+                    <DatePicker
+                      selected={end}
+                      onChange={(date) => setEnd(date)}
+                      showTimeSelect
+                      dateFormat="Pp"
+                      placeholderText="Select return date"
+                      className="form-control booking-input-compact"
+                      minDate={start || new Date()}
+                    />
+                  </Form.Group>
+                </Col>
+              </Row>
 
-                <h6 className="mb-3 text-muted">Booking Time</h6>
-                <Row className="mb-4">
-                  <Col md={6}>
-                    <Form.Group>
-                      <Form.Label><strong>Start Date & Time *</strong></Form.Label>
-                      <DatePicker
-                        selected={start}
-                        onChange={(date) => setStart(date)}
-                        showTimeSelect
-                        dateFormat="Pp"
-                        placeholderText="Select start date/time"
-                        className="form-control"
-                        minDate={new Date()}
-                        filterTime={(time) => {
-                          const currentDate = new Date();
-                          const selectedDate = new Date(time);
-                          return currentDate.getTime() < selectedDate.getTime();
-                        }}
-                      />
-                    </Form.Group>
-                  </Col>
-                  <Col md={6}>
-                    <Form.Group>
-                      <Form.Label><strong>End Date & Time *</strong></Form.Label>
-                      <DatePicker
-                        selected={end}
-                        onChange={(date) => setEnd(date)}
-                        showTimeSelect
-                        dateFormat="Pp"
-                        placeholderText="Select end date/time"
-                        className="form-control"
-                        minDate={start || new Date()}
-                      />
-                    </Form.Group>
-                  </Col>
-                </Row>
+              <Row className="g-2 mb-3">
+                <Col sm={6}>
+                  <Form.Group>
+                    <Form.Label className="booking-label-compact">Full Name *</Form.Label>
+                    <Form.Control
+                      value={fullName}
+                      onChange={(e) => setFullName(e.target.value)}
+                      placeholder="e.g. Alex Smith"
+                      className="booking-input-compact"
+                      required
+                    />
+                  </Form.Group>
+                </Col>
+                <Col sm={6}>
+                  <Form.Group>
+                    <Form.Label className="booking-label-compact">Mobile Number *</Form.Label>
+                    <Form.Control
+                      value={mobile}
+                      onChange={(e) => setMobile(e.target.value)}
+                      placeholder="e.g. +91 98765 43210"
+                      className="booking-input-compact"
+                      required
+                    />
+                  </Form.Group>
+                </Col>
+              </Row>
 
-                <h6 className="mb-3 text-muted">Personal Details</h6>
-                <Row className="mb-3">
-                  <Col md={6}>
-                    <Form.Group className="mb-3">
-                      <Form.Label><strong>Full Name *</strong></Form.Label>
-                      <Form.Control
-                        value={fullName}
-                        onChange={(e) => setFullName(e.target.value)}
-                        placeholder="Enter your full name"
-                        required
-                      />
-                    </Form.Group>
-                  </Col>
-                  <Col md={6}>
-                    <Form.Group className="mb-3">
-                      <Form.Label><strong>Mobile Number *</strong></Form.Label>
-                      <Form.Control
-                        value={mobile}
-                        onChange={(e) => setMobile(e.target.value)}
-                        placeholder="Enter mobile number"
-                        required
-                      />
-                    </Form.Group>
-                  </Col>
-                </Row>
+              <Row className="g-2 mb-3">
+                <Col sm={12}>
+                  <Form.Group>
+                    <Form.Label className="booking-label-compact">Email Address *</Form.Label>
+                    <Form.Control
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      placeholder="you@company.com"
+                      type="email"
+                      className="booking-input-compact"
+                      required
+                    />
+                  </Form.Group>
+                </Col>
+              </Row>
 
-                <Row className="mb-3">
-                  <Col md={6}>
-                    <Form.Group className="mb-3">
-                      <Form.Label><strong>Email *</strong></Form.Label>
-                      <Form.Control
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        placeholder="Enter email address"
-                        type="email"
-                        required
-                      />
-                    </Form.Group>
-                  </Col>
-                  <Col md={6}>
-                    <Form.Group className="mb-3">
-                      <Form.Label><strong>Location</strong></Form.Label>
-                      <Form.Select
-                        value={selectedLocationId}
-                        onChange={(e) => setSelectedLocationId(e.target.value)}
-                      >
-                        <option value="">Select location (optional)</option>
-                        {locations.map((l) => (
-                          <option key={l.id} value={l.id}>
-                            {l.name}
-                          </option>
-                        ))}
-                      </Form.Select>
-                    </Form.Group>
-                  </Col>
-                </Row>
+              <Row className="g-2 mb-3">
+                <Col sm={12}>
+                  <Form.Group>
+                    <Form.Label className="booking-label-compact">Purpose / Project Note</Form.Label>
+                    <Form.Control
+                      as="textarea"
+                      rows={2}
+                      value={purpose}
+                      onChange={(e) => setPurpose(e.target.value)}
+                      placeholder="Shoot details, client name, or project description..."
+                      className="booking-input-compact"
+                    />
+                  </Form.Group>
+                </Col>
+              </Row>
 
-                <Form.Group className="mb-3">
-                  <Form.Label><strong>Address</strong></Form.Label>
-                  <Form.Control
-                    as="textarea"
-                    rows={2}
-                    value={address}
-                    onChange={(e) => setAddress(e.target.value)}
-                    placeholder="Enter your address (optional)"
-                  />
-                </Form.Group>
+              <Row className="g-2 mb-4">
+                <Col sm={12}>
+                  <Form.Group>
+                    <Form.Label className="booking-label-compact">Delivery / Studio Address (Optional)</Form.Label>
+                    <Form.Control
+                      value={address}
+                      onChange={(e) => setAddress(e.target.value)}
+                      placeholder="Studio room or delivery address"
+                      className="booking-input-compact"
+                    />
+                  </Form.Group>
+                </Col>
+              </Row>
 
-                <Form.Group className="mb-4">
-                  <Form.Label><strong>Purpose of Booking</strong></Form.Label>
-                  <Form.Control
-                    as="textarea"
-                    rows={3}
-                    value={purpose}
-                    onChange={(e) => setPurpose(e.target.value)}
-                    placeholder="Describe the purpose of your booking"
-                  />
-                </Form.Group>
-
-                <div className="d-flex gap-2">
-                  <Button type="submit" variant="primary" size="lg">
-                    Review Booking
-                  </Button>
-                  <Button
-                    type="button"
-                    variant="outline-secondary"
-                    size="lg"
-                    onClick={() => setSelectedAssetId('')}
-                  >
-                    Cancel
-                  </Button>
-                </div>
-              </Form>
-            </Card.Body>
-          </Card>
-        </>
+              <div className="d-flex gap-2 justify-content-end pt-2 border-top">
+                <Button
+                  type="button"
+                  variant="light"
+                  className="rounded-pill px-4 py-2 fw-semibold text-secondary border"
+                  onClick={() => setSelectedAssetId('')}
+                >
+                  Cancel
+                </Button>
+                <button
+                  type="submit"
+                  className="btn-card-action btn-card-action-primary rounded-pill px-4 py-2"
+                  style={{ width: 'auto' }}
+                >
+                  Review Reservation →
+                </button>
+              </div>
+            </Form>
+          </div>
+        </div>
       )}
 
       {confirmStage && (
-        <Card className="shadow-sm">
-          <Card.Header className="bg-success text-white">
-            <h5 className="mb-0">Confirm Your Booking</h5>
-          </Card.Header>
-          <Card.Body>
-            <Row className="mb-3">
-              <Col sm={4}><strong>Asset:</strong></Col>
-              <Col sm={8}>{summary.asset}</Col>
-            </Row>
-            <Row className="mb-3">
-              <Col sm={4}><strong>Quantity:</strong></Col>
-              <Col sm={8}><Badge bg="primary">{summary.quantity} Unit(s)</Badge></Col>
-            </Row>
-            <Row className="mb-3">
-              <Col sm={4}><strong>Name:</strong></Col>
-              <Col sm={8}>{summary.fullName || '—'}</Col>
-            </Row>
-            <Row className="mb-3">
-              <Col sm={4}><strong>Mobile:</strong></Col>
-              <Col sm={8}>{summary.mobile || '—'}</Col>
-            </Row>
-            <Row className="mb-3">
-              <Col sm={4}><strong>Email:</strong></Col>
-              <Col sm={8}>{summary.email || '—'}</Col>
-            </Row>
-            <Row className="mb-3">
-              <Col sm={4}><strong>Address:</strong></Col>
-              <Col sm={8}>{summary.address || '—'}</Col>
-            </Row>
-            <Row className="mb-3">
-              <Col sm={4}><strong>Location:</strong></Col>
-              <Col sm={8}>{summary.location}</Col>
-            </Row>
-            <Row className="mb-3">
-              <Col sm={4}><strong>Start:</strong></Col>
-              <Col sm={8}>{summary.start ? summary.start.toLocaleString() : '—'}</Col>
-            </Row>
-            <Row className="mb-3">
-              <Col sm={4}><strong>End:</strong></Col>
-              <Col sm={8}>{summary.end ? summary.end.toLocaleString() : '—'}</Col>
-            </Row>
-            <Row className="mb-4">
-              <Col sm={4}><strong>Purpose:</strong></Col>
-              <Col sm={8}>{summary.purpose || '—'}</Col>
-            </Row>
-            <div className="d-flex gap-2">
-              <Button variant="success" size="lg" onClick={acceptBooking}>
-                Confirm Booking
-              </Button>
-              <Button variant="outline-secondary" size="lg" onClick={rejectBooking}>
-                Go Back
-              </Button>
+        <div className="booking-form-wrapper animate-fade-in">
+          <div className="d-flex align-items-center justify-content-between mb-3">
+            <Button
+              variant="light"
+              size="sm"
+              onClick={rejectBooking}
+              className="d-inline-flex align-items-center gap-1 rounded-pill px-3 py-1 border shadow-sm text-secondary fw-semibold"
+            >
+              ← Edit Details
+            </Button>
+            <span className="badge bg-success bg-opacity-10 text-success border border-success border-opacity-25 px-3 py-2 rounded-pill small">
+              Step 2 of 2: Confirmation
+            </span>
+          </div>
+
+          <div className="booking-form-container">
+            <div className="text-center mb-4">
+              <div style={{ fontSize: '2.5rem' }}>📋</div>
+              <h4 className="fw-bold text-dark mb-1">Confirm Your Reservation</h4>
+              <p className="text-muted small mb-0">Please verify your booking details before final confirmation.</p>
             </div>
-          </Card.Body>
-        </Card>
+
+            <div className="booking-receipt-box mb-4">
+              <div className="booking-receipt-row">
+                <span className="booking-receipt-label">Equipment</span>
+                <span className="booking-receipt-val text-primary fw-bold">{summary.asset}</span>
+              </div>
+              <div className="booking-receipt-row">
+                <span className="booking-receipt-label">Reserved Units</span>
+                <span className="booking-receipt-val badge bg-primary text-white">{summary.quantity} Unit(s)</span>
+              </div>
+              <div className="booking-receipt-row">
+                <span className="booking-receipt-label">Reserved By</span>
+                <span className="booking-receipt-val">{summary.fullName || '—'}</span>
+              </div>
+              <div className="booking-receipt-row">
+                <span className="booking-receipt-label">Contact Mobile</span>
+                <span className="booking-receipt-val">{summary.mobile || '—'}</span>
+              </div>
+              <div className="booking-receipt-row">
+                <span className="booking-receipt-label">Contact Email</span>
+                <span className="booking-receipt-val">{summary.email || '—'}</span>
+              </div>
+              <div className="booking-receipt-row">
+                <span className="booking-receipt-label">Pickup Location</span>
+                <span className="booking-receipt-val">📍 {summary.location}</span>
+              </div>
+              <div className="booking-receipt-row">
+                <span className="booking-receipt-label">Start Date/Time</span>
+                <span className="booking-receipt-val">{summary.start ? summary.start.toLocaleString() : '—'}</span>
+              </div>
+              <div className="booking-receipt-row">
+                <span className="booking-receipt-label">End Date/Time</span>
+                <span className="booking-receipt-val">{summary.end ? summary.end.toLocaleString() : '—'}</span>
+              </div>
+              {summary.purpose && (
+                <div className="booking-receipt-row">
+                  <span className="booking-receipt-label">Purpose</span>
+                  <span className="booking-receipt-val">{summary.purpose}</span>
+                </div>
+              )}
+              {summary.address && (
+                <div className="booking-receipt-row">
+                  <span className="booking-receipt-label">Address</span>
+                  <span className="booking-receipt-val">{summary.address}</span>
+                </div>
+              )}
+            </div>
+
+            <div className="d-flex gap-2 justify-content-between pt-2 border-top">
+              <Button
+                variant="light"
+                className="rounded-pill px-4 py-2 fw-semibold text-secondary border"
+                onClick={rejectBooking}
+              >
+                ← Back to Edit
+              </Button>
+              <button
+                className="btn-card-action btn-card-action-success rounded-pill px-4 py-2"
+                style={{ width: 'auto' }}
+                onClick={acceptBooking}
+              >
+                Confirm &amp; Reserve Gear ⚡
+              </button>
+            </div>
+          </div>
+        </div>
       )}
       {showSuccessModal && (
         <Modal show={showSuccessModal} centered size="sm" backdrop="static" keyboard={false}>
           <Modal.Body className="text-center p-4">
-            <style>
-              {`
-                @keyframes popIn {
-                  0% { transform: scale(0.5); opacity: 0; }
-                  100% { transform: scale(1); opacity: 1; }
-                }
-                .emoji-pop {
-                  animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
-                }
-              `}
-            </style>
             <div className="emoji-pop" style={{ fontSize: '3.5rem', marginBottom: '15px' }}>📸</div>
             <h4 className="mb-2" style={{ fontWeight: 'bold', color: '#198754' }}>Confirmed!</h4>
             <p className="text-muted small mb-4">Your asset has been reserved.</p>
@@ -851,7 +889,7 @@ export default function AssetBooking() {
                 setStart(null);
                 setEnd(null);
                 setConfirmStage(false);
-                window.location.href = '/bookings';
+                navigate('/bookings');
               }}
             >
               OK, Great!
@@ -860,7 +898,6 @@ export default function AssetBooking() {
         </Modal>
       )}
 
-      {/* Error Modal */}
       <Modal show={showErrorModal} onHide={() => setShowErrorModal(false)} centered backdrop="static" keyboard={false}>
         <Modal.Header className="bg-danger text-white">
           <Modal.Title>Booking Failed</Modal.Title>

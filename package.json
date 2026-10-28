@@ -24,8 +24,7 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "mobile:build": "npm run build && npx cap sync",
-    "mobile:open": "npx cap open android",
-    "sync": "python ../sync_db_to_mock.py"
+    "mobile:open": "npx cap open android"
   },
   "browserslist": {
     "production": [

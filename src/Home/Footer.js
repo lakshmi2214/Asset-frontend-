@@ -46,7 +46,7 @@ const Footer = () => {
                             </div>
                         </div>
                     </Col>
-                    s
+
                     <Col lg={3} md={6}>
                         <div className="d-flex flex-column gap-2">
                             <div className="d-flex align-items-center gap-2">
@@ -65,28 +65,6 @@ const Footer = () => {
                     © {new Date().getFullYear()} AssetFlow Systems. All rights reserved.
                 </div>
             </Container>
-
-            <style>
-                {`
-          .social-icon {
-            background-color: rgba(255,255,255,0.05);
-            width: 40px;
-            height: 40px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 10px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            color: #94a3b8;
-          }
-          .social-icon:hover {
-            background-color: #6366f1;
-            color: white;
-            transform: translateY(-3px);
-          }
-        `}
-            </style>
         </footer>
     );
 };

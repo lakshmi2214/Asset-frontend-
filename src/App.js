@@ -10,12 +10,11 @@ import Home from './Home/Home';
 import AssetBooking from './Navpages/Bookings/BookingForm';
 import VerifyEmail from './Home/VerifyEmail';
 import Footer from './Home/Footer';
-import ChatBot from './Home/ChatBot';
 
 import { API_BASE } from './auth';
 
 function App() {
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState(() => localStorage.getItem('access') || null);
 
   useEffect(() => {
     const token = localStorage.getItem('access');
@@ -94,7 +93,6 @@ function App() {
           </Routes>
         </Container>
 
-        <ChatBot />
         <Footer />
       </div>
     </Router>
