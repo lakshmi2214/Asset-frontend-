@@ -365,58 +365,18 @@ export default function AssetList() {
                       backgroundColor: '#ffffff'
                     }}
                   >
-                    {/* Image Area with Floating Badges */}
+                    {/* Image Area - Clean gear view without overlapping badges */}
                     <div
-                      className="position-relative d-flex align-items-center justify-content-center p-3"
+                      className="d-flex align-items-center justify-content-center p-3"
                       style={{ height: '220px', backgroundColor: '#f8fafc' }}
                     >
-                      {/* Category Badge - Dark Rounded Pill */}
-                      {asset.category && (
-                        <span
-                          className="position-absolute"
-                          style={{
-                            top: 14,
-                            left: 14,
-                            zIndex: 2,
-                            backgroundColor: '#475569',
-                            color: '#ffffff',
-                            fontSize: '0.72rem',
-                            fontWeight: 600,
-                            padding: '4px 12px',
-                            borderRadius: '9999px',
-                            letterSpacing: '0.2px'
-                          }}
-                        >
-                          {asset.category.name}
-                        </span>
-                      )}
-
-                      {/* Availability Status Badge - Green Rounded Pill */}
-                      <span
-                        className="position-absolute"
-                        style={{
-                          top: 14,
-                          right: 14,
-                          zIndex: 2,
-                          fontSize: '0.72rem',
-                          fontWeight: 600,
-                          padding: '4px 12px',
-                          borderRadius: '9999px',
-                          backgroundColor: isAvailable ? '#10b981' : '#ef4444',
-                          color: '#ffffff',
-                          letterSpacing: '0.2px'
-                        }}
-                      >
-                        • {isAvailable ? `${unitsCount} Unit${unitsCount > 1 ? 's' : ''} Available` : 'Unavailable'}
-                      </span>
-
                       {/* Equipment Photo */}
                       {asset.image_url ? (
                         <img
                           src={asset.image_url}
                           alt={asset.name}
                           style={{
-                            maxHeight: '175px',
+                            maxHeight: '180px',
                             maxWidth: '85%',
                             objectFit: 'contain',
                             transition: 'transform 0.3s ease',
@@ -448,49 +408,19 @@ export default function AssetList() {
                         S/N: {asset.serial_number || '01'}
                       </div>
 
-                      {/* Metadata Badges / Tags */}
+                      {/* Availability Badge under image (in place of location & total units) */}
                       <div className="d-flex align-items-center gap-2 flex-wrap mb-4 mt-auto">
-                        {asset.location && (
-                          <span
-                            className="badge fw-medium px-3 py-2"
-                            style={{
-                              backgroundColor: '#eff6ff',
-                              color: '#2563eb',
-                              fontSize: '0.76rem',
-                              borderRadius: '8px',
-                              border: 'none',
-                            }}
-                          >
-                            📍 {asset.location.name}
-                          </span>
-                        )}
-
-                        {asset.subcategory && (
-                          <span
-                            className="badge fw-medium px-3 py-2"
-                            style={{
-                              backgroundColor: '#f1f5f9',
-                              color: '#334155',
-                              fontSize: '0.76rem',
-                              borderRadius: '8px',
-                              border: 'none',
-                            }}
-                          >
-                            {asset.subcategory.name}
-                          </span>
-                        )}
-
                         <span
-                          className="badge fw-semibold px-3 py-2"
+                          className="badge fw-semibold px-3 py-2 d-inline-flex align-items-center gap-1"
                           style={{
-                            backgroundColor: '#ecfdf5',
-                            color: '#16a34a',
-                            fontSize: '0.76rem',
-                            borderRadius: '8px',
-                            border: 'none',
+                            backgroundColor: isAvailable ? '#10b981' : '#ef4444',
+                            color: '#ffffff',
+                            fontSize: '0.78rem',
+                            borderRadius: '9999px',
+                            letterSpacing: '0.2px',
                           }}
                         >
-                          ⚡ {totalCount} Total Unit{totalCount > 1 ? 's' : ''}
+                          • {isAvailable ? `${unitsCount} Unit${unitsCount > 1 ? 's' : ''} Available` : 'Unavailable'}
                         </span>
                       </div>
 
