@@ -32,7 +32,6 @@ export default function AssetBooking() {
   const [msg, setMsg] = useState('');
   const [loading, setLoading] = useState(true);
 
-  // Read URL query parameter (e.g. ?category=camera)
   useEffect(() => {
     const categoryParam = searchParams.get('category');
     if (categoryParam) {
@@ -125,7 +124,7 @@ export default function AssetBooking() {
     setShowErrorModal(false);
     setErrorMessage('');
     setLoading(false);
-    setSearchQuery('');  
+    setSearchQuery('');
   }
 
   function handleInitialSubmit(e) {
@@ -220,7 +219,7 @@ export default function AssetBooking() {
             setConfirmStage(false);
             return;
           }
-          // Flatten other validation errors
+
           const errorMsg = Object.entries(t).map(([k, v]) => `${k}: ${v}`).join(', ');
           setMsg('Error: ' + errorMsg);
           setConfirmStage(false);
