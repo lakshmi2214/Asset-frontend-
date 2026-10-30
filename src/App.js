@@ -45,7 +45,7 @@ function App() {
             <Navbar.Collapse id="basic-navbar-nav">
               <Nav className="mx-auto gap-4 align-items-center my-2 my-lg-0">
                 <Nav.Link as={Link} to="/" className="framelease-nav-link active">Home</Nav.Link>
-                <Nav.Link as={Link} to="/assets" className="framelease-nav-link">Browse</Nav.Link>
+                <Nav.Link as={Link} to="/assets" className="framelease-nav-link">Equipment</Nav.Link>
                 <Nav.Link as={Link} to="/#how-it-works" className="framelease-nav-link">How It Works</Nav.Link>
                 <Nav.Link as={Link} to="/#about" className="framelease-nav-link">About</Nav.Link>
               </Nav>
