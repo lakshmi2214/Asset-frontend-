@@ -89,7 +89,7 @@ export default function AssetBooking() {
       } catch (err) {
         console.error("Fetch error:", err);
         if (isMounted) {
-          setMsg('Unable to connect to backend server on port 8030.');
+          setMsg('Unable to connect to backend server. Please verify your connection.');
           setAssets([]);
           setCategories([]);
         }

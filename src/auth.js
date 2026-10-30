@@ -4,6 +4,7 @@ const hostname = typeof window !== 'undefined' ? (window.location.hostname || 'l
 const isLocalhost = hostname === 'localhost' || hostname === '127.0.0.1' || hostname === '[::1]' || hostname.startsWith('192.168.');
 const isVercel = typeof window !== 'undefined' && Boolean(window.location.hostname && window.location.hostname.includes('vercel.app'));
 
+// Default production backend
 const PROD_BACKEND = 'https://asset-booking-backend.vercel.app';
 
 // Detect if an explicit remote URL was provided in environment variables (not localhost/127.0.0.1)
@@ -13,8 +14,9 @@ const envApiUrl = process.env.REACT_APP_API_URL &&
     ? process.env.REACT_APP_API_URL
     : null;
 
-export const API_BASE = isLocalhost
-    ? (process.env.REACT_APP_API_URL || `http://${hostname}:8030`)
+// Use local port 8030 only if explicitly configured to do so; otherwise default to PROD_BACKEND so localhost sees the live equipment
+export const API_BASE = process.env.REACT_APP_USE_LOCAL_BACKEND === 'true'
+    ? `http://${hostname}:8030`
     : (envApiUrl || PROD_BACKEND);
 
 export function clearTokens() {
