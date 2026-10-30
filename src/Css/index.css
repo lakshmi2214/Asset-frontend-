@@ -1390,16 +1390,16 @@ body {
 ============================================================ */
 
 .framelease-nav-link {
-  color: #475569 !important;
+  color: #cbd5e1 !important;
   font-weight: 500;
   font-size: 0.95rem;
-  transition: color 0.2s ease;
-  padding: 0.5rem 0.5rem !important;
+  transition: all 0.2s ease;
+  padding: 0.5rem 0.65rem !important;
 }
 
 .framelease-nav-link:hover,
 .framelease-nav-link.active {
-  color: #0f172a !important;
+  color: #ffffff !important;
   font-weight: 600;
 }
 

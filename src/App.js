@@ -32,16 +32,16 @@ function App() {
   return (
     <Router>
       <div className="d-flex flex-column min-vh-100">
-        <Navbar bg="white" expand="lg" sticky="top" className="border-bottom py-3" style={{ backgroundColor: '#ffffff', borderBottom: '1px solid #f1f5f9' }}>
+        <Navbar variant="dark" expand="lg" sticky="top" className="py-3 shadow" style={{ backgroundColor: '#0f172a', borderBottom: '1px solid rgba(255, 255, 255, 0.1)' }}>
           <Container>
             <Navbar.Brand as={Link} to="/" className="d-flex align-items-center gap-2 text-decoration-none">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#0f172a" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#ffffff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z" />
                 <circle cx="12" cy="13" r="4" />
               </svg>
-              <span style={{ fontWeight: 800, fontSize: '1.25rem', color: '#0f172a', letterSpacing: '-0.3px' }}>FrameLease</span>
+              <span style={{ fontWeight: 800, fontSize: '1.25rem', color: '#ffffff', letterSpacing: '-0.3px' }}>FrameLease</span>
             </Navbar.Brand>
-            <Navbar.Toggle aria-controls="basic-navbar-nav" className="border-0 shadow-none" />
+            <Navbar.Toggle aria-controls="basic-navbar-nav" className="border-0 shadow-none text-light" />
             <Navbar.Collapse id="basic-navbar-nav">
               <Nav className="mx-auto gap-4 align-items-center my-2 my-lg-0">
                 <Nav.Link as={Link} to="/" className="framelease-nav-link active">Home</Nav.Link>
@@ -50,25 +50,25 @@ function App() {
                 <Nav.Link as={Link} to="/#about" className="framelease-nav-link">About</Nav.Link>
               </Nav>
               <Nav className="gap-3 align-items-center flex-row justify-content-end">
-                <Link to="/assets" className="text-secondary text-decoration-none p-2 d-flex align-items-center" title="Search equipment">
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#64748b" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                <Link to="/assets" className="text-decoration-none p-2 d-flex align-items-center" title="Search equipment">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#cbd5e1" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
                     <circle cx="11" cy="11" r="8"></circle>
                     <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
                   </svg>
                 </Link>
                 {user ? (
                   <>
-                    <Nav.Link as={Link} to="/bookings" className="text-dark fw-semibold px-2">My History</Nav.Link>
-                    <Button variant="link" className="text-secondary text-decoration-none fw-medium p-0" onClick={handleLogout}>
+                    <Nav.Link as={Link} to="/bookings" className="text-white fw-semibold px-2">My History</Nav.Link>
+                    <Button variant="link" className="text-light opacity-75 text-decoration-none fw-medium p-0" onClick={handleLogout}>
                       Sign Out
                     </Button>
                   </>
                 ) : (
                   <>
-                    <Link to="/login" className="btn rounded-pill px-4 py-1 fw-semibold text-dark border-0" style={{ fontSize: '0.88rem', backgroundColor: '#f1f5f9' }}>
+                    <Link to="/login" className="btn rounded-pill px-4 py-1 fw-semibold text-white border-0" style={{ fontSize: '0.88rem', backgroundColor: 'rgba(255, 255, 255, 0.12)' }}>
                       Login
                     </Link>
-                    <Link to="/signup" className="btn rounded-pill px-4 py-1 fw-semibold text-white border-0" style={{ fontSize: '0.88rem', backgroundColor: '#0f172a' }}>
+                    <Link to="/signup" className="btn rounded-pill px-4 py-1 fw-bold text-dark border-0" style={{ fontSize: '0.88rem', backgroundColor: '#ffffff' }}>
                       Sign Up
                     </Link>
                   </>

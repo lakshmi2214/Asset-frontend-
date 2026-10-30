@@ -45,25 +45,21 @@ const recentlyAdded = [
   {
     id: 'canon-r5',
     title: 'Canon R5 Camera',
-    price: '₹ 3,000',
     image: process.env.PUBLIC_URL + '/assets/images/item_img_1.png',
   },
   {
     id: 'aputure-300d',
     title: 'Aputure 300D II',
-    price: '₹ 2,000',
     image: process.env.PUBLIC_URL + '/assets/images/item_img_2.png',
   },
   {
     id: 'rode-ntg5',
     title: 'Rode NTG5 Mic',
-    price: '₹ 800',
     image: process.env.PUBLIC_URL + '/assets/images/item_img_3.png',
   },
   {
     id: 'manfrotto-tripod',
     title: 'Manfrotto Tripod',
-    price: '₹ 500',
     image: process.env.PUBLIC_URL + '/assets/images/item_img_4.png',
   },
 ];
@@ -284,7 +280,7 @@ export default function Home() {
           <Row className="g-4">
             {recentlyAdded.map((item) => (
               <Col key={item.id} xs={12} sm={6} md={3}>
-                <Link to="/assets" className="framelease-product-card">
+                <Link to="/assets" className="framelease-product-card text-center">
                   <div className="framelease-product-img-box">
                     <img
                       src={item.image}
@@ -292,10 +288,7 @@ export default function Home() {
                       className="framelease-product-img"
                     />
                   </div>
-                  <div className="framelease-product-title">{item.title}</div>
-                  <div className="framelease-product-price">
-                    {item.price} <span>/ day</span>
-                  </div>
+                  <div className="framelease-product-title mb-0">{item.title}</div>
                 </Link>
               </Col>
             ))}
