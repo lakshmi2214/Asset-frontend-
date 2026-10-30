@@ -4,20 +4,20 @@ const hostname = typeof window !== 'undefined' ? (window.location.hostname || 'l
 const isLocalhost = hostname === 'localhost' || hostname === '127.0.0.1' || hostname === '[::1]' || hostname.startsWith('192.168.');
 const isVercel = typeof window !== 'undefined' && Boolean(window.location.hostname && window.location.hostname.includes('vercel.app'));
 
-// Default production backend for deployed environments (Vercel)
+
 const PROD_BACKEND = 'https://asset-booking-backend.vercel.app';
 
-// Local backend URL for local development (port 8030)
+
 const LOCAL_BACKEND = `http://${hostname}:8030`;
 
-// Detect if an explicit remote URL was provided in environment variables
+
 const envApiUrl = process.env.REACT_APP_API_URL &&
     !process.env.REACT_APP_API_URL.includes('127.0.0.1') &&
     !process.env.REACT_APP_API_URL.includes('localhost')
     ? process.env.REACT_APP_API_URL
     : null;
 
-// Connect to local backend (port 8030) on localhost; connect to PROD_BACKEND on Vercel
+
 export const API_BASE = isLocalhost
     ? (process.env.REACT_APP_API_URL || LOCAL_BACKEND)
     : (envApiUrl || PROD_BACKEND);
