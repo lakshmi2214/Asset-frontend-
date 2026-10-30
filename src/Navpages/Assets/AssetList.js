@@ -1,23 +1,25 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Card, Button, Container, Row, Col, Badge, Dropdown, DropdownButton } from 'react-bootstrap';
+import { Card, Button, Container, Row, Col, Badge, Dropdown, DropdownButton, Spinner } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { API_BASE } from '../../auth';
 
 export default function AssetList() {
   const [assets, setAssets] = useState([]);
   const [categories, setCategories] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   const [filter, setFilter] = useState(null);
   const [searchQuery, setSearchQuery] = useState('');
 
   useEffect(() => {
     let isMounted = true;
+    setLoading(true);
 
     const loadData = async () => {
       try {
         const controller = new AbortController();
-        const timeoutId = setTimeout(() => controller.abort(), 8000);
+        const timeoutId = setTimeout(() => controller.abort(), 15000);
 
         const [assetsRes, categoriesRes] = await Promise.all([
           fetch(`${API_BASE}/api/v1/assets/`, {
@@ -52,6 +54,8 @@ export default function AssetList() {
           setAssets([]);
           setCategories([]);
         }
+      } finally {
+        if (isMounted) setLoading(false);
       }
     };
 
@@ -324,7 +328,14 @@ export default function AssetList() {
         ))}
       </Row>
 
-      {filteredAssets.length === 0 && (
+      {loading && (
+        <div className="text-center py-5 my-4">
+          <Spinner animation="border" variant="primary" style={{ width: '3rem', height: '3rem' }} />
+          <p className="text-muted mt-3 fw-semibold">Loading equipment catalog...</p>
+        </div>
+      )}
+
+      {!loading && filteredAssets.length === 0 && (
         <div className="text-center py-5 my-4 bg-white rounded-4 border p-5 shadow-sm">
           <div style={{ fontSize: '3rem', marginBottom: '1rem' }}>🎥</div>
           <h4 className="fw-bold mb-2">No Equipment Found</h4>

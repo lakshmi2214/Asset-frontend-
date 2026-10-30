@@ -1,14 +1,21 @@
 import { Capacitor } from '@capacitor/core';
 
-const hostname = window.location.hostname || 'localhost';
+const hostname = typeof window !== 'undefined' ? (window.location.hostname || 'localhost') : 'localhost';
 const isLocalhost = hostname === 'localhost' || hostname === '127.0.0.1' || hostname === '[::1]' || hostname.startsWith('192.168.');
-const isVercel = hostname.includes('vercel.app');
+const isVercel = typeof window !== 'undefined' && Boolean(window.location.hostname && window.location.hostname.includes('vercel.app'));
+
+const PROD_BACKEND = 'https://asset-booking-backend.vercel.app';
+
+// Detect if an explicit remote URL was provided in environment variables (not localhost/127.0.0.1)
+const envApiUrl = process.env.REACT_APP_API_URL &&
+    !process.env.REACT_APP_API_URL.includes('127.0.0.1') &&
+    !process.env.REACT_APP_API_URL.includes('localhost')
+    ? process.env.REACT_APP_API_URL
+    : null;
 
 export const API_BASE = isLocalhost
-    ? `http://${hostname}:8030`
-    : (process.env.REACT_APP_API_URL ||
-        (isVercel ? 'https://asset-booking-backend.vercel.app' :
-            `https://${hostname.replace('frontend', 'backend')}`));
+    ? (process.env.REACT_APP_API_URL || `http://${hostname}:8030`)
+    : (envApiUrl || PROD_BACKEND);
 
 export function clearTokens() {
     localStorage.removeItem('access');

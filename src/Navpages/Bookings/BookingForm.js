@@ -46,7 +46,7 @@ export default function AssetBooking() {
     const loadInitialData = async () => {
       try {
         const controller = new AbortController();
-        const timeoutId = setTimeout(() => controller.abort(), 8000);
+        const timeoutId = setTimeout(() => controller.abort(), 15000);
 
         const [assetsRes, categoriesRes] = await Promise.all([
           fetch(`${API_BASE}/api/v1/assets/`, {
