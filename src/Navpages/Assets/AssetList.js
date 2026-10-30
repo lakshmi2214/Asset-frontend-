@@ -140,16 +140,6 @@ export default function AssetList() {
 
   return (
     <Container className="py-4">
-      <div className="page-hero-banner">
-        <div className="page-hero-badge">
-          ✦EQUIPMENT CATALOG
-        </div>
-        <h1 className="page-hero-title">Equipment Inventory</h1>
-        <p className="page-hero-subtitle">
-          Explore production-grade cameras, lighting, audio gear, and accessories available across company studios.
-        </p>
-      </div>
-
       <div className="catalog-filter-bar d-flex flex-wrap gap-3 align-items-center justify-content-between">
         <div className="d-flex flex-wrap gap-2 align-items-center">
           <Button
