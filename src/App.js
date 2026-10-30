@@ -32,46 +32,45 @@ function App() {
   return (
     <Router>
       <div className="d-flex flex-column min-vh-100">
-        <Navbar variant="dark" expand="lg" sticky="top" className="shadow-sm" style={{ backgroundColor: '#0f172a' }}>
+        <Navbar bg="white" expand="lg" sticky="top" className="border-bottom py-3" style={{ backgroundColor: '#ffffff', borderBottom: '1px solid #f1f5f9' }}>
           <Container>
-            <Navbar.Brand as={Link} to="/" className="d-flex align-items-center gap-2">
-              <div style={{
-                width: '32px',
-                height: '32px',
-                background: 'linear-gradient(135deg, #7c3aed 0%, #6d28d9 100%)',
-                borderRadius: '8px',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                color: 'white',
-                fontWeight: 800,
-                fontSize: '1rem'
-              }}>
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                  <circle cx="12" cy="12" r="3" />
-                  <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z" />
-                </svg>
-              </div>
-              <span style={{ fontWeight: 800, letterSpacing: '-0.5px' }}>Aslikahani</span>
+            <Navbar.Brand as={Link} to="/" className="d-flex align-items-center gap-2 text-decoration-none">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#0f172a" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z" />
+                <circle cx="12" cy="13" r="4" />
+              </svg>
+              <span style={{ fontWeight: 800, fontSize: '1.25rem', color: '#0f172a', letterSpacing: '-0.3px' }}>FrameLease</span>
             </Navbar.Brand>
-            <Navbar.Toggle aria-controls="basic-navbar-nav" className="border-0" />
+            <Navbar.Toggle aria-controls="basic-navbar-nav" className="border-0 shadow-none" />
             <Navbar.Collapse id="basic-navbar-nav">
-              <Nav className="me-auto ms-lg-4 gap-2">
-                <Nav.Link as={Link} to="/" className="px-3">Home</Nav.Link>
-                <Nav.Link as={Link} to="/assets" className="px-3">Equipments</Nav.Link>
-                {user && <Nav.Link as={Link} to="/bookings" className="px-3">My History</Nav.Link>}
+              <Nav className="mx-auto gap-4 align-items-center my-2 my-lg-0">
+                <Nav.Link as={Link} to="/" className="framelease-nav-link active">Home</Nav.Link>
+                <Nav.Link as={Link} to="/assets" className="framelease-nav-link">Browse</Nav.Link>
+                <Nav.Link as={Link} to="/#how-it-works" className="framelease-nav-link">How It Works</Nav.Link>
+                <Nav.Link as={Link} to="/#about" className="framelease-nav-link">About</Nav.Link>
               </Nav>
-              <Nav className="gap-2 align-items-center">
+              <Nav className="gap-3 align-items-center flex-row justify-content-end">
+                <Link to="/assets" className="text-secondary text-decoration-none p-2 d-flex align-items-center" title="Search equipment">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#64748b" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                    <circle cx="11" cy="11" r="8"></circle>
+                    <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                  </svg>
+                </Link>
                 {user ? (
-                  <Button variant="link" className="text-light text-decoration-none fw-bold" onClick={handleLogout}>
-                    Sign Out
-                  </Button>
+                  <>
+                    <Nav.Link as={Link} to="/bookings" className="text-dark fw-semibold px-2">My History</Nav.Link>
+                    <Button variant="link" className="text-secondary text-decoration-none fw-medium p-0" onClick={handleLogout}>
+                      Sign Out
+                    </Button>
+                  </>
                 ) : (
                   <>
-                    <Nav.Link as={Link} to="/login" className="px-3 text-light">Login</Nav.Link>
-                    <Button as={Link} to="/signup" className="btn-purple-pill py-2 px-4 shadow-none">
+                    <Link to="/login" className="btn rounded-pill px-4 py-1 fw-semibold text-dark border-0" style={{ fontSize: '0.88rem', backgroundColor: '#f1f5f9' }}>
+                      Login
+                    </Link>
+                    <Link to="/signup" className="btn rounded-pill px-4 py-1 fw-semibold text-white border-0" style={{ fontSize: '0.88rem', backgroundColor: '#0f172a' }}>
                       Sign Up
-                    </Button>
+                    </Link>
                   </>
                 )}
               </Nav>

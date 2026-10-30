@@ -1,256 +1,237 @@
 import React, { useState } from 'react';
-import { Container, Row, Col, Button, Form } from 'react-bootstrap';
+import { Container, Row, Col } from 'react-bootstrap';
 import { Link, useNavigate } from 'react-router-dom';
-import {
-  FaSearch,
-  FaCalendarAlt,
-  FaCamera,
-  FaShieldAlt,
-  FaHeadset,
-  FaArrowRight,
-} from 'react-icons/fa';
 
-const equipmentCategories = [
+const categories = [
   {
     id: 'cameras',
-    title: 'Cameras',
-    subtitle: 'Cinema & Mirrorless',
-    image: 'https://images.unsplash.com/photo-1516724562728-afc824a36e84?auto=format&fit=crop&w=600&q=80',
-    link: '/book-asset?category=camera',
+    name: 'Cameras',
+    query: 'camera',
+    image: process.env.PUBLIC_URL + '/assets/images/cat_icon_1.png',
   },
   {
     id: 'lenses',
-    title: 'Lenses',
-    subtitle: 'Prime & Zoom Lenses',
-    image: 'https://images.unsplash.com/photo-1617788138017-80ad40651399?auto=format&fit=crop&w=600&q=80',
-    link: '/book-asset?category=lenses',
+    name: 'Lenses',
+    query: 'lenses',
+    image: process.env.PUBLIC_URL + '/assets/images/cat_icon_2.png',
   },
   {
     id: 'lighting',
-    title: 'Lighting',
-    subtitle: 'LED & Continuous Lights',
-    image: 'https://images.unsplash.com/photo-1527011046414-4781f1f94f8c?auto=format&fit=crop&w=600&q=80',
-    link: '/book-asset?category=lighting',
+    name: 'Lighting',
+    query: 'lighting',
+    image: process.env.PUBLIC_URL + '/assets/images/cat_icon_3.png',
   },
   {
     id: 'audio',
-    title: 'Audio',
-    subtitle: 'Mics & Wireless Kits',
-    image: 'https://images.unsplash.com/photo-1590602847861-f357a9332bbc?auto=format&fit=crop&w=600&q=80',
-    link: '/book-asset?category=audio',
+    name: 'Audio',
+    query: 'audio',
+    image: process.env.PUBLIC_URL + '/assets/images/cat_icon_4.png',
   },
   {
-    id: 'studio-setups',
-    title: 'Studio Setups',
-    subtitle: 'Soundstages & Backdrops',
-    image: 'https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?auto=format&fit=crop&w=600&q=80',
-    link: '/book-asset?category=studio',
+    id: 'tripods',
+    name: 'Tripods',
+    query: 'tripods',
+    image: process.env.PUBLIC_URL + '/assets/images/cat_icon_5.png',
+  },
+  {
+    id: 'studio-setup',
+    name: 'Studio Setup',
+    query: 'studio',
+    image: process.env.PUBLIC_URL + '/assets/images/cat_icon_6.png',
+  },
+];
+
+const recentlyAdded = [
+  {
+    id: 'canon-r5',
+    title: 'Canon R5 Camera',
+    price: '₹ 3,000',
+    image: process.env.PUBLIC_URL + '/assets/images/item_img_1.png',
+  },
+  {
+    id: 'aputure-300d',
+    title: 'Aputure 300D II',
+    price: '₹ 2,000',
+    image: process.env.PUBLIC_URL + '/assets/images/item_img_2.png',
+  },
+  {
+    id: 'rode-ntg5',
+    title: 'Rode NTG5 Mic',
+    price: '₹ 800',
+    image: process.env.PUBLIC_URL + '/assets/images/item_img_3.png',
+  },
+  {
+    id: 'manfrotto-tripod',
+    title: 'Manfrotto Tripod',
+    price: '₹ 500',
+    image: process.env.PUBLIC_URL + '/assets/images/item_img_4.png',
   },
 ];
 
 export default function Home() {
   const navigate = useNavigate();
-  const [selectedCategory, setSelectedCategory] = useState('');
-  const [selectedDate, setSelectedDate] = useState('');
+  const [searchQuery, setSearchQuery] = useState('');
 
   const handleSearch = (e) => {
     e.preventDefault();
-    if (selectedCategory) {
-      navigate(`/book-asset?category=${selectedCategory}`);
+    if (searchQuery.trim()) {
+      navigate(`/assets?q=${encodeURIComponent(searchQuery.trim())}`);
     } else {
-      navigate('/book-asset');
+      navigate('/assets');
     }
   };
 
   return (
-    <div className="home-page-root" style={{ overflowX: 'hidden' }}>
-      <section
-        className="lensloop-hero-wrap"
-        style={{
-          backgroundImage: `url('https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?auto=format&fit=crop&w=1920&q=80')`,
-        }}
-      >
-        <div className="lensloop-hero-overlay" />
+    <div className="home-page-root" style={{ backgroundColor: '#ffffff', overflowX: 'hidden' }}>
+      {/* Hero Section */}
+      <section className="framelease-hero-wrap">
         <Container>
-          <div className="lensloop-hero-content animate-slide-up">
+          <Row className="align-items-center g-4">
+            <Col lg={6} md={12}>
+              <div className="framelease-hero-tag">
+                CAMERA &amp; STUDIO EQUIPMENT RENTAL
+              </div>
+              <h1 className="framelease-hero-title">
+                Create More,<br />Rent Better
+              </h1>
+              <p className="framelease-hero-desc">
+                Professional camera gear, lenses, lighting, audio and studio setups – available for your next shoot.
+              </p>
 
-            <div
-              style={{
-                color: '#a78bfa',
-                fontSize: '12px',
-                fontWeight: 600,
-                letterSpacing: '2px',
-                textTransform: 'uppercase',
-                marginBottom: '0.75rem',
-              }}
-            >
-              CREATE | CAPTURE | PRODUCE
-            </div>
-
-            <h1
-              style={{
-                color: '#ffffff',
-                fontSize: '18px',
-                fontWeight: 600,
-                lineHeight: 1.35,
-                marginBottom: '0.85rem',
-                letterSpacing: '-0.3px',
-              }}
-            >
-              Book Camera &amp; Studio Equipment for Your Next Project
-            </h1>
-
-            <p
-              style={{
-                color: '#cbd5e1',
-                fontSize: '14px',
-                lineHeight: 1.55,
-                marginBottom: '2rem',
-                maxWidth: '560px',
-              }}
-            >
-              From cameras and lenses to lighting, audio and full studio setups — everything you need, all in one place.
-            </p>
-
-            <form onSubmit={handleSearch} className="search-capsule">
-              <div className="search-capsule-item">
-                <FaSearch style={{ color: '#64748b', fontSize: '13px' }} />
-                <Form.Select
-                  value={selectedCategory}
-                  onChange={(e) => setSelectedCategory(e.target.value)}
-                  className="search-capsule-select"
+              <form onSubmit={handleSearch} className="framelease-search-capsule">
+                <svg
+                  width="18"
+                  height="18"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="#94a3b8"
+                  strokeWidth="2.2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  className="ms-1 flex-shrink-0"
                 >
-                  <option value="">All Categories</option>
-                  <option value="camera">Cameras</option>
-                  <option value="lenses">Lenses</option>
-                  <option value="lighting">Lighting</option>
-                  <option value="audio">Audio</option>
-                  <option value="studio">Studio Setups</option>
-                </Form.Select>
-              </div>
-
-              <div className="search-capsule-divider" />
-
-              <div className="search-capsule-item">
-                <FaCalendarAlt style={{ color: '#64748b', fontSize: '13px' }} />
-                <Form.Control
-                  type="date"
-                  value={selectedDate}
-                  onChange={(e) => setSelectedDate(e.target.value)}
-                  className="search-capsule-input"
-                  title="Select Date"
+                  <circle cx="11" cy="11" r="8"></circle>
+                  <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                </svg>
+                <input
+                  type="text"
+                  placeholder="Search for equipment..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="framelease-search-input"
                 />
-              </div>
-
-              <Button type="submit" className="btn-purple-pill">
-                Search
-              </Button>
-            </form>
-          </div>
-        </Container>
-      </section>
-
-
-      <section className="trust-feature-bar">
-        <Container>
-          <Row className="g-4 align-items-center justify-content-between text-center text-md-start">
-            <Col xs={6} md={3}>
-              <div className="trust-feature-item">
-                <div className="trust-feature-icon">
-                  <FaCamera />
-                </div>
-                <div>Professional Gear &amp; Accessories</div>
-              </div>
+                <button type="submit" className="framelease-search-btn">
+                  Search
+                </button>
+              </form>
             </Col>
-            <Col xs={6} md={3}>
-              <div className="trust-feature-item">
-                <div className="trust-feature-icon">
-                  <FaCalendarAlt />
-                </div>
-                <div>Flexible Rental Plans</div>
-              </div>
-            </Col>
-            <Col xs={6} md={3}>
-              <div className="trust-feature-item">
-                <div className="trust-feature-icon">
-                  <FaShieldAlt />
-                </div>
-                <div>Secure Payments &amp; Booking</div>
-              </div>
-            </Col>
-            <Col xs={6} md={3}>
-              <div className="trust-feature-item">
-                <div className="trust-feature-icon">
-                  <FaHeadset />
-                </div>
-                <div>Support 7 Days a Week</div>
+
+            <Col lg={6} md={12} className="text-center">
+              <div className="framelease-hero-img-box">
+                <img
+                  src={process.env.PUBLIC_URL + '/assets/images/mockup_hero_camera.png'}
+                  alt="Camera & Studio Rig on Tripod"
+                  className="framelease-hero-img"
+                />
               </div>
             </Col>
           </Row>
         </Container>
       </section>
 
-      <section className="py-5" id="equipment">
+      {/* Feature / Value Propositions Strip */}
+      <section className="framelease-features-wrap">
         <Container>
-          <div className="d-flex align-items-center justify-content-between mb-4">
-            <h2
-              style={{
-                fontSize: '18px',
-                fontWeight: 600,
-                color: '#0f172a',
-                margin: 0,
-                letterSpacing: '-0.3px',
-              }}
-            >
-              Discover Our Equipment
-            </h2>
-            <Link
-              to="/assets"
-              style={{
-                fontSize: '14px',
-                fontWeight: 600,
-                color: '#64748b',
-                textDecoration: 'none',
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '0.35rem',
-              }}
-            >
-              View All <FaArrowRight size={12} />
+          <Row className="g-4 align-items-center justify-content-between">
+            <Col xs={6} md={3}>
+              <div className="framelease-feature-item">
+                <div className="framelease-feature-icon">
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                    <circle cx="12" cy="7" r="4.5" />
+                    <circle cx="7.5" cy="15" r="4.5" />
+                    <circle cx="16.5" cy="15" r="4.5" />
+                  </svg>
+                </div>
+                <div>
+                  <div className="framelease-feature-title">Quality Gear</div>
+                  <div className="framelease-feature-sub">from Top Brands</div>
+                </div>
+              </div>
+            </Col>
+
+            <Col xs={6} md={3}>
+              <div className="framelease-feature-item">
+                <div className="framelease-feature-icon">
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                    <rect x="3" y="4" width="18" height="18" rx="3" ry="3" />
+                    <line x1="16" y1="2" x2="16" y2="6" />
+                    <line x1="8" y1="2" x2="8" y2="6" />
+                    <line x1="3" y1="10" x2="21" y2="10" />
+                    <path d="m9 16 2 2 4-4" />
+                  </svg>
+                </div>
+                <div>
+                  <div className="framelease-feature-title">Easy Online</div>
+                  <div className="framelease-feature-sub">Booking</div>
+                </div>
+              </div>
+            </Col>
+
+            <Col xs={6} md={3}>
+              <div className="framelease-feature-item">
+                <div className="framelease-feature-icon">
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                    <circle cx="12" cy="13" r="8" />
+                    <path d="M12 9v4l2.5 2.5" />
+                    <path d="M10 2h4" />
+                  </svg>
+                </div>
+                <div>
+                  <div className="framelease-feature-title">Flexible Rental</div>
+                  <div className="framelease-feature-sub">Plans</div>
+                </div>
+              </div>
+            </Col>
+
+            <Col xs={6} md={3}>
+              <div className="framelease-feature-item">
+                <div className="framelease-feature-icon">
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+                  </svg>
+                </div>
+                <div>
+                  <div className="framelease-feature-title">Support When</div>
+                  <div className="framelease-feature-sub">You Need It</div>
+                </div>
+              </div>
+            </Col>
+          </Row>
+        </Container>
+      </section>
+
+      {/* Shop by Category */}
+      <section className="py-5" id="categories">
+        <Container>
+          <div className="framelease-section-header">
+            <h2 className="framelease-section-title">Shop by Category</h2>
+            <Link to="/assets" className="framelease-view-all">
+              View All <span>&rarr;</span>
             </Link>
           </div>
 
           <Row className="g-3">
-            {equipmentCategories.map((item) => (
-              <Col key={item.id} xs={6} md={4} lg style={{ flex: '1 0 0%' }}>
-                <Link to={item.link} className="equipment-card-v5">
-                  <img
-                    src={item.image}
-                    alt={item.title}
-                    className="equipment-card-v5-img"
-                  />
-                  <div className="equipment-card-v5-overlay" />
-                  <div className="equipment-card-v5-body">
-                    <div
-                      style={{
-                        fontSize: '16px',
-                        fontWeight: 600,
-                        color: '#ffffff',
-                        marginBottom: '2px',
-                      }}
-                    >
-                      {item.title}
-                    </div>
-                    <div
-                      style={{
-                        fontSize: '12px',
-                        fontWeight: 600,
-                        color: '#cbd5e1',
-                      }}
-                    >
-                      {item.subtitle}
-                    </div>
+            {categories.map((cat) => (
+              <Col key={cat.id} xs={6} sm={4} md={2}>
+                <Link to={`/assets?category=${cat.query}`} className="framelease-cat-card">
+                  <div className="framelease-cat-img-box">
+                    <img
+                      src={cat.image}
+                      alt={cat.name}
+                      className="framelease-cat-img"
+                    />
                   </div>
+                  <div className="framelease-cat-name">{cat.name}</div>
                 </Link>
               </Col>
             ))}
@@ -258,54 +239,67 @@ export default function Home() {
         </Container>
       </section>
 
-
+      {/* Your Vision Our Equipment Promo Banner */}
       <section className="pb-5 pt-2">
         <Container>
-          <div className="ideas-banner-card">
+          <div className="framelease-promo-card">
             <Row className="g-0 align-items-stretch">
-              <Col md={5} lg={5}>
-                <img
-                  src="https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?auto=format&fit=crop&w=800&q=80"
-                  alt="Camera operator in studio setup"
-                  className="ideas-banner-img"
-                />
-              </Col>
-              <Col md={7} lg={7}>
-                <div className="ideas-banner-content">
-                  <h3
-                    style={{
-                      fontSize: '18px',
-                      fontWeight: 600,
-                      color: '#1e1b4b',
-                      marginBottom: '0.5rem',
-                    }}
-                  >
-                    Bring Your Ideas to Life
-                  </h3>
-                  <p
-                    style={{
-                      fontSize: '14px',
-                      color: '#475569',
-                      lineHeight: 1.6,
-                      marginBottom: '1.5rem',
-                      maxWidth: '520px',
-                    }}
-                  >
-                    Whether it&apos;s a commercial, wedding, short film or content creation — we&apos;ve got the right gear for you.
+              <Col md={6} lg={6}>
+                <div className="framelease-promo-content">
+                  <h2 className="framelease-promo-title">
+                    Your Vision<br />Our Equipment
+                  </h2>
+                  <p className="framelease-promo-desc">
+                    From indie creators to professional productions, we&apos;ve got the gear you need.
                   </p>
                   <div>
-                    <Button
-                      as={Link}
-                      to="/book-asset"
-                      className="btn-purple-pill"
-                    >
-                      Explore Equipment <FaArrowRight size={12} />
-                    </Button>
+                    <Link to="/assets" className="framelease-promo-btn">
+                      Browse Equipment <span>&rarr;</span>
+                    </Link>
                   </div>
                 </div>
               </Col>
+              <Col md={6} lg={6}>
+                <img
+                  src={process.env.PUBLIC_URL + '/assets/images/banner_studio.png'}
+                  alt="Photography studio with lights and cyclorama"
+                  className="framelease-promo-img"
+                />
+              </Col>
             </Row>
           </div>
+        </Container>
+      </section>
+
+      {/* Recently Added Section */}
+      <section className="pb-5 pt-3" id="recently-added">
+        <Container>
+          <div className="framelease-section-header">
+            <h2 className="framelease-section-title">Recently Added</h2>
+            <Link to="/assets" className="framelease-view-all">
+              View All <span>&rarr;</span>
+            </Link>
+          </div>
+
+          <Row className="g-4">
+            {recentlyAdded.map((item) => (
+              <Col key={item.id} xs={12} sm={6} md={3}>
+                <Link to="/assets" className="framelease-product-card">
+                  <div className="framelease-product-img-box">
+                    <img
+                      src={item.image}
+                      alt={item.title}
+                      className="framelease-product-img"
+                    />
+                  </div>
+                  <div className="framelease-product-title">{item.title}</div>
+                  <div className="framelease-product-price">
+                    {item.price} <span>/ day</span>
+                  </div>
+                </Link>
+              </Col>
+            ))}
+          </Row>
         </Container>
       </section>
     </div>
