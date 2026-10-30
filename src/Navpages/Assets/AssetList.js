@@ -142,7 +142,7 @@ export default function AssetList() {
     <Container className="py-4">
       <div className="page-hero-banner">
         <div className="page-hero-badge">
-          ✦ GEAR & EQUIPMENT CATALOG
+          ✦EQUIPMENT CATALOG
         </div>
         <h1 className="page-hero-title">Equipment Inventory</h1>
         <p className="page-hero-subtitle">
