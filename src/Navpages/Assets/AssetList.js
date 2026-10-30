@@ -166,94 +166,101 @@ export default function AssetList() {
 
         {/* Filter & Search Bar */}
         <div className="bg-white rounded-4 p-3 mb-4 shadow-sm border" style={{ borderColor: '#e2e8f0' }}>
-          <Row className="g-3 align-items-center">
+          <div className="d-flex flex-column flex-lg-row align-items-stretch align-items-lg-center justify-content-between gap-3">
             {/* Search Input */}
-            <Col lg={4} md={5} xs={12}>
-              <div className="position-relative d-flex align-items-center">
-                <svg
-                  width="18"
-                  height="18"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="#94a3b8"
-                  strokeWidth="2.2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  className="position-absolute ms-3"
-                  style={{ pointerEvents: 'none' }}
-                >
-                  <circle cx="11" cy="11" r="8"></circle>
-                  <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-                </svg>
-                <input
-                  type="text"
-                  className="form-control rounded-pill ps-5 pe-4 py-2 border-0"
-                  placeholder="Search by gear name, model, location..."
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  style={{ backgroundColor: '#f8fafc', fontSize: '0.92rem', color: '#0f172a' }}
-                />
-                {searchQuery && (
-                  <button
-                    type="button"
-                    onClick={() => setSearchQuery('')}
-                    className="btn btn-link position-absolute end-0 me-2 p-1 text-muted text-decoration-none"
-                    style={{ fontSize: '0.8rem' }}
-                  >
-                    ✕
-                  </button>
-                )}
-              </div>
-            </Col>
-
-            {/* Category Filter Pills */}
-            <Col lg={8} md={7} xs={12}>
-              <div className="d-flex flex-wrap gap-2 align-items-center justify-content-md-end">
+            <div
+              className="position-relative d-flex align-items-center flex-shrink-0"
+              style={{ width: '100%', maxWidth: '270px' }}
+            >
+              <svg
+                width="17"
+                height="17"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="#94a3b8"
+                strokeWidth="2.2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className="position-absolute ms-3"
+                style={{ pointerEvents: 'none' }}
+              >
+                <circle cx="11" cy="11" r="8"></circle>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+              </svg>
+              <input
+                type="text"
+                className="form-control rounded-pill ps-5 pe-4 py-2 border-0"
+                placeholder="Search equipment..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                style={{ backgroundColor: '#f8fafc', fontSize: '0.88rem', color: '#0f172a' }}
+              />
+              {searchQuery && (
                 <button
                   type="button"
-                  onClick={() => handleCategorySelect('all')}
-                  className="btn rounded-pill px-3 py-1 fw-semibold border-0"
-                  style={{
-                    fontSize: '0.86rem',
-                    backgroundColor: selectedCategoryId === 'all' ? '#0f172a' : '#f8fafc',
-                    color: selectedCategoryId === 'all' ? '#ffffff' : '#475569',
-                    transition: 'all 0.2s ease',
-                  }}
+                  onClick={() => setSearchQuery('')}
+                  className="btn btn-link position-absolute end-0 me-2 p-1 text-muted text-decoration-none"
+                  style={{ fontSize: '0.8rem' }}
                 >
-                  All Gear
+                  ✕
                 </button>
+              )}
+            </div>
 
-                {categories.map((cat) => {
-                  const isActive = selectedCategoryId === cat.id;
-                  return (
-                    <button
-                      key={cat.id}
-                      type="button"
-                      onClick={() => handleCategorySelect(cat.id)}
-                      className="btn rounded-pill px-3 py-1 fw-semibold border-0"
-                      style={{
-                        fontSize: '0.86rem',
-                        backgroundColor: isActive ? '#0f172a' : '#f8fafc',
-                        color: isActive ? '#ffffff' : '#475569',
-                        transition: 'all 0.2s ease',
-                      }}
-                    >
-                      {cat.name}
-                    </button>
-                  );
-                })}
-              </div>
-            </Col>
-          </Row>
+            {/* Category Filter Pills (Clean Single Row, Never Breaks Awkwardly) */}
+            <div
+              className="d-flex align-items-center gap-2 flex-nowrap overflow-x-auto no-scrollbar py-1"
+              style={{
+                WebkitOverflowScrolling: 'touch',
+              }}
+            >
+              <button
+                type="button"
+                onClick={() => handleCategorySelect('all')}
+                className="btn rounded-pill px-3 py-1 fw-semibold border-0 text-nowrap flex-shrink-0"
+                style={{
+                  fontSize: '0.85rem',
+                  backgroundColor: selectedCategoryId === 'all' ? '#0f172a' : '#f8fafc',
+                  color: selectedCategoryId === 'all' ? '#ffffff' : '#475569',
+                  transition: 'all 0.2s ease',
+                }}
+              >
+                All Gear
+              </button>
+
+              {categories.map((cat) => {
+                const isActive = selectedCategoryId === cat.id;
+                return (
+                  <button
+                    key={cat.id}
+                    type="button"
+                    onClick={() => handleCategorySelect(cat.id)}
+                    className="btn rounded-pill px-3 py-1 fw-semibold border-0 text-nowrap flex-shrink-0"
+                    style={{
+                      fontSize: '0.85rem',
+                      backgroundColor: isActive ? '#0f172a' : '#f8fafc',
+                      color: isActive ? '#ffffff' : '#475569',
+                      transition: 'all 0.2s ease',
+                    }}
+                  >
+                    {cat.name}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
 
           {/* Subcategory Row (if selected category has subcategories) */}
           {activeCategory && activeCategory.subcategories && activeCategory.subcategories.length > 0 && (
-            <div className="d-flex align-items-center gap-2 flex-wrap pt-3 mt-3 border-top" style={{ borderColor: '#f1f5f9' }}>
-              <span className="text-secondary small fw-semibold me-1">Subcategories:</span>
+            <div
+              className="d-flex align-items-center gap-2 flex-nowrap overflow-x-auto no-scrollbar pt-3 mt-3 border-top"
+              style={{ borderColor: '#f1f5f9', WebkitOverflowScrolling: 'touch' }}
+            >
+              <span className="text-secondary small fw-semibold me-1 text-nowrap flex-shrink-0">Subcategories:</span>
               <button
                 type="button"
                 onClick={() => setSelectedSubcategoryId('all')}
-                className="btn btn-sm rounded-pill px-3 py-0 border"
+                className="btn btn-sm rounded-pill px-3 py-0 border text-nowrap flex-shrink-0"
                 style={{
                   fontSize: '0.8rem',
                   backgroundColor: selectedSubcategoryId === 'all' ? '#334155' : 'transparent',
@@ -270,7 +277,7 @@ export default function AssetList() {
                     key={sub.id}
                     type="button"
                     onClick={() => setSelectedSubcategoryId(sub.id)}
-                    className="btn btn-sm rounded-pill px-3 py-0 border"
+                    className="btn btn-sm rounded-pill px-3 py-0 border text-nowrap flex-shrink-0"
                     style={{
                       fontSize: '0.8rem',
                       backgroundColor: isSubActive ? '#334155' : 'transparent',
