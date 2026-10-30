@@ -1767,3 +1767,18 @@ body {
   color: #64748b;
   font-size: 0.85rem;
 }
+
+
+/* Equipment card image hover */
+.equipment-img-hover:hover {
+  transform: scale(1.05);
+}
+
+.equipment-card-hover {
+  transition: transform 0.22s ease, box-shadow 0.22s ease;
+}
+
+.equipment-card-hover:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 14px 30px -8px rgba(15, 23, 42, 0.12) !important;
+}

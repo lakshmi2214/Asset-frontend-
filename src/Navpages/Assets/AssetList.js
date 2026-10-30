@@ -1,17 +1,19 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import { Link } from 'react-router-dom';
-import { Card, Button, Container, Row, Col, Badge, Dropdown, DropdownButton, Spinner } from 'react-bootstrap';
-import 'bootstrap/dist/css/bootstrap.min.css';
+import { Link, useSearchParams } from 'react-router-dom';
+import { Container, Row, Col, Badge } from 'react-bootstrap';
 import { API_BASE } from '../../auth';
 
 export default function AssetList() {
+  const [searchParams, setSearchParams] = useSearchParams();
   const [assets, setAssets] = useState([]);
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  const [filter, setFilter] = useState(null);
+  const [selectedCategoryId, setSelectedCategoryId] = useState('all');
+  const [selectedSubcategoryId, setSelectedSubcategoryId] = useState('all');
   const [searchQuery, setSearchQuery] = useState('');
 
+  // Fetch assets and categories on mount
   useEffect(() => {
     let isMounted = true;
     setLoading(true);
@@ -63,284 +65,485 @@ export default function AssetList() {
     return () => { isMounted = false; };
   }, []);
 
-  const filteredAssets = useMemo(() => {
-    let list = assets;
+  // Sync with URL query parameters (?category=... or ?q=...)
+  useEffect(() => {
+    const categoryParam = searchParams.get('category');
+    const qParam = searchParams.get('q');
 
-    if (filter) {
-      if (filter.type === 'category') {
-        list = list.filter(a => {
-          const catMatch = a.category && (
-            a.category.id === filter.id ||
-            String(a.category.id) === String(filter.id)
-          );
-          const nameMatch = a.category && (
-            a.category.name === (categories.find(c => c.id === filter.id) || {}).name
-          );
-          return catMatch || nameMatch;
-        });
-      } else if (filter.type === 'subcategory') {
-        list = list.filter(a => {
-          const subMatch = a.subcategory && (
-            a.subcategory.id === filter.id ||
-            String(a.subcategory.id) === String(filter.id)
-          );
-          const nameMatch = a.subcategory && (() => {
-            const parentCat = categories.find(c => c.id === filter.parentId);
-            const sub = parentCat && parentCat.subcategories &&
-              parentCat.subcategories.find(s => s.id === filter.id);
-            return sub && a.subcategory.name === sub.name;
-          })();
-          return subMatch || nameMatch;
-        });
+    if (categoryParam && categories.length > 0) {
+      const paramLower = categoryParam.toLowerCase();
+      const match = categories.find(c =>
+        c.name.toLowerCase().includes(paramLower) ||
+        String(c.id) === categoryParam
+      );
+      if (match) {
+        setSelectedCategoryId(match.id);
       }
     }
 
+    if (qParam) {
+      setSearchQuery(qParam);
+    }
+  }, [searchParams, categories]);
+
+  // Current active category object
+  const activeCategory = useMemo(() => {
+    if (selectedCategoryId === 'all') return null;
+    return categories.find(c => c.id === selectedCategoryId) || null;
+  }, [categories, selectedCategoryId]);
+
+  // Filtered assets calculation
+  const filteredAssets = useMemo(() => {
+    let list = assets;
+
+    // Filter by category
+    if (selectedCategoryId !== 'all') {
+      list = list.filter(a => {
+        if (!a.category) return false;
+        return a.category.id === selectedCategoryId || String(a.category.id) === String(selectedCategoryId);
+      });
+    }
+
+    // Filter by subcategory
+    if (selectedSubcategoryId !== 'all') {
+      list = list.filter(a => {
+        if (!a.subcategory) return false;
+        return a.subcategory.id === selectedSubcategoryId || String(a.subcategory.id) === String(selectedSubcategoryId);
+      });
+    }
+
+    // Filter by search query
     if (searchQuery.trim()) {
-      const q = searchQuery.toLowerCase();
+      const q = searchQuery.toLowerCase().trim();
       list = list.filter(a =>
         (a.name && a.name.toLowerCase().includes(q)) ||
         (a.serial_number && a.serial_number.toLowerCase().includes(q)) ||
-        (a.location && a.location.name && a.location.name.toLowerCase().includes(q))
+        (a.description && a.description.toLowerCase().includes(q)) ||
+        (a.location && a.location.name && a.location.name.toLowerCase().includes(q)) ||
+        (a.category && a.category.name && a.category.name.toLowerCase().includes(q)) ||
+        (a.subcategory && a.subcategory.name && a.subcategory.name.toLowerCase().includes(q))
       );
     }
 
     return list;
-  }, [assets, categories, filter, searchQuery]);
+  }, [assets, selectedCategoryId, selectedSubcategoryId, searchQuery]);
 
-  const isCategoryActive = (catId) =>
-    filter && filter.type === 'category' && filter.id === catId;
+  const resetAllFilters = () => {
+    setSelectedCategoryId('all');
+    setSelectedSubcategoryId('all');
+    setSearchQuery('');
+    setSearchParams({});
+  };
 
-  const isSubcategoryActive = (subId) =>
-    filter && filter.type === 'subcategory' && filter.id === subId;
-
-  const isDropdownActive = (cat) =>
-    isCategoryActive(cat.id) ||
-    (cat.subcategories && cat.subcategories.some(s => isSubcategoryActive(s.id)));
-
-  const activeLabel = useMemo(() => {
-    if (!filter) return null;
-    if (filter.type === 'category') {
-      const cat = categories.find(c => c.id === filter.id);
-      return cat ? `All ${cat.name}` : 'Category';
-    }
-    if (filter.type === 'subcategory') {
-      const parent = categories.find(c => c.id === filter.parentId);
-      const sub = parent && parent.subcategories &&
-        parent.subcategories.find(s => s.id === filter.id);
-      return sub ? `${parent.name} › ${sub.name}` : 'Subcategory';
-    }
-    return null;
-  }, [filter, categories]);
-
-  const getStatusClass = (status, available) => {
-    if (status?.includes('Available') || available) return 'status-badge-available';
-    if (status === 'Pending') return 'status-badge-pending';
-    return 'status-badge-unavailable';
+  const handleCategorySelect = (catId) => {
+    setSelectedCategoryId(catId);
+    setSelectedSubcategoryId('all');
   };
 
   return (
-    <Container className="py-4">
-      <div className="catalog-filter-bar d-flex flex-wrap gap-3 align-items-center justify-content-between">
-        <div className="d-flex flex-wrap gap-2 align-items-center">
-          <Button
-            variant="light"
-            className={`filter-btn ${!filter ? 'filter-btn-active' : ''}`}
-            onClick={() => setFilter(null)}
-          >
-            All Assets
-          </Button>
+    <div className="py-4" style={{ backgroundColor: '#ffffff', minHeight: '80vh' }}>
+      <Container>
+        {/* Clean Page Title Header */}
+        <div className="d-flex flex-wrap align-items-center justify-content-between gap-3 mb-4">
+          <div>
+            <h1 className="fw-bolder mb-1" style={{ fontSize: '1.9rem', color: '#0f172a', letterSpacing: '-0.5px' }}>
+              Equipment Catalog
+            </h1>
+            <p className="text-secondary mb-0" style={{ fontSize: '0.95rem' }}>
+              Explore and reserve high-grade camera gear, lighting, and accessories.
+            </p>
+          </div>
 
-          <div className="vr mx-1 opacity-25 d-none d-sm-block" />
+          <div className="d-flex align-items-center gap-2">
+            <span
+              className="badge px-3 py-2 rounded-pill fw-semibold"
+              style={{ backgroundColor: '#f1f5f9', color: '#475569', fontSize: '0.85rem' }}
+            >
+              {loading ? 'Loading...' : `${filteredAssets.length} Equipment${filteredAssets.length === 1 ? '' : 's'}`}
+            </span>
+          </div>
+        </div>
 
-          {categories.map(cat => {
-            const active = isDropdownActive(cat);
-            return (
-              <DropdownButton
-                key={cat.id}
-                variant="light"
-                title={cat.name}
-                className={`filter-dropdown ${active ? 'filter-dropdown-active' : ''}`}
-                size="sm"
-                renderMenuOnMount={true}
-                toggleClassName={`filter-btn ${active ? 'filter-btn-active' : ''}`}
-                id={`dropdown-cat-${cat.id}`}
-              >
-                <Dropdown.Item
-                  active={isCategoryActive(cat.id)}
-                  onClick={() => setFilter({ type: 'category', id: cat.id })}
+        {/* Filter & Search Bar */}
+        <div className="bg-white rounded-4 p-3 mb-4 shadow-sm border" style={{ borderColor: '#e2e8f0' }}>
+          <Row className="g-3 align-items-center">
+            {/* Search Input */}
+            <Col lg={4} md={5} xs={12}>
+              <div className="position-relative d-flex align-items-center">
+                <svg
+                  width="18"
+                  height="18"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="#94a3b8"
+                  strokeWidth="2.2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  className="position-absolute ms-3"
+                  style={{ pointerEvents: 'none' }}
                 >
-                  All {cat.name}
-                </Dropdown.Item>
-
-                {cat.subcategories && cat.subcategories.length > 0 && (
-                  <>
-                    <Dropdown.Divider />
-                    {cat.subcategories.map(sub => (
-                      <Dropdown.Item
-                        key={sub.id}
-                        active={isSubcategoryActive(sub.id)}
-                        onClick={() =>
-                          setFilter({ type: 'subcategory', id: sub.id, parentId: cat.id })
-                        }
-                      >
-                        {sub.name}
-                      </Dropdown.Item>
-                    ))}
-                  </>
-                )}
-              </DropdownButton>
-            );
-          })}
-        </div>
-
-        <div className="search-input-wrapper">
-          <input
-            type="text"
-            className="form-control search-input-field"
-            placeholder="Search by gear name, model..."
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-          />
-        </div>
-      </div>
-
-      {(activeLabel || searchQuery) && (
-        <div className="mb-4 d-flex align-items-center gap-2 flex-wrap">
-          <span className="text-muted small">Filtered results:</span>
-          {activeLabel && (
-            <Badge
-              style={{
-                background: 'linear-gradient(135deg, #2563eb, #1d4ed8)',
-                fontSize: '0.82rem',
-                padding: '0.45em 0.9em',
-                borderRadius: '999px',
-                cursor: 'pointer'
-              }}
-              onClick={() => setFilter(null)}
-              title="Click to remove category filter"
-            >
-              {activeLabel} <span className="ms-1 opacity-75">✕</span>
-            </Badge>
-          )}
-          {searchQuery && (
-            <Badge
-              bg="secondary"
-              style={{
-                fontSize: '0.82rem',
-                padding: '0.45em 0.9em',
-                borderRadius: '999px',
-                cursor: 'pointer'
-              }}
-              onClick={() => setSearchQuery('')}
-              title="Clear search"
-            >
-              "{searchQuery}" <span className="ms-1 opacity-75">✕</span>
-            </Badge>
-          )}
-          <span className="text-muted small ms-auto">
-            Showing {filteredAssets.length} of {assets.length} items
-          </span>
-        </div>
-      )}
-
-      <Row className="g-4">
-        {filteredAssets.map(a => (
-          <Col key={a.id} xs={12} sm={6} lg={4}>
-            <Card className="h-100 asset-card">
-              <div className="asset-img-container">
-                {a.category && (
-                  <span className="asset-floating-cat">
-                    {a.category.name}
-                  </span>
-                )}
-
-                <span className={`asset-floating-status ${getStatusClass(a.status, a.available)}`}>
-                  ● {a.status || (a.available ? 'Available' : 'Out of Stock')}
-                </span>
-
-                {a.image_url ? (
-                  <Card.Img
-                    variant="top"
-                    src={a.image_url}
-                    className="asset-card-img"
-                    alt={a.name}
-                  />
-                ) : (
-                  <div className="asset-card-placeholder">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                      <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path>
-                      <circle cx="12" cy="13" r="4"></circle>
-                    </svg>
-                    <span>No Preview Available</span>
-                  </div>
+                  <circle cx="11" cy="11" r="8"></circle>
+                  <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                </svg>
+                <input
+                  type="text"
+                  className="form-control rounded-pill ps-5 pe-4 py-2 border-0"
+                  placeholder="Search by gear name, model, location..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  style={{ backgroundColor: '#f8fafc', fontSize: '0.92rem', color: '#0f172a' }}
+                />
+                {searchQuery && (
+                  <button
+                    type="button"
+                    onClick={() => setSearchQuery('')}
+                    className="btn btn-link position-absolute end-0 me-2 p-1 text-muted text-decoration-none"
+                    style={{ fontSize: '0.8rem' }}
+                  >
+                    ✕
+                  </button>
                 )}
               </div>
+            </Col>
 
-              <Card.Body className="asset-card-body">
-                <Card.Title className="asset-card-title" title={a.name}>
-                  {a.name}
-                </Card.Title>
+            {/* Category Filter Pills */}
+            <Col lg={8} md={7} xs={12}>
+              <div className="d-flex flex-wrap gap-2 align-items-center justify-content-md-end">
+                <button
+                  type="button"
+                  onClick={() => handleCategorySelect('all')}
+                  className="btn rounded-pill px-3 py-1 fw-semibold border-0"
+                  style={{
+                    fontSize: '0.86rem',
+                    backgroundColor: selectedCategoryId === 'all' ? '#0f172a' : '#f8fafc',
+                    color: selectedCategoryId === 'all' ? '#ffffff' : '#475569',
+                    transition: 'all 0.2s ease',
+                  }}
+                >
+                  All Gear
+                </button>
 
-                {a.serial_number && (
-                  <div className="text-muted small mb-2" style={{ fontSize: '0.78rem' }}>
-                    S/N: {a.serial_number}
-                  </div>
-                )}
+                {categories.map((cat) => {
+                  const isActive = selectedCategoryId === cat.id;
+                  return (
+                    <button
+                      key={cat.id}
+                      type="button"
+                      onClick={() => handleCategorySelect(cat.id)}
+                      className="btn rounded-pill px-3 py-1 fw-semibold border-0"
+                      style={{
+                        fontSize: '0.86rem',
+                        backgroundColor: isActive ? '#0f172a' : '#f8fafc',
+                        color: isActive ? '#ffffff' : '#475569',
+                        transition: 'all 0.2s ease',
+                      }}
+                    >
+                      {cat.name}
+                    </button>
+                  );
+                })}
+              </div>
+            </Col>
+          </Row>
 
-                <div className="d-flex align-items-center gap-2 flex-wrap mt-auto pt-2">
-                  {a.location && (
-                    <span className="asset-tag-pill location">
-                      📍 {a.location.name}
-                    </span>
-                  )}
-                  {a.subcategory && (
-                    <span className="asset-tag-pill">
-                      {a.subcategory.name}
-                    </span>
-                  )}
-                  {a.total_quantity && (
-                    <span className="asset-tag-pill stock">
-                      ⚡ {a.total_quantity} Total Units
-                    </span>
-                  )}
-                </div>
-              </Card.Body>
-
-              <Card.Footer className="asset-card-footer">
-                <Link to={`/assets/${a.id}`} className="text-decoration-none">
-                  <button className="btn-card-action btn-card-action-primary">
-                    View Details →
+          {/* Subcategory Row (if selected category has subcategories) */}
+          {activeCategory && activeCategory.subcategories && activeCategory.subcategories.length > 0 && (
+            <div className="d-flex align-items-center gap-2 flex-wrap pt-3 mt-3 border-top" style={{ borderColor: '#f1f5f9' }}>
+              <span className="text-secondary small fw-semibold me-1">Subcategories:</span>
+              <button
+                type="button"
+                onClick={() => setSelectedSubcategoryId('all')}
+                className="btn btn-sm rounded-pill px-3 py-0 border"
+                style={{
+                  fontSize: '0.8rem',
+                  backgroundColor: selectedSubcategoryId === 'all' ? '#334155' : 'transparent',
+                  color: selectedSubcategoryId === 'all' ? '#ffffff' : '#64748b',
+                  borderColor: selectedSubcategoryId === 'all' ? '#334155' : '#e2e8f0',
+                }}
+              >
+                All {activeCategory.name}
+              </button>
+              {activeCategory.subcategories.map((sub) => {
+                const isSubActive = selectedSubcategoryId === sub.id;
+                return (
+                  <button
+                    key={sub.id}
+                    type="button"
+                    onClick={() => setSelectedSubcategoryId(sub.id)}
+                    className="btn btn-sm rounded-pill px-3 py-0 border"
+                    style={{
+                      fontSize: '0.8rem',
+                      backgroundColor: isSubActive ? '#334155' : 'transparent',
+                      color: isSubActive ? '#ffffff' : '#64748b',
+                      borderColor: isSubActive ? '#334155' : '#e2e8f0',
+                    }}
+                  >
+                    {sub.name}
                   </button>
-                </Link>
-              </Card.Footer>
-            </Card>
-          </Col>
-        ))}
-      </Row>
-
-      {loading && (
-        <div className="text-center py-5 my-4">
-          <Spinner animation="border" variant="primary" style={{ width: '3rem', height: '3rem' }} />
-          <p className="text-muted mt-3 fw-semibold">Loading equipment catalog...</p>
+                );
+              })}
+            </div>
+          )}
         </div>
-      )}
 
-      {!loading && filteredAssets.length === 0 && (
-        <div className="text-center py-5 my-4 bg-white rounded-4 border p-5 shadow-sm">
-          <div style={{ fontSize: '3rem', marginBottom: '1rem' }}>🎥</div>
-          <h4 className="fw-bold mb-2">No Equipment Found</h4>
-          <p className="text-muted mb-4">
-            No gear matches your current filter or search criteria.
-          </p>
-          <Button
-            variant="outline-primary"
-            className="rounded-pill px-4"
-            onClick={() => { setFilter(null); setSearchQuery(''); }}
-          >
-            Reset All Filters
-          </Button>
-        </div>
-      )}
-    </Container>
+        {/* Active Filter Badges */}
+        {(selectedCategoryId !== 'all' || searchQuery.trim() || selectedSubcategoryId !== 'all') && (
+          <div className="d-flex align-items-center gap-2 flex-wrap mb-4">
+            <span className="text-muted small">Active filters:</span>
+            {activeCategory && (
+              <Badge
+                bg="dark"
+                className="rounded-pill px-3 py-2 fw-medium d-inline-flex align-items-center gap-1"
+                style={{ cursor: 'pointer', fontSize: '0.8rem' }}
+                onClick={() => handleCategorySelect('all')}
+              >
+                {activeCategory.name} <span>✕</span>
+              </Badge>
+            )}
+            {selectedSubcategoryId !== 'all' && (
+              <Badge
+                bg="secondary"
+                className="rounded-pill px-3 py-2 fw-medium d-inline-flex align-items-center gap-1"
+                style={{ cursor: 'pointer', fontSize: '0.8rem' }}
+                onClick={() => setSelectedSubcategoryId('all')}
+              >
+                Subcategory <span>✕</span>
+              </Badge>
+            )}
+            {searchQuery.trim() && (
+              <Badge
+                bg="light"
+                text="dark"
+                className="rounded-pill px-3 py-2 fw-medium border d-inline-flex align-items-center gap-1"
+                style={{ cursor: 'pointer', fontSize: '0.8rem' }}
+                onClick={() => setSearchQuery('')}
+              >
+                "{searchQuery}" <span>✕</span>
+              </Badge>
+            )}
+            <button
+              type="button"
+              onClick={resetAllFilters}
+              className="btn btn-link btn-sm text-secondary text-decoration-none p-0 ms-auto"
+              style={{ fontSize: '0.85rem' }}
+            >
+              Clear all filters
+            </button>
+          </div>
+        )}
+
+        {/* Loading Skeletons */}
+        {loading && (
+          <Row className="g-4">
+            {[1, 2, 3, 4, 5, 6].map((idx) => (
+              <Col key={idx} xs={12} sm={6} lg={4}>
+                <div className="bg-white rounded-4 border p-3 shadow-sm h-100" style={{ borderColor: '#f1f5f9' }}>
+                  <div className="rounded-3 mb-3" style={{ height: '200px', backgroundColor: '#f1f5f9' }}></div>
+                  <div className="rounded mb-2" style={{ height: '20px', width: '70%', backgroundColor: '#f1f5f9' }}></div>
+                  <div className="rounded mb-3" style={{ height: '14px', width: '40%', backgroundColor: '#f8fafc' }}></div>
+                  <div className="rounded-pill" style={{ height: '36px', width: '100%', backgroundColor: '#f1f5f9' }}></div>
+                </div>
+              </Col>
+            ))}
+          </Row>
+        )}
+
+        {/* Equipment Cards Grid */}
+        {!loading && filteredAssets.length > 0 && (
+          <Row className="g-4">
+            {filteredAssets.map((asset) => {
+              const isAvailable = Boolean(asset.available || asset.status?.toLowerCase().includes('available'));
+              const unitsCount = asset.available_quantity || asset.total_quantity || asset.quantity || 1;
+              const totalCount = asset.total_quantity || asset.quantity || 1;
+
+              return (
+                <Col key={asset.id} xs={12} sm={6} lg={4}>
+                  <div
+                    className="card h-100 border rounded-4 overflow-hidden shadow-sm equipment-card-hover"
+                    style={{
+                      borderColor: '#e2e8f0',
+                      backgroundColor: '#ffffff'
+                    }}
+                  >
+                    {/* Image Area with Floating Badges */}
+                    <div
+                      className="position-relative d-flex align-items-center justify-content-center p-3"
+                      style={{ height: '220px', backgroundColor: '#f8fafc' }}
+                    >
+                      {/* Category Badge - Dark Rounded Pill */}
+                      {asset.category && (
+                        <span
+                          className="position-absolute"
+                          style={{
+                            top: 14,
+                            left: 14,
+                            zIndex: 2,
+                            backgroundColor: '#475569',
+                            color: '#ffffff',
+                            fontSize: '0.72rem',
+                            fontWeight: 600,
+                            padding: '4px 12px',
+                            borderRadius: '9999px',
+                            letterSpacing: '0.2px'
+                          }}
+                        >
+                          {asset.category.name}
+                        </span>
+                      )}
+
+                      {/* Availability Status Badge - Green Rounded Pill */}
+                      <span
+                        className="position-absolute"
+                        style={{
+                          top: 14,
+                          right: 14,
+                          zIndex: 2,
+                          fontSize: '0.72rem',
+                          fontWeight: 600,
+                          padding: '4px 12px',
+                          borderRadius: '9999px',
+                          backgroundColor: isAvailable ? '#10b981' : '#ef4444',
+                          color: '#ffffff',
+                          letterSpacing: '0.2px'
+                        }}
+                      >
+                        • {isAvailable ? `${unitsCount} Unit${unitsCount > 1 ? 's' : ''} Available` : 'Unavailable'}
+                      </span>
+
+                      {/* Equipment Photo */}
+                      {asset.image_url ? (
+                        <img
+                          src={asset.image_url}
+                          alt={asset.name}
+                          style={{
+                            maxHeight: '175px',
+                            maxWidth: '85%',
+                            objectFit: 'contain',
+                            transition: 'transform 0.3s ease',
+                          }}
+                          className="equipment-img-hover"
+                        />
+                      ) : (
+                        <div className="text-center text-muted">
+                          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#cbd5e1" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                            <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path>
+                            <circle cx="12" cy="13" r="4"></circle>
+                          </svg>
+                          <div className="small mt-1" style={{ fontSize: '0.78rem' }}>No Image Available</div>
+                        </div>
+                      )}
+                    </div>
+
+                    {/* Card Details */}
+                    <div className="card-body p-4 d-flex flex-column">
+                      <h5
+                        className="fw-bold mb-1 text-truncate"
+                        title={asset.name}
+                        style={{ fontSize: '1.15rem', color: '#0f172a' }}
+                      >
+                        {asset.name}
+                      </h5>
+
+                      <div className="text-muted small mb-3" style={{ fontSize: '0.8rem', color: '#94a3b8' }}>
+                        S/N: {asset.serial_number || '01'}
+                      </div>
+
+                      {/* Metadata Badges / Tags */}
+                      <div className="d-flex align-items-center gap-2 flex-wrap mb-4 mt-auto">
+                        {asset.location && (
+                          <span
+                            className="badge fw-medium px-3 py-2"
+                            style={{
+                              backgroundColor: '#eff6ff',
+                              color: '#2563eb',
+                              fontSize: '0.76rem',
+                              borderRadius: '8px',
+                              border: 'none',
+                            }}
+                          >
+                            📍 {asset.location.name}
+                          </span>
+                        )}
+
+                        {asset.subcategory && (
+                          <span
+                            className="badge fw-medium px-3 py-2"
+                            style={{
+                              backgroundColor: '#f1f5f9',
+                              color: '#334155',
+                              fontSize: '0.76rem',
+                              borderRadius: '8px',
+                              border: 'none',
+                            }}
+                          >
+                            {asset.subcategory.name}
+                          </span>
+                        )}
+
+                        <span
+                          className="badge fw-semibold px-3 py-2"
+                          style={{
+                            backgroundColor: '#ecfdf5',
+                            color: '#16a34a',
+                            fontSize: '0.76rem',
+                            borderRadius: '8px',
+                            border: 'none',
+                          }}
+                        >
+                          ⚡ {totalCount} Total Unit{totalCount > 1 ? 's' : ''}
+                        </span>
+                      </div>
+
+                      {/* Card Action - Full-width Blue Button: View Details → */}
+                      <Link
+                        to={`/assets/${asset.id}`}
+                        className="btn w-100 py-2 fw-semibold text-white d-flex align-items-center justify-content-center gap-2 text-decoration-none"
+                        style={{
+                          backgroundColor: '#2563eb',
+                          borderRadius: '12px',
+                          fontSize: '0.92rem',
+                          border: 'none',
+                          boxShadow: '0 2px 4px rgba(37, 99, 235, 0.18)',
+                          transition: 'all 0.2s ease',
+                        }}
+                      >
+                        View Details →
+                      </Link>
+                    </div>
+                  </div>
+                </Col>
+              );
+            })}
+          </Row>
+        )}
+
+        {/* Empty State */}
+        {!loading && filteredAssets.length === 0 && (
+          <div className="text-center py-5 my-5 bg-white rounded-4 border p-5 shadow-sm" style={{ borderColor: '#e2e8f0' }}>
+            <div
+              className="rounded-circle d-inline-flex align-items-center justify-content-center mb-3"
+              style={{ width: '64px', height: '64px', backgroundColor: '#f8fafc', border: '1px solid #e2e8f0' }}
+            >
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#64748b" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <circle cx="11" cy="11" r="8"></circle>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+              </svg>
+            </div>
+            <h4 className="fw-bold mb-2" style={{ color: '#0f172a' }}>No Equipment Found</h4>
+            <p className="text-secondary mb-4 mx-auto" style={{ maxWidth: '420px', fontSize: '0.92rem' }}>
+              We couldn't find any gear matching your current search or category filter. Try clearing filters or searching for something else.
+            </p>
+            <button
+              type="button"
+              className="btn btn-dark rounded-pill px-4 py-2 fw-semibold border-0"
+              style={{ backgroundColor: '#0f172a', fontSize: '0.88rem' }}
+              onClick={resetAllFilters}
+            >
+              Reset All Filters
+            </button>
+          </div>
+        )}
+      </Container>
+    </div>
   );
 }
