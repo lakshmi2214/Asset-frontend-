@@ -323,9 +323,6 @@ export default function AssetBooking() {
         <>
 
           <div className="page-hero-banner">
-            <div className="page-hero-badge">
-              ✦ INSTANT RESERVATIONS
-            </div>
             <h1 className="page-hero-title">Book Equipment</h1>
             <p className="page-hero-subtitle">
               Choose professional gear from our studio inventory, select your rental dates, and reserve in seconds.
@@ -441,16 +438,6 @@ export default function AssetBooking() {
                 <Card className="h-100 asset-card">
 
                   <div className="asset-img-container">
-                    {asset.category && (
-                      <span className="asset-floating-cat">
-                        {asset.category.name}
-                      </span>
-                    )}
-
-                    <span className={`asset-floating-status ${getStatusClass(asset.status, asset.available)}`}>
-                      ● {asset.status || (asset.available ? 'Available' : 'Out of Stock')}
-                    </span>
-
                     {asset.image_url ? (
                       <Card.Img
                         variant="top"
