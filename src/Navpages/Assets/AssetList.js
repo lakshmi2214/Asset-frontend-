@@ -13,7 +13,6 @@ export default function AssetList() {
   const [selectedSubcategoryId, setSelectedSubcategoryId] = useState('all');
   const [searchQuery, setSearchQuery] = useState('');
 
-  // Fetch assets and categories on mount
   useEffect(() => {
     let isMounted = true;
     setLoading(true);
@@ -65,7 +64,6 @@ export default function AssetList() {
     return () => { isMounted = false; };
   }, []);
 
-  // Sync with URL query parameters (?category=... or ?q=...)
   useEffect(() => {
     const categoryParam = searchParams.get('category');
     const qParam = searchParams.get('q');
@@ -86,17 +84,14 @@ export default function AssetList() {
     }
   }, [searchParams, categories]);
 
-  // Current active category object
   const activeCategory = useMemo(() => {
     if (selectedCategoryId === 'all') return null;
     return categories.find(c => c.id === selectedCategoryId) || null;
   }, [categories, selectedCategoryId]);
 
-  // Filtered assets calculation
   const filteredAssets = useMemo(() => {
     let list = assets;
 
-    // Filter by category
     if (selectedCategoryId !== 'all') {
       list = list.filter(a => {
         if (!a.category) return false;
@@ -104,7 +99,6 @@ export default function AssetList() {
       });
     }
 
-    // Filter by subcategory
     if (selectedSubcategoryId !== 'all') {
       list = list.filter(a => {
         if (!a.subcategory) return false;
@@ -112,7 +106,6 @@ export default function AssetList() {
       });
     }
 
-    // Filter by search query
     if (searchQuery.trim()) {
       const q = searchQuery.toLowerCase().trim();
       list = list.filter(a =>
@@ -143,7 +136,7 @@ export default function AssetList() {
   return (
     <div className="py-4" style={{ backgroundColor: '#ffffff', minHeight: '80vh' }}>
       <Container>
-        {/* Clean Page Title Header */}
+
         <div className="d-flex flex-wrap align-items-center justify-content-between gap-3 mb-4">
           <div>
             <h1 className="fw-bolder mb-1" style={{ fontSize: '1.9rem', color: '#0f172a', letterSpacing: '-0.5px' }}>
@@ -164,10 +157,10 @@ export default function AssetList() {
           </div>
         </div>
 
-        {/* Filter & Search Bar */}
+
         <div className="bg-white rounded-4 p-3 mb-4 shadow-sm border" style={{ borderColor: '#e2e8f0' }}>
           <div className="d-flex flex-column flex-lg-row align-items-stretch align-items-lg-center justify-content-between gap-3">
-            {/* Search Input */}
+
             <div
               className="position-relative d-flex align-items-center flex-shrink-0"
               style={{ width: '100%', maxWidth: '270px' }}
@@ -207,7 +200,6 @@ export default function AssetList() {
               )}
             </div>
 
-            {/* Category Filter Pills (Clean Single Row, Never Breaks Awkwardly) */}
             <div
               className="d-flex align-items-center gap-2 flex-nowrap overflow-x-auto no-scrollbar py-1"
               style={{
@@ -250,7 +242,6 @@ export default function AssetList() {
             </div>
           </div>
 
-          {/* Subcategory Row (if selected category has subcategories) */}
           {activeCategory && activeCategory.subcategories && activeCategory.subcategories.length > 0 && (
             <div
               className="d-flex align-items-center gap-2 flex-nowrap overflow-x-auto no-scrollbar pt-3 mt-3 border-top"
@@ -293,7 +284,6 @@ export default function AssetList() {
           )}
         </div>
 
-        {/* Active Filter Badges */}
         {(selectedCategoryId !== 'all' || searchQuery.trim() || selectedSubcategoryId !== 'all') && (
           <div className="d-flex align-items-center gap-2 flex-wrap mb-4">
             <span className="text-muted small">Active filters:</span>
@@ -339,7 +329,6 @@ export default function AssetList() {
           </div>
         )}
 
-        {/* Loading Skeletons */}
         {loading && (
           <Row className="g-4">
             {[1, 2, 3, 4, 5, 6].map((idx) => (
@@ -355,7 +344,6 @@ export default function AssetList() {
           </Row>
         )}
 
-        {/* Equipment Cards Grid */}
         {!loading && filteredAssets.length > 0 && (
           <Row className="g-4">
             {filteredAssets.map((asset) => {
@@ -372,12 +360,10 @@ export default function AssetList() {
                       backgroundColor: '#ffffff'
                     }}
                   >
-                    {/* Image Area - Clean gear view without overlapping badges */}
                     <div
                       className="d-flex align-items-center justify-content-center p-3"
                       style={{ height: '220px', backgroundColor: '#f8fafc' }}
                     >
-                      {/* Equipment Photo */}
                       {asset.image_url ? (
                         <img
                           src={asset.image_url}
@@ -401,7 +387,7 @@ export default function AssetList() {
                       )}
                     </div>
 
-                    {/* Card Details */}
+
                     <div className="card-body p-4 d-flex flex-column">
                       <h5
                         className="fw-bold mb-1 text-truncate"
@@ -415,7 +401,6 @@ export default function AssetList() {
                         S/N: {asset.serial_number || '01'}
                       </div>
 
-                      {/* Availability Badge under image (in place of location & total units) */}
                       <div className="d-flex align-items-center gap-2 flex-wrap mb-4 mt-auto">
                         <span
                           className="badge fw-semibold px-3 py-2 d-inline-flex align-items-center gap-1"
@@ -431,7 +416,6 @@ export default function AssetList() {
                         </span>
                       </div>
 
-                      {/* Card Action - Full-width Blue Button: View Details → */}
                       <Link
                         to={`/assets/${asset.id}`}
                         className="btn w-100 py-2 fw-semibold text-white d-flex align-items-center justify-content-center gap-2 text-decoration-none"
@@ -454,7 +438,7 @@ export default function AssetList() {
           </Row>
         )}
 
-        {/* Empty State */}
+
         {!loading && filteredAssets.length === 0 && (
           <div className="text-center py-5 my-5 bg-white rounded-4 border p-5 shadow-sm" style={{ borderColor: '#e2e8f0' }}>
             <div

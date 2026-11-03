@@ -41,7 +41,6 @@ export default function Signup({ setUser }) {
       });
 
       if (res.ok) {
-        // Auto-login after signup
         const tokenRes = await fetch(`${API_BASE}/api/v1/auth/token/`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },

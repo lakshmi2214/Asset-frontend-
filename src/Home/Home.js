@@ -79,7 +79,7 @@ export default function Home() {
 
   return (
     <div className="home-page-root" style={{ backgroundColor: '#ffffff', overflowX: 'hidden' }}>
-      {/* Hero Section */}
+
       <section className="framelease-hero-wrap">
         <Container>
           <Row className="align-items-center g-4">
@@ -135,7 +135,6 @@ export default function Home() {
         </Container>
       </section>
 
-      {/* Feature / Value Propositions Strip */}
       <section className="framelease-features-wrap">
         <Container>
           <Row className="g-4 align-items-center justify-content-between">
@@ -206,7 +205,6 @@ export default function Home() {
         </Container>
       </section>
 
-      {/* Shop by Category */}
       <section className="py-5" id="categories">
         <Container>
           <div className="framelease-section-header">
@@ -235,7 +233,6 @@ export default function Home() {
         </Container>
       </section>
 
-      {/* Your Vision Our Equipment Promo Banner */}
       <section className="pb-5 pt-2">
         <Container>
           <div className="framelease-promo-card">
@@ -267,7 +264,6 @@ export default function Home() {
         </Container>
       </section>
 
-      {/* Recently Added Section */}
       <section className="pb-5 pt-3" id="recently-added">
         <Container>
           <div className="framelease-section-header">

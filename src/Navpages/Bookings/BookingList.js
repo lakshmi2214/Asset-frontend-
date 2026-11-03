@@ -273,7 +273,6 @@ export default function BookingList() {
         return;
       }
 
-      // Add timestamp query parameter to prevent stale browser caching
       const response = await authorizedFetch(`${API_BASE}/api/v1/bookings/?_t=${Date.now()}`);
 
       if (!response.ok) {
@@ -292,7 +291,6 @@ export default function BookingList() {
           ? data.results
           : [];
 
-      // Sort by newest booking ID first
       const sorted = [...rawList].sort((a, b) => Number(b.id) - Number(a.id));
       setBookings(sorted);
     } catch (err) {
@@ -418,7 +416,6 @@ export default function BookingList() {
 
   const filteredBookings = useMemo(() => {
     return bookings.filter((b) => {
-      // Filter by status tab
       if (statusFilter !== 'all') {
         if (statusFilter === 'pending' && b.status !== 'pending') return false;
         if (statusFilter === 'accepted' && b.status !== 'accepted') return false;
@@ -434,7 +431,6 @@ export default function BookingList() {
         }
       }
 
-      // Filter by search query
       if (searchQuery.trim()) {
         const q = searchQuery.toLowerCase();
         const assetName = b.asset?.name?.toLowerCase() || '';
@@ -455,7 +451,6 @@ export default function BookingList() {
 
   return (
     <div className="pb-5">
-      {/* Hero Banner */}
       <div className="page-hero-banner">
         <div className="d-flex justify-content-between align-items-center flex-wrap gap-3">
           <div>
@@ -491,7 +486,6 @@ export default function BookingList() {
         </div>
       </div>
 
-      {/* Filter and Search Bar */}
       <div className="catalog-filter-bar d-flex flex-wrap gap-3 align-items-center justify-content-between mb-4">
         <div className="d-flex flex-wrap gap-2 align-items-center">
           <Button
@@ -555,7 +549,6 @@ export default function BookingList() {
         </div>
       </div>
 
-      {/* Loading Spinner */}
       {loading && (
         <div className="text-center py-5">
           <Spinner animation="border" variant="primary" />
@@ -563,7 +556,6 @@ export default function BookingList() {
         </div>
       )}
 
-      {/* Error Alert */}
       {!loading && error && (
         <Alert variant="danger" className="d-flex justify-content-between align-items-center">
           <div>{error}</div>
@@ -573,7 +565,6 @@ export default function BookingList() {
         </Alert>
       )}
 
-      {/* Empty State */}
       {!loading && !error && bookings.length === 0 && (
         <div className="text-center py-5 my-4 bg-white rounded-4 border p-5 shadow-sm">
           <div style={{ fontSize: '3.5rem', marginBottom: '1rem' }}>📦</div>
@@ -587,7 +578,6 @@ export default function BookingList() {
         </div>
       )}
 
-      {/* Filtered Empty State */}
       {!loading && !error && bookings.length > 0 && filteredBookings.length === 0 && (
         <div className="text-center py-5 my-4 bg-white rounded-4 border p-5 shadow-sm">
           <div style={{ fontSize: '3rem', marginBottom: '1rem' }}>🔍</div>
@@ -609,7 +599,6 @@ export default function BookingList() {
         </div>
       )}
 
-      {/* Bookings Grid */}
       {!loading && !error && filteredBookings.length > 0 && (
         <Row className="g-4">
           {filteredBookings.map((b) => (
@@ -624,7 +613,6 @@ export default function BookingList() {
         </Row>
       )}
 
-      {/* Cancellation Modal */}
       <CancelBookingModal
         show={showCancelModal}
         onHide={() => setShowCancelModal(false)}
@@ -638,7 +626,6 @@ export default function BookingList() {
         options={CANCELLATION_OPTIONS}
       />
 
-      {/* Image Upload Modal */}
       <ImageUploadModal
         show={showImageModal}
         onHide={() => setShowImageModal(false)}
