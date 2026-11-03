@@ -1,9 +1,19 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import DatePicker from 'react-datepicker';
-import { Form, Button, Card, Alert, Row, Col, Badge, Modal, Dropdown, DropdownButton, Container } from 'react-bootstrap';
+import { Form, Button, Card, Alert, Row, Col, Badge, Modal, Container } from 'react-bootstrap';
 import 'react-datepicker/dist/react-datepicker.css';
 import { authorizedFetch, getValidAccessToken, clearTokens, API_BASE } from '../../auth';
+import { getAssetGroup, getGroupDisplayName, getRelatedAssets } from '../../assetGroups';
+
+const EQUIPMENT_GROUPS = [
+  { id: 'all', label: 'All Equipment' },
+  { id: 'camera', label: '📷 Cameras' },
+  { id: 'audio', label: '🎙️ Mics & Audio' },
+  { id: 'power', label: '🔋 Batteries & Power' },
+  { id: 'lens', label: '🔍 Lenses' },
+  { id: 'storage', label: '💾 Memory Cards' },
+];
 
 export default function AssetBooking() {
   const navigate = useNavigate();
@@ -36,7 +46,13 @@ export default function AssetBooking() {
   useEffect(() => {
     const categoryParam = searchParams.get('category');
     if (categoryParam) {
-      setSearchQuery(categoryParam);
+      const p = categoryParam.toLowerCase();
+      if (p.includes('camera')) setSelectedCategoryId('camera');
+      else if (p.includes('mic') || p.includes('audio')) setSelectedCategoryId('audio');
+      else if (p.includes('battery') || p.includes('power')) setSelectedCategoryId('power');
+      else if (p.includes('lens')) setSelectedCategoryId('lens');
+      else if (p.includes('card') || p.includes('storage') || p.includes('media')) setSelectedCategoryId('storage');
+      else setSearchQuery(categoryParam);
     }
   }, [searchParams]);
 
@@ -273,47 +289,41 @@ export default function AssetBooking() {
   }, [assets, assetIdParam]);
 
   const relatedAssets = useMemo(() => {
-    if (!targetAsset) return [];
-    const catId = targetAsset.category?.id || (typeof targetAsset.category === 'number' ? targetAsset.category : null);
-    const catName = targetAsset.category?.name || (typeof targetAsset.category === 'string' ? targetAsset.category : null);
-    const subId = targetAsset.subcategory?.id || (typeof targetAsset.subcategory === 'number' ? targetAsset.subcategory : null);
-    const targetWords = targetAsset.name ? targetAsset.name.toLowerCase().split(/\s+/).filter(w => w.length > 2) : [];
-
-    const matches = assets.filter((a) => {
-      if (String(a.id) === String(targetAsset.id)) return true;
-      if (subId && ((a.subcategory?.id === subId) || a.subcategory === subId)) return true;
-      if (catId && ((a.category?.id === catId) || a.category === catId)) return true;
-      if (catName && ((a.category?.name?.toLowerCase() === catName.toLowerCase()) || (typeof a.category === 'string' && a.category.toLowerCase() === catName.toLowerCase()))) return true;
-      if (targetWords.some(w => a.name && a.name.toLowerCase().includes(w))) return true;
-      return false;
-    });
-
-    return [...matches].sort((a, b) => {
-      if (String(a.id) === String(targetAsset.id)) return -1;
-      if (String(b.id) === String(targetAsset.id)) return 1;
-      return 0;
-    });
+    return getRelatedAssets(targetAsset, assets);
   }, [assets, targetAsset]);
 
   const filteredAssets = useMemo(() => {
     let list = targetAsset ? relatedAssets : assets;
 
-    if (!targetAsset && selectedCategoryId) {
-      const isParent = categories.some(cat => cat.id === selectedCategoryId);
-      if (isParent) {
-        list = list.filter(a => a.category && a.category.id === selectedCategoryId);
+    if (!targetAsset && selectedCategoryId && selectedCategoryId !== 'all') {
+      if (['camera', 'audio', 'power', 'lens', 'storage', 'lighting', 'tripod'].includes(selectedCategoryId)) {
+        list = list.filter((a) => getAssetGroup(a) === selectedCategoryId);
       } else {
-        list = list.filter(a => a.subcategory && a.subcategory.id === selectedCategoryId);
+        const isParent = categories.some((cat) => cat.id === selectedCategoryId);
+        if (isParent) {
+          list = list.filter((a) => a.category && a.category.id === selectedCategoryId);
+        } else {
+          list = list.filter((a) => a.subcategory && a.subcategory.id === selectedCategoryId);
+        }
       }
     }
 
     if (searchQuery.trim()) {
-      const q = searchQuery.toLowerCase();
-      list = list.filter(a =>
-        (a.name && a.name.toLowerCase().includes(q)) ||
-        (a.serial_number && a.serial_number.toLowerCase().includes(q)) ||
-        (a.location && a.location.name && a.location.name.toLowerCase().includes(q))
-      );
+      const q = searchQuery.toLowerCase().trim();
+      list = list.filter((a) => {
+        const grp = getAssetGroup(a);
+        if (q === 'camera' || q === 'cameras') return grp === 'camera';
+        if (q === 'mic' || q === 'mics' || q === 'microphone' || q === 'microphones' || q === 'audio') return grp === 'audio';
+        if (q === 'battery' || q === 'batteries' || q === 'charger' || q === 'power') return grp === 'power';
+        if (q === 'card' || q === 'cards' || q === 'storage' || q === 'media') return grp === 'storage';
+        if (q === 'lens' || q === 'lenses') return grp === 'lens';
+
+        return (
+          (a.name && a.name.toLowerCase().includes(q)) ||
+          (a.serial_number && a.serial_number.toLowerCase().includes(q)) ||
+          (a.location && a.location.name && a.location.name.toLowerCase().includes(q))
+        );
+      });
     }
 
     return list;
@@ -357,7 +367,7 @@ export default function AssetBooking() {
                 <div>
                   <div className="d-flex align-items-center gap-2 mb-2 flex-wrap">
                     <span className="badge px-3 py-1 rounded-pill" style={{ backgroundColor: '#2563eb', fontSize: '0.8rem' }}>
-                      {targetAsset.category?.name || 'Related Category'}
+                      {getGroupDisplayName(getAssetGroup(targetAsset))}
                     </span>
                     <span className="text-white-50 small">
                       Showing equipment related to <strong className="text-white">{targetAsset.name}</strong>
@@ -367,7 +377,7 @@ export default function AssetBooking() {
                     Related Equipment for "{targetAsset.name}"
                   </h1>
                   <p className="page-hero-subtitle mb-0 text-white-50">
-                    Showing related assets in this category instead of all equipment. Select any item to reserve.
+                    Showing related assets in this category instead of all equipment. The selected asset is highlighted in blue below.
                   </p>
                 </div>
                 <div className="d-flex align-items-center gap-2 flex-wrap">
@@ -419,54 +429,21 @@ export default function AssetBooking() {
                   </Button>
                 </div>
               ) : (
-                <>
-                  <Button
-                    variant="light"
-                    className={`filter-btn ${!selectedCategoryId ? 'filter-btn-active' : ''}`}
-                    onClick={() => setSelectedCategoryId(null)}
-                  >
-                    All Assets
-                  </Button>
-
-                  <div className="vr mx-1 opacity-25 d-none d-sm-block"></div>
-
-                  {categories.map(cat => {
-                    const isAnySubSelected = cat.subcategories && cat.subcategories.some(sub => sub.id === selectedCategoryId);
-                    const isParentSelected = selectedCategoryId === cat.id;
-                    const isActive = isAnySubSelected || isParentSelected;
-
+                <div className="d-flex align-items-center gap-2 flex-wrap">
+                  {EQUIPMENT_GROUPS.map((grp) => {
+                    const isActive = (!selectedCategoryId && grp.id === 'all') || selectedCategoryId === grp.id;
                     return (
-                      <DropdownButton
-                        key={cat.id}
+                      <Button
+                        key={grp.id}
                         variant="light"
-                        title={cat.name}
-                        className={`filter-dropdown ${isActive ? 'filter-dropdown-active' : ''}`}
-                        size="sm"
-                        onSelect={(ek) => setSelectedCategoryId(Number(ek))}
-                        renderMenuOnMount={true}
-                        toggleClassName={`filter-btn ${isActive ? 'filter-btn-active' : ''}`}
+                        className={`filter-btn ${isActive ? 'filter-btn-active' : ''}`}
+                        onClick={() => setSelectedCategoryId(grp.id === 'all' ? null : grp.id)}
                       >
-                        <Dropdown.Item eventKey={cat.id} active={selectedCategoryId === cat.id}>
-                          All {cat.name}
-                        </Dropdown.Item>
-                        {cat.subcategories && cat.subcategories.length > 0 && (
-                          <>
-                            <Dropdown.Divider />
-                            {cat.subcategories.map(sub => (
-                              <Dropdown.Item
-                                key={sub.id}
-                                eventKey={sub.id}
-                                active={selectedCategoryId === sub.id}
-                              >
-                                {sub.name}
-                              </Dropdown.Item>
-                            ))}
-                          </>
-                        )}
-                      </DropdownButton>
+                        {grp.label}
+                      </Button>
                     );
                   })}
-                </>
+                </div>
               )}
             </div>
 

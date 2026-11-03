@@ -2,6 +2,16 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import { Container, Row, Col, Badge } from 'react-bootstrap';
 import { API_BASE } from '../../auth';
+import { getAssetGroup } from '../../assetGroups';
+
+const ASSET_CATEGORIES = [
+  { id: 'all', name: 'All Equipment' },
+  { id: 'camera', name: '📷 Cameras' },
+  { id: 'audio', name: '🎙️ Mics & Audio' },
+  { id: 'power', name: '🔋 Batteries & Power' },
+  { id: 'lens', name: '🔍 Lenses' },
+  { id: 'storage', name: '💾 Storage & Media' },
+];
 
 export default function AssetList() {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -68,14 +78,21 @@ export default function AssetList() {
     const categoryParam = searchParams.get('category');
     const qParam = searchParams.get('q');
 
-    if (categoryParam && categories.length > 0) {
+    if (categoryParam) {
       const paramLower = categoryParam.toLowerCase();
-      const match = categories.find(c =>
-        c.name.toLowerCase().includes(paramLower) ||
-        String(c.id) === categoryParam
-      );
-      if (match) {
-        setSelectedCategoryId(match.id);
+      if (paramLower.includes('camera')) setSelectedCategoryId('camera');
+      else if (paramLower.includes('mic') || paramLower.includes('audio')) setSelectedCategoryId('audio');
+      else if (paramLower.includes('battery') || paramLower.includes('power')) setSelectedCategoryId('power');
+      else if (paramLower.includes('lens')) setSelectedCategoryId('lens');
+      else if (paramLower.includes('card') || paramLower.includes('storage') || paramLower.includes('media')) setSelectedCategoryId('storage');
+      else if (categories.length > 0) {
+        const match = categories.find(c =>
+          c.name.toLowerCase().includes(paramLower) ||
+          String(c.id) === categoryParam
+        );
+        if (match) {
+          setSelectedCategoryId(match.id);
+        }
       }
     }
 
@@ -93,10 +110,14 @@ export default function AssetList() {
     let list = assets;
 
     if (selectedCategoryId !== 'all') {
-      list = list.filter(a => {
-        if (!a.category) return false;
-        return a.category.id === selectedCategoryId || String(a.category.id) === String(selectedCategoryId);
-      });
+      if (['camera', 'audio', 'power', 'lens', 'storage', 'lighting', 'tripod'].includes(selectedCategoryId)) {
+        list = list.filter(a => getAssetGroup(a) === selectedCategoryId);
+      } else {
+        list = list.filter(a => {
+          if (!a.category) return false;
+          return a.category.id === selectedCategoryId || String(a.category.id) === String(selectedCategoryId);
+        });
+      }
     }
 
     if (selectedSubcategoryId !== 'all') {
@@ -108,14 +129,23 @@ export default function AssetList() {
 
     if (searchQuery.trim()) {
       const q = searchQuery.toLowerCase().trim();
-      list = list.filter(a =>
-        (a.name && a.name.toLowerCase().includes(q)) ||
-        (a.serial_number && a.serial_number.toLowerCase().includes(q)) ||
-        (a.description && a.description.toLowerCase().includes(q)) ||
-        (a.location && a.location.name && a.location.name.toLowerCase().includes(q)) ||
-        (a.category && a.category.name && a.category.name.toLowerCase().includes(q)) ||
-        (a.subcategory && a.subcategory.name && a.subcategory.name.toLowerCase().includes(q))
-      );
+      list = list.filter(a => {
+        const grp = getAssetGroup(a);
+        if (q === 'camera' || q === 'cameras') return grp === 'camera';
+        if (q === 'mic' || q === 'mics' || q === 'microphone' || q === 'microphones' || q === 'audio') return grp === 'audio';
+        if (q === 'battery' || q === 'batteries' || q === 'charger' || q === 'power') return grp === 'power';
+        if (q === 'card' || q === 'cards' || q === 'storage' || q === 'media') return grp === 'storage';
+        if (q === 'lens' || q === 'lenses') return grp === 'lens';
+
+        return (
+          (a.name && a.name.toLowerCase().includes(q)) ||
+          (a.serial_number && a.serial_number.toLowerCase().includes(q)) ||
+          (a.description && a.description.toLowerCase().includes(q)) ||
+          (a.location && a.location.name && a.location.name.toLowerCase().includes(q)) ||
+          (a.category && a.category.name && a.category.name.toLowerCase().includes(q)) ||
+          (a.subcategory && a.subcategory.name && a.subcategory.name.toLowerCase().includes(q))
+        );
+      });
     }
 
     return list;
@@ -206,21 +236,7 @@ export default function AssetList() {
                 WebkitOverflowScrolling: 'touch',
               }}
             >
-              <button
-                type="button"
-                onClick={() => handleCategorySelect('all')}
-                className="btn rounded-pill px-3 py-1 fw-semibold border-0 text-nowrap flex-shrink-0"
-                style={{
-                  fontSize: '0.85rem',
-                  backgroundColor: selectedCategoryId === 'all' ? '#0f172a' : '#f8fafc',
-                  color: selectedCategoryId === 'all' ? '#ffffff' : '#475569',
-                  transition: 'all 0.2s ease',
-                }}
-              >
-                All Gear
-              </button>
-
-              {categories.map((cat) => {
+              {ASSET_CATEGORIES.map((cat) => {
                 const isActive = selectedCategoryId === cat.id;
                 return (
                   <button
