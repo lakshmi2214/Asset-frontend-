@@ -1,14 +1,18 @@
 import React, { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route, Link, Navigate } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Link, Navigate, useParams } from 'react-router-dom';
 import { Navbar, Nav, Container, Button, Badge } from 'react-bootstrap';
 import Signup from './Home/Signup';
 import Login from './Home/Login';
 import AssetList from './Navpages/Assets/AssetList';
-import AssetDetail from './Navpages/Assets/AssetDetail';
 import BookingList from './Navpages/Bookings/BookingList';
 import Home from './Home/Home';
 import AssetBooking from './Navpages/Bookings/BookingForm';
 import Footer from './Home/Footer';
+
+function AssetRedirect() {
+  const { id } = useParams();
+  return <Navigate to={`/book-asset?assetId=${id}`} replace />;
+}
 
 import { API_BASE } from './auth';
 
@@ -86,7 +90,7 @@ function App() {
             <Route path="/login" element={<Container className="mt-4"><Login setUser={setUser} /></Container>} />
 
             <Route path="/assets" element={user ? <Container className="mt-4"><AssetList /></Container> : <Navigate to="/login" />} />
-            <Route path="/assets/:id" element={user ? <Container className="mt-4"><AssetDetail /></Container> : <Navigate to="/login" />} />
+            <Route path="/assets/:id" element={user ? <AssetRedirect /> : <Navigate to="/login" />} />
             <Route path="/book-asset" element={user ? <Container className="mt-4"><AssetBooking /></Container> : <Navigate to="/login" />} />
             <Route path="/bookings" element={user ? <Container className="mt-4"><BookingList /></Container> : <Navigate to="/login" />} />
 

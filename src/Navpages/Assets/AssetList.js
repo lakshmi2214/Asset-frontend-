@@ -417,7 +417,7 @@ export default function AssetList() {
                       </div>
 
                       <Link
-                        to={`/assets/${asset.id}`}
+                        to={`/book-asset?assetId=${asset.id}`}
                         className="btn w-100 py-2 fw-semibold text-white d-flex align-items-center justify-content-center gap-2 text-decoration-none"
                         style={{
                           backgroundColor: '#2563eb',
@@ -428,7 +428,7 @@ export default function AssetList() {
                           transition: 'all 0.2s ease',
                         }}
                       >
-                        View Details →
+                        Book This Asset ⚡
                       </Link>
                     </div>
                   </div>

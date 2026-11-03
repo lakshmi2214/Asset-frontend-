@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import { useNavigate, useSearchParams } from 'react-router-dom';
+import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import DatePicker from 'react-datepicker';
 import { Form, Button, Card, Alert, Row, Col, Badge, Modal, Dropdown, DropdownButton, Container } from 'react-bootstrap';
 import 'react-datepicker/dist/react-datepicker.css';
@@ -8,6 +8,7 @@ import { authorizedFetch, getValidAccessToken, clearTokens, API_BASE } from '../
 export default function AssetBooking() {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
+  const assetIdParam = searchParams.get('assetId');
   const [assets, setAssets] = useState([]);
   const [locations, setLocations] = useState([]);
   const [categories, setCategories] = useState([]);
@@ -266,10 +267,38 @@ export default function AssetBooking() {
     quantity,
   ]);
 
-  const filteredAssets = useMemo(() => {
-    let list = assets;
+  const targetAsset = useMemo(() => {
+    if (!assetIdParam) return null;
+    return assets.find((a) => String(a.id) === String(assetIdParam)) || null;
+  }, [assets, assetIdParam]);
 
-    if (selectedCategoryId) {
+  const relatedAssets = useMemo(() => {
+    if (!targetAsset) return [];
+    const catId = targetAsset.category?.id || (typeof targetAsset.category === 'number' ? targetAsset.category : null);
+    const catName = targetAsset.category?.name || (typeof targetAsset.category === 'string' ? targetAsset.category : null);
+    const subId = targetAsset.subcategory?.id || (typeof targetAsset.subcategory === 'number' ? targetAsset.subcategory : null);
+    const targetWords = targetAsset.name ? targetAsset.name.toLowerCase().split(/\s+/).filter(w => w.length > 2) : [];
+
+    const matches = assets.filter((a) => {
+      if (String(a.id) === String(targetAsset.id)) return true;
+      if (subId && ((a.subcategory?.id === subId) || a.subcategory === subId)) return true;
+      if (catId && ((a.category?.id === catId) || a.category === catId)) return true;
+      if (catName && ((a.category?.name?.toLowerCase() === catName.toLowerCase()) || (typeof a.category === 'string' && a.category.toLowerCase() === catName.toLowerCase()))) return true;
+      if (targetWords.some(w => a.name && a.name.toLowerCase().includes(w))) return true;
+      return false;
+    });
+
+    return [...matches].sort((a, b) => {
+      if (String(a.id) === String(targetAsset.id)) return -1;
+      if (String(b.id) === String(targetAsset.id)) return 1;
+      return 0;
+    });
+  }, [assets, targetAsset]);
+
+  const filteredAssets = useMemo(() => {
+    let list = targetAsset ? relatedAssets : assets;
+
+    if (!targetAsset && selectedCategoryId) {
       const isParent = categories.some(cat => cat.id === selectedCategoryId);
       if (isParent) {
         list = list.filter(a => a.category && a.category.id === selectedCategoryId);
@@ -288,7 +317,7 @@ export default function AssetBooking() {
     }
 
     return list;
-  }, [assets, selectedCategoryId, categories, searchQuery]);
+  }, [assets, targetAsset, relatedAssets, selectedCategoryId, categories, searchQuery]);
 
   const getStatusClass = (status, available) => {
     if (status?.includes('Available') || available) return 'status-badge-available';
@@ -297,7 +326,7 @@ export default function AssetBooking() {
   };
 
   const currentAsset = useMemo(() => {
-    return assets.find((a) => a.id === Number(selectedAssetId));
+    return assets.find((a) => String(a.id) === String(selectedAssetId));
   }, [assets, selectedAssetId]);
 
   if (loading) {
@@ -322,69 +351,130 @@ export default function AssetBooking() {
       {!selectedAssetId && (
         <>
 
-          <div className="page-hero-banner">
-            <h1 className="page-hero-title">Book Equipment</h1>
-            <p className="page-hero-subtitle">
-              Choose professional gear from our studio inventory, select your rental dates, and reserve in seconds.
-            </p>
-          </div>
-
+          {targetAsset ? (
+            <div className="page-hero-banner mb-4" style={{ background: 'linear-gradient(135deg, #0f172a 0%, #1e293b 100%)', borderRadius: '16px', padding: '24px 28px' }}>
+              <div className="d-flex flex-wrap align-items-center justify-content-between gap-3">
+                <div>
+                  <div className="d-flex align-items-center gap-2 mb-2 flex-wrap">
+                    <span className="badge px-3 py-1 rounded-pill" style={{ backgroundColor: '#2563eb', fontSize: '0.8rem' }}>
+                      {targetAsset.category?.name || 'Related Category'}
+                    </span>
+                    <span className="text-white-50 small">
+                      Showing equipment related to <strong className="text-white">{targetAsset.name}</strong>
+                    </span>
+                  </div>
+                  <h1 className="page-hero-title mb-1" style={{ fontSize: '1.85rem' }}>
+                    Related Equipment for "{targetAsset.name}"
+                  </h1>
+                  <p className="page-hero-subtitle mb-0 text-white-50">
+                    Showing related assets in this category instead of all equipment. Select any item to reserve.
+                  </p>
+                </div>
+                <div className="d-flex align-items-center gap-2 flex-wrap">
+                  <Link to="/assets" className="btn btn-outline-light btn-sm rounded-pill px-3 py-2 fw-semibold">
+                    ← Back to All Assets
+                  </Link>
+                  <Button
+                    variant="light"
+                    size="sm"
+                    className="rounded-pill px-3 py-2 fw-semibold"
+                    onClick={() => {
+                      navigate('/book-asset');
+                      setSelectedCategoryId(null);
+                      setSearchQuery('');
+                    }}
+                  >
+                    View All Catalogue
+                  </Button>
+                </div>
+              </div>
+            </div>
+          ) : (
+            <div className="page-hero-banner">
+              <h1 className="page-hero-title">Book Equipment</h1>
+              <p className="page-hero-subtitle">
+                Choose professional gear from our studio inventory, select your rental dates, and reserve in seconds.
+              </p>
+            </div>
+          )}
 
           <div className="catalog-filter-bar d-flex flex-wrap gap-3 align-items-center justify-content-between">
             <div className="d-flex flex-wrap gap-2 align-items-center">
-              <Button
-                variant="light"
-                className={`filter-btn ${!selectedCategoryId ? 'filter-btn-active' : ''}`}
-                onClick={() => setSelectedCategoryId(null)}
-              >
-                All Assets
-              </Button>
-
-              <div className="vr mx-1 opacity-25 d-none d-sm-block"></div>
-
-              {categories.map(cat => {
-                const isAnySubSelected = cat.subcategories && cat.subcategories.some(sub => sub.id === selectedCategoryId);
-                const isParentSelected = selectedCategoryId === cat.id;
-                const isActive = isAnySubSelected || isParentSelected;
-
-                return (
-                  <DropdownButton
-                    key={cat.id}
-                    variant="light"
-                    title={cat.name}
-                    className={`filter-dropdown ${isActive ? 'filter-dropdown-active' : ''}`}
+              {targetAsset ? (
+                <div className="d-flex align-items-center gap-2">
+                  <Badge bg="primary" className="px-3 py-2 rounded-pill fw-semibold" style={{ fontSize: '0.85rem' }}>
+                    Showing {filteredAssets.length} Related {filteredAssets.length === 1 ? 'Item' : 'Items'}
+                  </Badge>
+                  <Button
+                    variant="outline-secondary"
                     size="sm"
-                    onSelect={(ek) => setSelectedCategoryId(Number(ek))}
-                    renderMenuOnMount={true}
-                    toggleClassName={`filter-btn ${isActive ? 'filter-btn-active' : ''}`}
+                    className="rounded-pill px-3 py-1"
+                    onClick={() => {
+                      navigate('/book-asset');
+                      setSelectedCategoryId(null);
+                      setSearchQuery('');
+                    }}
                   >
-                    <Dropdown.Item eventKey={cat.id} active={selectedCategoryId === cat.id}>
-                      All {cat.name}
-                    </Dropdown.Item>
-                    {cat.subcategories && cat.subcategories.length > 0 && (
-                      <>
-                        <Dropdown.Divider />
-                        {cat.subcategories.map(sub => (
-                          <Dropdown.Item
-                            key={sub.id}
-                            eventKey={sub.id}
-                            active={selectedCategoryId === sub.id}
-                          >
-                            {sub.name}
-                          </Dropdown.Item>
-                        ))}
-                      </>
-                    )}
-                  </DropdownButton>
-                );
-              })}
+                    Clear Filter
+                  </Button>
+                </div>
+              ) : (
+                <>
+                  <Button
+                    variant="light"
+                    className={`filter-btn ${!selectedCategoryId ? 'filter-btn-active' : ''}`}
+                    onClick={() => setSelectedCategoryId(null)}
+                  >
+                    All Assets
+                  </Button>
+
+                  <div className="vr mx-1 opacity-25 d-none d-sm-block"></div>
+
+                  {categories.map(cat => {
+                    const isAnySubSelected = cat.subcategories && cat.subcategories.some(sub => sub.id === selectedCategoryId);
+                    const isParentSelected = selectedCategoryId === cat.id;
+                    const isActive = isAnySubSelected || isParentSelected;
+
+                    return (
+                      <DropdownButton
+                        key={cat.id}
+                        variant="light"
+                        title={cat.name}
+                        className={`filter-dropdown ${isActive ? 'filter-dropdown-active' : ''}`}
+                        size="sm"
+                        onSelect={(ek) => setSelectedCategoryId(Number(ek))}
+                        renderMenuOnMount={true}
+                        toggleClassName={`filter-btn ${isActive ? 'filter-btn-active' : ''}`}
+                      >
+                        <Dropdown.Item eventKey={cat.id} active={selectedCategoryId === cat.id}>
+                          All {cat.name}
+                        </Dropdown.Item>
+                        {cat.subcategories && cat.subcategories.length > 0 && (
+                          <>
+                            <Dropdown.Divider />
+                            {cat.subcategories.map(sub => (
+                              <Dropdown.Item
+                                key={sub.id}
+                                eventKey={sub.id}
+                                active={selectedCategoryId === sub.id}
+                              >
+                                {sub.name}
+                              </Dropdown.Item>
+                            ))}
+                          </>
+                        )}
+                      </DropdownButton>
+                    );
+                  })}
+                </>
+              )}
             </div>
 
             <div className="search-input-wrapper">
               <input
                 type="text"
                 className="form-control search-input-field"
-                placeholder="Search equipment to book..."
+                placeholder={targetAsset ? "Search in related items..." : "Search equipment to book..."}
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
               />
@@ -433,72 +523,91 @@ export default function AssetBooking() {
 
 
           <Row className="g-4">
-            {filteredAssets.map((asset) => (
-              <Col key={asset.id} xs={12} sm={6} lg={4}>
-                <Card className="h-100 asset-card">
+            {filteredAssets.map((asset) => {
+              const isTarget = targetAsset && String(asset.id) === String(targetAsset.id);
 
-                  <div className="asset-img-container">
-                    {asset.image_url ? (
-                      <Card.Img
-                        variant="top"
-                        src={asset.image_url}
-                        className="asset-card-img"
-                        alt={asset.name}
-                      />
-                    ) : (
-                      <div className="asset-card-placeholder">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                          <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path>
-                          <circle cx="12" cy="13" r="4"></circle>
-                        </svg>
-                        <span>No Preview Available</span>
-                      </div>
-                    )}
-                  </div>
-
-
-                  <Card.Body className="asset-card-body">
-                    <Card.Title className="asset-card-title" title={asset.name}>
-                      {asset.name}
-                    </Card.Title>
-
-                    {asset.serial_number && (
-                      <div className="text-muted small mb-2" style={{ fontSize: '0.78rem' }}>
-                        S/N: {asset.serial_number}
-                      </div>
-                    )}
-
-                    <div className="d-flex align-items-center gap-2 flex-wrap mt-auto pt-2">
-                      {asset.location && (
-                        <span className="asset-tag-pill location">
-                          📍 {asset.location.name}
-                        </span>
+              return (
+                <Col key={asset.id} xs={12} sm={6} lg={4}>
+                  <Card
+                    className="h-100 asset-card"
+                    style={isTarget ? { border: '2px solid #2563eb', boxShadow: '0 6px 18px rgba(37, 99, 235, 0.16)' } : {}}
+                  >
+                    <div className="asset-img-container position-relative">
+                      {isTarget && (
+                        <div className="position-absolute top-0 start-0 m-2" style={{ zIndex: 2 }}>
+                          <span className="badge px-3 py-1 rounded-pill fw-bold" style={{ backgroundColor: '#2563eb', color: '#fff', fontSize: '0.75rem', boxShadow: '0 2px 6px rgba(0,0,0,0.2)' }}>
+                            ★ Selected Item
+                          </span>
+                        </div>
                       )}
-                      {asset.subcategory && (
-                        <span className="asset-tag-pill">
-                          {asset.subcategory.name}
-                        </span>
+                      {targetAsset && !isTarget && (
+                        <div className="position-absolute top-0 start-0 m-2" style={{ zIndex: 2 }}>
+                          <span className="badge bg-light text-dark border px-2 py-1 rounded-pill small" style={{ fontSize: '0.72rem' }}>
+                            Related Gear
+                          </span>
+                        </div>
                       )}
-                      {asset.total_quantity && (
-                        <span className="asset-tag-pill stock">
-                          ⚡ {asset.total_quantity} Units Available
-                        </span>
+                      {asset.image_url ? (
+                        <Card.Img
+                          variant="top"
+                          src={asset.image_url}
+                          className="asset-card-img"
+                          alt={asset.name}
+                        />
+                      ) : (
+                        <div className="asset-card-placeholder">
+                          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                            <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path>
+                            <circle cx="12" cy="13" r="4"></circle>
+                          </svg>
+                          <span>No Preview Available</span>
+                        </div>
                       )}
                     </div>
-                  </Card.Body>
 
+                    <Card.Body className="asset-card-body">
+                      <Card.Title className="asset-card-title" title={asset.name}>
+                        {asset.name}
+                      </Card.Title>
 
-                  <Card.Footer className="asset-card-footer">
-                    <button
-                      className="btn-card-action btn-card-action-success"
-                      onClick={() => openBookingForm(asset.id)}
-                    >
-                      Book Equipment ⚡
-                    </button>
-                  </Card.Footer>
-                </Card>
-              </Col>
-            ))}
+                      {asset.serial_number && (
+                        <div className="text-muted small mb-2" style={{ fontSize: '0.78rem' }}>
+                          S/N: {asset.serial_number}
+                        </div>
+                      )}
+
+                      <div className="d-flex align-items-center gap-2 flex-wrap mt-auto pt-2">
+                        {asset.location && (
+                          <span className="asset-tag-pill location">
+                            📍 {asset.location.name}
+                          </span>
+                        )}
+                        {asset.subcategory && (
+                          <span className="asset-tag-pill">
+                            {asset.subcategory.name}
+                          </span>
+                        )}
+                        {asset.total_quantity && (
+                          <span className="asset-tag-pill stock">
+                            ⚡ {asset.total_quantity} Units Available
+                          </span>
+                        )}
+                      </div>
+                    </Card.Body>
+
+                    <Card.Footer className="asset-card-footer">
+                      <button
+                        className={`btn-card-action ${isTarget ? 'btn-card-action-primary' : 'btn-card-action-success'}`}
+                        style={isTarget ? { backgroundColor: '#2563eb', color: '#fff' } : {}}
+                        onClick={() => openBookingForm(asset.id)}
+                      >
+                        {isTarget ? 'Book This Asset ⚡' : 'Book Equipment ⚡'}
+                      </button>
+                    </Card.Footer>
+                  </Card>
+                </Col>
+              );
+            })}
           </Row>
 
 
@@ -530,7 +639,7 @@ export default function AssetBooking() {
               onClick={() => setSelectedAssetId('')}
               className="d-inline-flex align-items-center gap-1 rounded-pill px-3 py-1 border shadow-sm text-secondary fw-semibold"
             >
-              ← Back to Catalogue
+              ← {targetAsset ? 'Back to Related Equipment' : 'Back to Catalogue'}
             </Button>
             <span className="badge bg-light text-secondary border px-3 py-2 rounded-pill small">
               Step 1 of 2: Reservation
@@ -737,6 +846,50 @@ export default function AssetBooking() {
               </div>
             </Form>
           </div>
+
+          {relatedAssets.length > 1 && (
+            <div className="mt-4 pt-3 border-top">
+              <div className="d-flex align-items-center justify-content-between mb-3">
+                <h6 className="fw-bold mb-0 text-dark">
+                  Other Related Equipment in this Category
+                </h6>
+                <span className="text-muted small">
+                  Showing related gear
+                </span>
+              </div>
+              <Row className="g-3">
+                {relatedAssets
+                  .filter(a => String(a.id) !== String(selectedAssetId))
+                  .slice(0, 3)
+                  .map(rel => (
+                    <Col key={rel.id} xs={12} sm={4}>
+                      <div className="p-3 border rounded-3 bg-white h-100 d-flex flex-column justify-content-between shadow-sm">
+                        <div className="d-flex align-items-center gap-2 mb-2">
+                          {rel.image_url ? (
+                            <img src={rel.image_url} alt={rel.name} style={{ width: '42px', height: '42px', objectFit: 'contain', borderRadius: '6px' }} />
+                          ) : (
+                            <div style={{ width: '42px', height: '42px', backgroundColor: '#f1f5f9', borderRadius: '6px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>📦</div>
+                          )}
+                          <div className="min-w-0">
+                            <div className="fw-semibold text-truncate small">{rel.name}</div>
+                            <div className="text-muted" style={{ fontSize: '0.75rem' }}>{rel.location?.name || 'Available'}</div>
+                          </div>
+                        </div>
+                        <Button
+                          variant="outline-primary"
+                          size="sm"
+                          className="w-100 rounded-pill py-1 fw-semibold"
+                          style={{ fontSize: '0.78rem' }}
+                          onClick={() => openBookingForm(rel.id)}
+                        >
+                          Book this instead ⚡
+                        </Button>
+                      </div>
+                    </Col>
+                  ))}
+              </Row>
+            </div>
+          )}
         </div>
       )}
 
