@@ -8,6 +8,7 @@ const categories = [
     name: 'Cameras',
     query: 'camera',
     count: '12+ Units',
+    desc: 'Full-frame mirrorless & broadcast cine bodies with 8K RAW recording.',
     image: process.env.PUBLIC_URL + '/assets/images/cat_icon_1.png',
   },
   {
@@ -15,6 +16,7 @@ const categories = [
     name: 'Lenses',
     query: 'lenses',
     count: '18+ Units',
+    desc: 'High-speed cine primes, telephoto zooms, and anamorphic glass.',
     image: process.env.PUBLIC_URL + '/assets/images/cat_icon_2.png',
   },
   {
@@ -22,6 +24,7 @@ const categories = [
     name: 'Lighting',
     query: 'lighting',
     count: '8+ Units',
+    desc: 'High-CRI LED panels & continuous lights.',
     image: process.env.PUBLIC_URL + '/assets/images/cat_icon_3.png',
   },
   {
@@ -29,6 +32,7 @@ const categories = [
     name: 'Audio',
     query: 'audio',
     count: '10+ Units',
+    desc: 'Broadcast shotgun & wireless lav kits.',
     image: process.env.PUBLIC_URL + '/assets/images/cat_icon_4.png',
   },
   {
@@ -36,6 +40,7 @@ const categories = [
     name: 'Tripods',
     query: 'tripods',
     count: '6+ Units',
+    desc: 'Fluid video heads & carbon legs.',
     image: process.env.PUBLIC_URL + '/assets/images/cat_icon_5.png',
   },
   {
@@ -43,6 +48,7 @@ const categories = [
     name: 'Studio Setup',
     query: 'studio',
     count: '3 Studios',
+    desc: 'Soundstages with cyclorama walls.',
     image: process.env.PUBLIC_URL + '/assets/images/cat_icon_6.png',
   },
 ];
@@ -90,60 +96,25 @@ const howItWorksSteps = [
   {
     step: '01',
     title: 'Select Your Gear',
-    desc: 'Browse our curated catalog of cinema cameras, optics, lighting, and sound gear. Pick the exact units for your production.',
-    icon: (
-      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z" />
-        <circle cx="12" cy="13" r="4" />
-      </svg>
-    ),
+    desc: 'Browse our catalog of cinema cameras, lenses, lighting, and audio equipment. Pick the exact units you need for your shoot.',
   },
   {
     step: '02',
-    title: 'Set Shoot Dates',
-    desc: 'Choose your reservation start and return dates. Book single-day shoots or multi-week production schedule blocks.',
-    icon: (
-      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
-        <line x1="16" y1="2" x2="16" y2="6" />
-        <line x1="8" y1="2" x2="8" y2="6" />
-        <line x1="3" y1="10" x2="21" y2="10" />
-      </svg>
-    ),
+    title: 'Choose Shoot Dates',
+    desc: 'Pick your start and return schedule. Book single-day shoots, weekend packages, or multi-week production blocks.',
   },
   {
     step: '03',
     title: 'Pick Up & Create',
     desc: 'Collect fully tested, sensor-cleaned equipment from our Malleshwaram studio hub and bring your creative vision to life.',
-    icon: (
-      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
-      </svg>
-    ),
   },
 ];
 
-const creatorAssurances = [
-  {
-    icon: '🛡️',
-    title: '100% Tested Gear',
-    desc: 'Sensor-cleaned, firmware-updated, and rigorously bench-tested before every single pickup.',
-  },
-  {
-    icon: '📍',
-    title: 'Central Studio Hub',
-    desc: 'Convenient Malleshwaram hub with dedicated prep bays so you can test your complete rig.',
-  },
-  {
-    icon: '⚡',
-    title: 'Flexible Schedules',
-    desc: 'Half-day, daily, weekend, and long-term production rates with instant booking confirmation.',
-  },
-  {
-    icon: '🎬',
-    title: 'Filmmaker Support',
-    desc: 'Direct technical support from experienced cinematographers whenever you need setup guidance.',
-  },
+const impactStats = [
+  { number: '500+', label: 'Verified Gear Units' },
+  { number: '100%', label: 'Tested & Insured' },
+  { number: '4.9★', label: 'Filmmaker Rating' },
+  { number: '24/7', label: 'Technical Support' },
 ];
 
 export default function Home() {
@@ -159,22 +130,26 @@ export default function Home() {
     }
   };
 
+  const cameraCat = categories[0];
+  const lensCat = categories[1];
+  const compactCats = categories.slice(2);
+
   return (
     <div className="home-page-root" style={{ backgroundColor: '#ffffff', overflowX: 'hidden' }}>
 
-      {/* 1. Hero Section */}
+      {/* 1. Hero Section (Studio Dot Grid Background) */}
       <section className="framelease-hero-wrap">
         <Container>
           <Row className="align-items-center g-4">
             <Col lg={6} md={12}>
               <div className="framelease-section-badge mb-3">
-                ✦ CAMERA &amp; STUDIO EQUIPMENT RENTAL
+                ✦ ASLIKAHANI STUDIO RENTALS
               </div>
               <h1 className="framelease-hero-title">
                 Create More,<br />Rent Better
               </h1>
               <p className="framelease-hero-desc">
-                Professional cinema camera bodies, optics, continuous lighting, wireless audio and studio setups – prepared and tested for your next shoot.
+                Professional cinema camera bodies, prime lenses, continuous lighting, wireless audio and studio setups – prepared and tested in Bengaluru.
               </p>
 
               <form onSubmit={handleSearch} className="framelease-search-capsule">
@@ -235,90 +210,72 @@ export default function Home() {
         </Container>
       </section>
 
-      {/* 2. Floating Feature Ribbon Strip */}
-      <section className="framelease-features-wrap">
+      {/* 2. Solid Dark Navy Trust Ribbon (Instant Visual Separation) */}
+      <section className="framelease-trust-ribbon">
         <Container>
-          <div className="framelease-features-card">
-            <Row className="g-4 align-items-center justify-content-between">
-              <Col xs={6} md={3}>
-                <div className="framelease-feature-item">
-                  <div className="framelease-feature-icon framelease-feature-icon-blue">
-                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-                      <circle cx="12" cy="7" r="4.5" />
-                      <circle cx="7.5" cy="15" r="4.5" />
-                      <circle cx="16.5" cy="15" r="4.5" />
-                    </svg>
-                  </div>
-                  <div>
-                    <div className="framelease-feature-title">Quality Gear</div>
-                    <div className="framelease-feature-sub">from Top Brands</div>
-                  </div>
+          <Row className="g-4 align-items-center justify-content-between">
+            <Col xs={6} lg={3}>
+              <div className="framelease-trust-ribbon-item">
+                <div className="framelease-trust-ribbon-icon ribbon-icon-blue">
+                  🛡️
                 </div>
-              </Col>
+                <div>
+                  <div className="framelease-trust-ribbon-title">Quality Cinema Gear</div>
+                  <div className="framelease-trust-ribbon-sub">from Top Brands</div>
+                </div>
+              </div>
+            </Col>
 
-              <Col xs={6} md={3}>
-                <div className="framelease-feature-item">
-                  <div className="framelease-feature-icon framelease-feature-icon-green">
-                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-                      <rect x="3" y="4" width="18" height="18" rx="3" ry="3" />
-                      <line x1="16" y1="2" x2="16" y2="6" />
-                      <line x1="8" y1="2" x2="8" y2="6" />
-                      <line x1="3" y1="10" x2="21" y2="10" />
-                      <path d="m9 16 2 2 4-4" />
-                    </svg>
-                  </div>
-                  <div>
-                    <div className="framelease-feature-title">Easy Online</div>
-                    <div className="framelease-feature-sub">Booking</div>
-                  </div>
+            <Col xs={6} lg={3}>
+              <div className="framelease-trust-ribbon-item">
+                <div className="framelease-trust-ribbon-icon ribbon-icon-green">
+                  ⚡
                 </div>
-              </Col>
+                <div>
+                  <div className="framelease-trust-ribbon-title">Instant Booking</div>
+                  <div className="framelease-trust-ribbon-sub">Zero Paperwork</div>
+                </div>
+              </div>
+            </Col>
 
-              <Col xs={6} md={3}>
-                <div className="framelease-feature-item">
-                  <div className="framelease-feature-icon framelease-feature-icon-purple">
-                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-                      <circle cx="12" cy="13" r="8" />
-                      <path d="M12 9v4l2.5 2.5" />
-                      <path d="M10 2h4" />
-                    </svg>
-                  </div>
-                  <div>
-                    <div className="framelease-feature-title">Flexible Rental</div>
-                    <div className="framelease-feature-sub">Plans</div>
-                  </div>
+            <Col xs={6} lg={3}>
+              <div className="framelease-trust-ribbon-item">
+                <div className="framelease-trust-ribbon-icon ribbon-icon-purple">
+                  📅
                 </div>
-              </Col>
+                <div>
+                  <div className="framelease-trust-ribbon-title">Flexible Shoot Plans</div>
+                  <div className="framelease-trust-ribbon-sub">Day &amp; Week Rates</div>
+                </div>
+              </div>
+            </Col>
 
-              <Col xs={6} md={3}>
-                <div className="framelease-feature-item">
-                  <div className="framelease-feature-icon framelease-feature-icon-orange">
-                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-                      <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
-                    </svg>
-                  </div>
-                  <div>
-                    <div className="framelease-feature-title">Support When</div>
-                    <div className="framelease-feature-sub">You Need It</div>
-                  </div>
+            <Col xs={6} lg={3}>
+              <div className="framelease-trust-ribbon-item">
+                <div className="framelease-trust-ribbon-icon ribbon-icon-orange">
+                  📍
                 </div>
-              </Col>
-            </Row>
-          </div>
+                <div>
+                  <div className="framelease-trust-ribbon-title">Malleshwaram Hub</div>
+                  <div className="framelease-trust-ribbon-sub">Local Studio Pickup</div>
+                </div>
+              </div>
+            </Col>
+          </Row>
         </Container>
       </section>
 
-      {/* 3. Shop by Category (Soft Gray Background) */}
-      <section className="framelease-section-alt" id="categories">
+      {/* 3. Section 3: Bento Grid Categories (Asymmetrical Modern Layout) */}
+      <section className="framelease-bento-section" id="categories">
         <Container>
           <div className="framelease-section-header">
             <div>
               <div className="framelease-section-badge">
                 ✦ GEAR DEPARTMENTS
               </div>
-              <h2 className="framelease-section-title">Shop by Category</h2>
+              <h2 className="framelease-section-title">Explore by Department</h2>
               <p className="framelease-section-sub">
-                Explore our comprehensive inventory organized by production department.
+                Pick the exact camera bodies, glass, lighting and audio for your shoot.
               </p>
             </div>
             <Link to="/assets" className="framelease-view-all">
@@ -327,18 +284,65 @@ export default function Home() {
           </div>
 
           <Row className="g-3">
-            {categories.map((cat) => (
-              <Col key={cat.id} xs={6} sm={4} md={2}>
-                <Link to={`/assets?category=${cat.query}`} className="framelease-cat-card">
-                  <div className="framelease-cat-img-box">
+            {/* Featured Bento 1: Cameras (Large Dark Card) */}
+            <Col lg={7} md={12}>
+              <Link to={`/assets?category=${cameraCat.query}`} className="bento-card bento-card-camera">
+                <Row className="h-100 align-items-center">
+                  <Col sm={7}>
+                    <span className="badge bg-primary bg-opacity-25 text-info border border-info border-opacity-25 px-3 py-1 rounded-pill small mb-3">
+                      Featured • {cameraCat.count}
+                    </span>
+                    <h3 className="bento-title">{cameraCat.name}</h3>
+                    <p className="bento-desc mb-4">{cameraCat.desc}</p>
+                    <div className="bento-action-link">
+                      Explore Cinema Cameras <span>&rarr;</span>
+                    </div>
+                  </Col>
+                  <Col sm={5} className="text-center mt-3 mt-sm-0">
                     <img
-                      src={cat.image}
-                      alt={cat.name}
-                      className="framelease-cat-img"
+                      src={cameraCat.image}
+                      alt={cameraCat.name}
+                      style={{ maxHeight: '140px', maxWidth: '100%', objectFit: 'contain' }}
                     />
+                  </Col>
+                </Row>
+              </Link>
+            </Col>
+
+            {/* Featured Bento 2: Lenses (Wide Light Card) */}
+            <Col lg={5} md={12}>
+              <Link to={`/assets?category=${lensCat.query}`} className="bento-card bento-card-lens">
+                <Row className="h-100 align-items-center">
+                  <Col sm={7}>
+                    <span className="badge bg-light text-secondary border px-3 py-1 rounded-pill small mb-3">
+                      Optics • {lensCat.count}
+                    </span>
+                    <h3 className="bento-title">{lensCat.name}</h3>
+                    <p className="bento-desc mb-4">{lensCat.desc}</p>
+                    <div className="bento-action-link">
+                      Explore Glass <span>&rarr;</span>
+                    </div>
+                  </Col>
+                  <Col sm={5} className="text-center mt-3 mt-sm-0">
+                    <img
+                      src={lensCat.image}
+                      alt={lensCat.name}
+                      style={{ maxHeight: '130px', maxWidth: '100%', objectFit: 'contain' }}
+                    />
+                  </Col>
+                </Row>
+              </Link>
+            </Col>
+
+            {/* Row 2: 4 Compact Bento Cards */}
+            {compactCats.map((cat) => (
+              <Col key={cat.id} xs={6} md={3}>
+                <Link to={`/assets?category=${cat.query}`} className="bento-card bento-card-compact">
+                  <div className="bento-img-box">
+                    <img src={cat.image} alt={cat.name} className="bento-img" />
                   </div>
-                  <div className="framelease-cat-name">{cat.name}</div>
-                  <span className="framelease-cat-count">{cat.count}</span>
+                  <div className="bento-title">{cat.name}</div>
+                  <span className="bento-unit-pill">{cat.count}</span>
                 </Link>
               </Col>
             ))}
@@ -346,96 +350,96 @@ export default function Home() {
         </Container>
       </section>
 
-      {/* 4. How It Works (Crisp White Background) */}
-      <section className="framelease-section-white" id="how-it-works">
+      {/* 4. Section 4: How It Works — Connected Step Roadmap (Linear Flow) */}
+      <section className="framelease-roadmap-section" id="how-it-works">
         <Container>
-          <div className="framelease-section-header text-center mx-auto" style={{ maxWidth: '640px', justifyContent: 'center', flexDirection: 'column', alignItems: 'center' }}>
+          <div className="text-center mx-auto mb-5" style={{ maxWidth: '640px' }}>
             <div className="framelease-section-badge">
               ✦ 3 SIMPLE STEPS
             </div>
             <h2 className="framelease-section-title">How Rental Works</h2>
-            <p className="framelease-section-sub text-center">
-              Simple, transparent camera and lighting reservations designed for filmmakers and creators.
+            <p className="framelease-section-sub mx-auto">
+              Fast, reliable equipment booking built specifically for creators and filmmakers.
             </p>
           </div>
 
-          <Row className="g-4 mt-2">
+          <Row className="g-4">
             {howItWorksSteps.map((stepItem) => (
               <Col key={stepItem.step} md={4}>
-                <div className="framelease-step-card">
-                  <div className="framelease-step-header">
-                    <div className="framelease-step-icon">
-                      {stepItem.icon}
-                    </div>
-                    <span className="framelease-step-num">{stepItem.step}</span>
+                <div className="roadmap-card">
+                  <div className="roadmap-step-badge">
+                    {stepItem.step}
                   </div>
-                  <h4 className="framelease-step-title">{stepItem.title}</h4>
-                  <p className="framelease-step-desc">{stepItem.desc}</p>
+                  <h4 className="roadmap-title">{stepItem.title}</h4>
+                  <p className="roadmap-desc">{stepItem.desc}</p>
                 </div>
               </Col>
             ))}
           </Row>
-        </Container>
-      </section>
 
-      {/* 5. Production Ready Promo Banner (Cinema Dark Contrast) */}
-      <section className="framelease-section-alt" id="studio-banner">
-        <Container>
-          <div className="framelease-promo-card">
-            <Row className="g-0 align-items-stretch">
-              <Col lg={6} md={12}>
-                <div className="framelease-promo-content">
-                  <div className="framelease-section-badge framelease-section-badge-dark mb-3">
-                    ✦ PRODUCTION READY
-                  </div>
-                  <h2 className="framelease-promo-title">
-                    Your Vision,<br />Our Equipment
-                  </h2>
-                  <p className="framelease-promo-desc">
-                    From indie creators to full production teams, we supply broadcast-ready cameras, cinema glass, and studio lighting.
-                  </p>
-
-                  <div className="framelease-promo-features mb-4">
-                    <div className="framelease-promo-feature-row">
-                      <span className="framelease-check-badge">✓</span>
-                      <span>Sensor-cleaned and battery-charged before pickup</span>
-                    </div>
-                    <div className="framelease-promo-feature-row">
-                      <span className="framelease-check-badge">✓</span>
-                      <span>Protective hard cases, cables and media cards included</span>
-                    </div>
-                    <div className="framelease-promo-feature-row">
-                      <span className="framelease-check-badge">✓</span>
-                      <span>Transparent day rates with no hidden deposit surprises</span>
-                    </div>
-                  </div>
-
-                  <div>
-                    <Link to="/assets" className="framelease-promo-btn">
-                      Browse Equipment Catalog <span>&rarr;</span>
-                    </Link>
-                  </div>
-                </div>
-              </Col>
-              <Col lg={6} md={12}>
-                <div className="framelease-promo-img-wrap">
-                  <img
-                    src={process.env.PUBLIC_URL + '/assets/images/banner_studio.png'}
-                    alt="Photography studio with lights and cyclorama"
-                    className="framelease-promo-img"
-                  />
-                  <div className="framelease-promo-img-badge">
-                    <span>📍</span> Malleshwaram Studio Hub
-                  </div>
-                </div>
-              </Col>
-            </Row>
+          <div className="text-center mt-5">
+            <Link to="/assets" className="btn-purple-pill py-2 px-5 text-white text-decoration-none">
+              Start Your Reservation ➔
+            </Link>
           </div>
         </Container>
       </section>
 
-      {/* 6. Recently Added (Crisp White Background) */}
-      <section className="framelease-section-white" id="recently-added">
+      {/* 5. Section 5: Full-Bleed Cinema Dark Showcase */}
+      <section className="framelease-cinema-section" id="studio-banner">
+        <Container>
+          <Row className="align-items-center g-5">
+            <Col lg={6} md={12}>
+              <div className="framelease-section-badge framelease-section-badge-dark mb-3">
+                ✦ PRODUCTION READY GEAR
+              </div>
+              <h2 className="cinema-title">
+                Your Vision,<br />Our Equipment
+              </h2>
+              <p className="cinema-desc">
+                From indie filmmakers to full production teams, we supply broadcast-ready cinema camera packages, anamorphic lenses, and studio lighting.
+              </p>
+
+              <div className="cinema-features-list">
+                <div className="cinema-feature-item">
+                  <span className="cinema-check-badge">✓</span>
+                  <span>Sensor-cleaned and battery-charged before pickup</span>
+                </div>
+                <div className="cinema-feature-item">
+                  <span className="cinema-check-badge">✓</span>
+                  <span>Protective hard cases, extra cables &amp; media cards included</span>
+                </div>
+                <div className="cinema-feature-item">
+                  <span className="cinema-check-badge">✓</span>
+                  <span>Transparent day rates with no hidden deposit surprises</span>
+                </div>
+              </div>
+
+              <div>
+                <Link to="/assets" className="cinema-cta-btn">
+                  Browse Equipment Catalog <span>&rarr;</span>
+                </Link>
+              </div>
+            </Col>
+
+            <Col lg={6} md={12}>
+              <div className="cinema-img-frame">
+                <img
+                  src={process.env.PUBLIC_URL + '/assets/images/banner_studio.png'}
+                  alt="Photography studio with lights and cyclorama"
+                  className="cinema-img"
+                />
+                <div className="cinema-img-badge">
+                  <span>📍</span> Malleshwaram Studio Hub • Bangalore
+                </div>
+              </div>
+            </Col>
+          </Row>
+        </Container>
+      </section>
+
+      {/* 6. Section 6: Recently Added Equipment (Modern Catalog Cards) */}
+      <section className="framelease-catalog-section" id="recently-added">
         <Container>
           <div className="framelease-section-header">
             <div>
@@ -454,7 +458,7 @@ export default function Home() {
 
           <Row className="g-4">
             {recentlyAdded.map((item) => (
-              <Col key={item.id} xs={12} sm={6} md={3}>
+              <Col key={item.id} xs={12} sm={6} lg={3}>
                 <div className="framelease-product-card">
                   <div className="framelease-product-img-box">
                     <span className="framelease-product-cat-tag">{item.category}</span>
@@ -486,29 +490,68 @@ export default function Home() {
         </Container>
       </section>
 
-      {/* 7. Why Choose Us / About (Soft Gray Background) */}
-      <section className="framelease-section-alt" id="about">
+      {/* 7. Section 7: Studio Hub & Impact Stats (Asymmetrical Split Layout) */}
+      <section className="framelease-about-section" id="about">
         <Container>
-          <div className="framelease-section-header text-center mx-auto" style={{ maxWidth: '640px', justifyContent: 'center', flexDirection: 'column', alignItems: 'center' }}>
-            <div className="framelease-section-badge">
-              ✦ WHY CREATORS CHOOSE US
-            </div>
-            <h2 className="framelease-section-title">Built for Filmmakers &amp; Creators</h2>
-            <p className="framelease-section-sub text-center">
-              Everything you need to produce cinematic content without capital gear expenses.
-            </p>
-          </div>
-
-          <Row className="g-4 mt-2">
-            {creatorAssurances.map((item, idx) => (
-              <Col key={idx} xs={12} sm={6} md={3}>
-                <div className="framelease-trust-card text-center">
-                  <span className="framelease-trust-icon">{item.icon}</span>
-                  <h5 className="framelease-trust-title">{item.title}</h5>
-                  <p className="framelease-trust-desc">{item.desc}</p>
+          <Row className="g-4 align-items-stretch">
+            {/* Left: Brand story & 2x2 Impact Stats Grid */}
+            <Col lg={7} md={12}>
+              <div className="pe-lg-4 mb-4">
+                <div className="framelease-section-badge">
+                  ✦ ABOUT ASLIKAHANI
                 </div>
-              </Col>
-            ))}
+                <h2 className="framelease-section-title mb-2">
+                  Empowering Bengaluru&apos;s Filmmakers
+                </h2>
+                <p className="framelease-section-sub mb-4" style={{ maxWidth: '100%' }}>
+                  We provide independent creators, commercial crews, and film students with frictionless access to professional production equipment.
+                </p>
+
+                <Row className="g-3">
+                  {impactStats.map((stat, idx) => (
+                    <Col key={idx} xs={6}>
+                      <div className="stat-box">
+                        <div className="stat-number">{stat.number}</div>
+                        <div className="stat-label">{stat.label}</div>
+                      </div>
+                    </Col>
+                  ))}
+                </Row>
+              </div>
+            </Col>
+
+            {/* Right: Physical Studio Hub Details Card */}
+            <Col lg={5} md={12}>
+              <div className="studio-location-card">
+                <div>
+                  <div className="studio-hub-badge">
+                    📍 BANGALORE STUDIO HUB
+                  </div>
+                  <h3 className="studio-hub-title">Malleshwaram Studio &amp; Prep Bay</h3>
+                  <div className="studio-hub-detail">
+                    <strong>Address:</strong><br />
+                    280/1, Anniamma Arcade, Sampige Road,<br />
+                    18th Cross Rd, Malleshwaram,<br />
+                    Bengaluru, Karnataka 560003
+                  </div>
+                  <div className="studio-hub-detail">
+                    <strong>Operating Hours:</strong><br />
+                    Monday – Saturday: 9:00 AM – 8:00 PM<br />
+                    Sunday: By Reservation
+                  </div>
+                  <div className="studio-hub-detail">
+                    <strong>Contact:</strong><br />
+                    📞 +91 63 66 333 444 &bull; ✉️ support@aslikahani.com
+                  </div>
+                </div>
+
+                <div className="pt-3 border-top mt-3">
+                  <Link to="/assets" className="btn btn-dark w-100 rounded-pill py-2 fw-semibold">
+                    Browse Studio Equipment ➔
+                  </Link>
+                </div>
+              </div>
+            </Col>
           </Row>
         </Container>
       </section>
