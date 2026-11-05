@@ -280,6 +280,53 @@ export default function AssetList() {
             </div>
           </div>
 
+          {/* AI Smart Presets Quick Bar */}
+          <div className="d-flex align-items-center gap-2 flex-wrap pt-2 mt-2 border-top" style={{ borderColor: '#f1f5f9' }}>
+            <span className="badge rounded-pill text-white fw-bold px-2 py-1" style={{ background: 'linear-gradient(135deg, #2563eb 0%, #7c3aed 100%)', fontSize: '0.72rem' }}>
+              ✦ AI Presets
+            </span>
+            <button
+              type="button"
+              onClick={() => { setSelectedCategoryId('camera'); setSearchQuery('Sony'); }}
+              className="btn btn-sm btn-light rounded-pill px-2 py-0 text-secondary border"
+              style={{ fontSize: '0.76rem' }}
+            >
+              🎥 4K Cine Bodies
+            </button>
+            <button
+              type="button"
+              onClick={() => { setSelectedCategoryId('audio'); setSearchQuery('Mic'); }}
+              className="btn btn-sm btn-light rounded-pill px-2 py-0 text-secondary border"
+              style={{ fontSize: '0.76rem' }}
+            >
+              🎙️ Wireless Audio
+            </button>
+            <button
+              type="button"
+              onClick={() => { setSelectedCategoryId('lighting'); setSearchQuery('Godox'); }}
+              className="btn btn-sm btn-light rounded-pill px-2 py-0 text-secondary border"
+              style={{ fontSize: '0.76rem' }}
+            >
+              💡 Continuous Lights
+            </button>
+            <button
+              type="button"
+              onClick={() => { setSelectedCategoryId('power'); setSearchQuery('Battery'); }}
+              className="btn btn-sm btn-light rounded-pill px-2 py-0 text-secondary border"
+              style={{ fontSize: '0.76rem' }}
+            >
+              🔋 Power &amp; Chargers
+            </button>
+            <button
+              type="button"
+              onClick={() => { setSelectedCategoryId('storage'); setSearchQuery('CFexpress'); }}
+              className="btn btn-sm btn-light rounded-pill px-2 py-0 text-secondary border"
+              style={{ fontSize: '0.76rem' }}
+            >
+              💾 High-Speed Media
+            </button>
+          </div>
+
           {activeCategory && activeCategory.subcategories && activeCategory.subcategories.length > 0 && (
             <div
               className="d-flex align-items-center gap-2 flex-nowrap overflow-x-auto no-scrollbar pt-3 mt-3 border-top"

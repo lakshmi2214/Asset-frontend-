@@ -161,6 +161,104 @@ const productionWorkflowSteps = [
   },
 ];
 
+const aiProductionPresets = [
+  {
+    id: 'commercial',
+    icon: '🎬',
+    label: 'Brand Commercial',
+    title: 'High-End Brand & Commercial Production Setup',
+    scenario: 'High-speed commercial requiring 4K 120fps dynamic range, calibrated optics, and high-CRI soft continuous lighting.',
+    matchScore: '99% Match',
+    stage: 'Soundstage A • Main Infinity Cyc (850 Sq.Ft)',
+    stageSpecs: '35ft × 25ft • 16ft Motorized Grid • 63A 3-Phase Camlock',
+    camera: 'Sony FX6 / FX3 Full-Frame Cinema Body',
+    cameraSpecs: '4K 120p RAW • Dual Base ISO (800 / 12,800)',
+    lens: 'Sony FE 24-70mm f/2.8 GM II + 50mm f/1.4 GM Prime',
+    lighting: '2x Godox 300W Bi-Color High-CRI LED Heads + 85cm Octaboxes',
+    audioGrip: 'DJI Mic Mini Wireless Kit + 2x Matthews Heavy-Duty C-Stands',
+    mediaPower: '2x 160GB Lexar CFexpress Type A Cards + 4x NP-FZ100 Packs',
+    estimatedRate: '₹18,500 / Day',
+    savings: 'Save ₹3,200 with AI Stage & Rig Bundle',
+    bookingLink: '/book-asset?category=studio',
+  },
+  {
+    id: 'podcast',
+    icon: '🎙️',
+    label: '4-Host Podcast',
+    title: 'Turnkey Video Podcast & Live Stream Studio',
+    scenario: 'Multi-microphone acoustic dialogue with 4K multi-angle switching, teleprompter, and instant broadcast livestreaming.',
+    matchScore: '98% Match',
+    stage: 'Studio C • Broadcast Podcast Suite (Acoustic Booth)',
+    stageSpecs: 'STC-55 Soundproofing • 1Gbps Dedicated Symmetrical Fiber',
+    camera: 'Multi-Cam 4K Cinema Camera System + Teleprompter',
+    cameraSpecs: 'Multi-Angle 4K Output + Live ATEM Switcher Feed',
+    lens: 'Studio Portrait Aperture Optics (f/1.8)',
+    lighting: 'Pre-Hung Daylight Soft Ceiling Panel Matrix',
+    audioGrip: '4x Shure / Audio-Technica Mics + Presonus Console',
+    mediaPower: 'Direct Multi-Track SSD Recording + Cloud Backup',
+    estimatedRate: '₹12,000 / Day (or ₹4,500 / 2-Hr Session)',
+    savings: 'Includes Dedicated On-Site Audio Engineer',
+    bookingLink: '/book-asset?category=audio',
+  },
+  {
+    id: 'fashion',
+    icon: '👗',
+    label: 'Fashion Cyc Lookbook',
+    title: 'High-Fashion & Model Lookbook Production',
+    scenario: 'Pure white infinite cyclorama backdrop with wraparound beauty softboxes, rapid tethering, and private wardrobe suite.',
+    matchScore: '97% Match',
+    stage: 'Soundstage A • 3-Wall Infinity White Cyclorama',
+    stageSpecs: '35ft × 25ft • Private Green Room & Illuminated HMU Vanity',
+    camera: 'Sony A7S III / FX3 4K 10-Bit Full-Frame',
+    cameraSpecs: 'High-Speed Eye AF • 15+ Stops Dynamic Range',
+    lens: 'Sony 50mm f/1.4 GM Master Prime + 85mm f/1.4 Portrait',
+    lighting: 'High-Output Continuous LED + Large Diffused Octas',
+    audioGrip: 'Garment Steamer, Rolling Clothing Racks & Full-Length Vanity',
+    mediaPower: 'Tethered Laptop Station + 160GB CFexpress Media',
+    estimatedRate: '₹15,000 / Day',
+    savings: 'Includes Full HMU Green Room & Vanity Access',
+    bookingLink: '/book-asset?category=studio',
+  },
+  {
+    id: 'product',
+    icon: '💎',
+    label: 'Product & Luxury Macro',
+    title: 'Tabletop Product, Jewelry & Macro Cinematography',
+    scenario: 'Deep contrast, zero unwanted light spill, motorized 360° revolving turntable, and high-speed precision macro glass.',
+    matchScore: '96% Match',
+    stage: 'Stage B • Blackout Insert & Product Stage (450 Sq.Ft)',
+    stageSpecs: 'Matte Blackout Acoustic Drapes • 32A Clean Studio Circuit',
+    camera: 'Sony FX3 Full-Frame Cinema Body with High-Frame Rate',
+    cameraSpecs: 'All-Intra 10-Bit 4:2:2 • S-Cinetone Color Science',
+    lens: 'High-Resolution Macro Cine Primes',
+    lighting: 'Precision Fresnel Spotlights + Overhead Softbox Pantographs',
+    audioGrip: 'Motorized 360° Product Turntable + Heavy C-Stands',
+    mediaPower: 'AC Continuous Power Feed + High-Speed Type A Cards',
+    estimatedRate: '₹11,500 / Day',
+    savings: 'Save ₹2,000 with Turntable Inclusion',
+    bookingLink: '/book-asset?category=studio',
+  },
+  {
+    id: 'indie',
+    icon: '🎥',
+    label: 'Indie Film Run-&-Gun',
+    title: 'Narrative Short Film & Music Video Field Kit',
+    scenario: 'Field-ready cinema package prepped in our Malleshwaram test bay with optical charts before location call time.',
+    matchScore: '99% Match',
+    stage: 'Malleshwaram Camera Prep Bay (Checkout & Balancing)',
+    stageSpecs: 'Siemens Optical Test Charts • Collimator & Rig Workbench',
+    camera: 'Sony FX3 Full-Frame Cinema Camera (Dual Base ISO 800/12800)',
+    cameraSpecs: 'Compact Cinema Cage • XLR Audio Handle Unit',
+    lens: 'Sony Cine Primes Kit (Wide, Normal, Telephoto)',
+    lighting: 'Portable High-CRI LED Panels + Foldable Diffusers',
+    audioGrip: 'DJI Mic Mini Wireless Kit + Carbon Fluid Video Head Tripod',
+    mediaPower: 'Pelican Hard Case + 4x NP-FZ100 Batteries + Dual Charger',
+    estimatedRate: '₹9,500 / Day',
+    savings: 'Waterproof Hard Flight Case Included Free',
+    bookingLink: '/book-asset?category=camera',
+  },
+];
+
 const popularSearches = [
   { label: 'Infinity Cyc Stage', query: 'studio' },
   { label: 'Cinema Cameras', query: 'camera' },
@@ -181,6 +279,47 @@ export default function Home() {
   const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState('');
   const [activeTab, setActiveTab] = useState('all');
+
+  // AI Production Configurator State
+  const [selectedAiPreset, setSelectedAiPreset] = useState(aiProductionPresets[0]);
+  const [customAiPrompt, setCustomAiPrompt] = useState('');
+  const [isAiGenerating, setIsAiGenerating] = useState(false);
+
+  const handleSelectPreset = (preset) => {
+    setIsAiGenerating(true);
+    setTimeout(() => {
+      setSelectedAiPreset(preset);
+      setIsAiGenerating(false);
+    }, 220);
+  };
+
+  const handleCustomAiGenerate = (e) => {
+    e.preventDefault();
+    if (!customAiPrompt.trim()) return;
+
+    setIsAiGenerating(true);
+    setTimeout(() => {
+      const lower = customAiPrompt.toLowerCase();
+      let matched = aiProductionPresets[0];
+
+      if (lower.includes('podcast') || lower.includes('audio') || lower.includes('stream') || lower.includes('interview')) {
+        matched = aiProductionPresets[1];
+      } else if (lower.includes('fashion') || lower.includes('model') || lower.includes('clothing') || lower.includes('beauty')) {
+        matched = aiProductionPresets[2];
+      } else if (lower.includes('product') || lower.includes('macro') || lower.includes('blackout') || lower.includes('bottle')) {
+        matched = aiProductionPresets[3];
+      } else if (lower.includes('indie') || lower.includes('short') || lower.includes('film') || lower.includes('outdoor')) {
+        matched = aiProductionPresets[4];
+      }
+
+      setSelectedAiPreset({
+        ...matched,
+        title: `AI Custom Setup: "${customAiPrompt.slice(0, 32)}..."`,
+        scenario: `Optimized custom configuration matching your shoot criteria: "${customAiPrompt}".`,
+      });
+      setIsAiGenerating(false);
+    }, 300);
+  };
 
   const handleSearch = (e) => {
     e.preventDefault();
@@ -318,6 +457,9 @@ export default function Home() {
             <div className="d-flex align-items-center justify-content-center gap-3 mt-4 flex-wrap">
               <a href="#studio-spaces" className="btn btn-dark rounded-pill px-4 py-2 fw-semibold shadow-sm" style={{ fontSize: '0.92rem' }}>
                 Explore Soundstages ➔
+              </a>
+              <a href="#ai-planner" className="btn btn-primary rounded-pill px-4 py-2 fw-semibold shadow-sm" style={{ fontSize: '0.92rem', background: 'linear-gradient(135deg, #2563eb 0%, #7c3aed 100%)', border: 'none' }}>
+                ✦ AI Shoot Configurator
               </a>
               <Link to="/assets" className="btn btn-outline-dark rounded-pill px-4 py-2 fw-semibold" style={{ fontSize: '0.92rem' }}>
                 Browse Equipment Catalog ➔
@@ -486,7 +628,137 @@ export default function Home() {
         </Container>
       </section>
 
-      {/* 4. Section: Studio Amenities & Production Inclusions (Modern Studio Infrastructure Grid) */}
+      {/* 4. Section: AI Production Studio & Gear Configurator (Modern AI UI/UX Design) */}
+      <section className="ai-planner-section" id="ai-planner">
+        <Container>
+          <div className="text-center mx-auto mb-5" style={{ maxWidth: '740px' }}>
+            <div className="ai-section-badge">
+              ✦ AI PRODUCTION STUDIO &amp; GEAR CONFIGURATOR
+            </div>
+            <h2 className="framelease-section-title text-white mb-3">
+              Describe Your Shoot — AI Builds Your Stage &amp; Rig
+            </h2>
+            <p className="text-slate-300 mx-auto" style={{ color: '#cbd5e1', fontSize: '1rem', lineHeight: '1.6' }}>
+              Select a production scenario preset or type your custom brief. Our AI engine instantly matches the optimal soundstage, camera package, lighting wattage, and audio accessories.
+            </p>
+          </div>
+
+          {/* AI Preset Chips */}
+          <div className="d-flex align-items-center justify-content-center gap-2 flex-wrap mb-4">
+            {aiProductionPresets.map((preset) => (
+              <button
+                key={preset.id}
+                type="button"
+                onClick={() => handleSelectPreset(preset)}
+                className={`ai-preset-chip ${selectedAiPreset.id === preset.id ? 'active' : ''}`}
+              >
+                <span>{preset.icon}</span>
+                <span>{preset.label}</span>
+              </button>
+            ))}
+          </div>
+
+          {/* AI Custom Prompt Input Bar */}
+          <div className="mx-auto mb-5" style={{ maxWidth: '680px' }}>
+            <form onSubmit={handleCustomAiGenerate} className="ai-prompt-box">
+              <span className="text-primary fs-5">✨</span>
+              <input
+                type="text"
+                placeholder="Or type brief (e.g. 4K night music video, high-speed car commercial)..."
+                value={customAiPrompt}
+                onChange={(e) => setCustomAiPrompt(e.target.value)}
+                className="ai-prompt-input"
+              />
+              <button type="submit" className="ai-generate-btn">
+                <span>Configure Rig</span>
+                <span>➔</span>
+              </button>
+            </form>
+          </div>
+
+          {/* Interactive AI Blueprint Card */}
+          <div className="ai-blueprint-card mx-auto" style={{ maxWidth: '1000px', opacity: isAiGenerating ? 0.6 : 1 }}>
+            <div className="d-flex flex-wrap align-items-center justify-content-between gap-3 pb-3 mb-4 border-bottom" style={{ borderColor: 'rgba(255, 255, 255, 0.1)' }}>
+              <div>
+                <span className="badge px-3 py-1 rounded-pill fw-bold text-white mb-2" style={{ background: 'linear-gradient(135deg, #2563eb 0%, #7c3aed 100%)', fontSize: '0.74rem' }}>
+                  ⚡ ASLI AI INTELLIGENCE v2.6 • {selectedAiPreset.matchScore}
+                </span>
+                <h3 className="text-white fw-bold mb-1" style={{ fontSize: '1.35rem' }}>{selectedAiPreset.title}</h3>
+                <p className="mb-0 small" style={{ color: '#94a3b8' }}>{selectedAiPreset.scenario}</p>
+              </div>
+
+              <div className="text-lg-end">
+                <div className="text-white fw-bold fs-5">{selectedAiPreset.estimatedRate}</div>
+                <div className="badge bg-success bg-opacity-25 text-success border border-success border-opacity-50 small">
+                  {selectedAiPreset.savings}
+                </div>
+              </div>
+            </div>
+
+            {/* 4-Box Production Blueprint Grid */}
+            <Row className="g-3 mb-4">
+              <Col lg={3} sm={6} xs={12}>
+                <div className="ai-spec-grid-item">
+                  <div className="ai-spec-label">🏢 Soundstage / Location</div>
+                  <div className="ai-spec-value">{selectedAiPreset.stage}</div>
+                  <div className="ai-spec-detail">{selectedAiPreset.stageSpecs}</div>
+                </div>
+              </Col>
+
+              <Col lg={3} sm={6} xs={12}>
+                <div className="ai-spec-grid-item">
+                  <div className="ai-spec-label">🎥 Cinema Camera &amp; Optics</div>
+                  <div className="ai-spec-value">{selectedAiPreset.camera}</div>
+                  <div className="ai-spec-detail">{selectedAiPreset.lens}</div>
+                </div>
+              </Col>
+
+              <Col lg={3} sm={6} xs={12}>
+                <div className="ai-spec-grid-item">
+                  <div className="ai-spec-label">💡 Continuous Lighting</div>
+                  <div className="ai-spec-value">{selectedAiPreset.lighting}</div>
+                  <div className="ai-spec-detail">High-CRI daylight/bi-color with diffusion softboxes</div>
+                </div>
+              </Col>
+
+              <Col lg={3} sm={6} xs={12}>
+                <div className="ai-spec-grid-item">
+                  <div className="ai-spec-label">🎙️ Audio, Media &amp; Grip</div>
+                  <div className="ai-spec-value">{selectedAiPreset.audioGrip}</div>
+                  <div className="ai-spec-detail">{selectedAiPreset.mediaPower}</div>
+                </div>
+              </Col>
+            </Row>
+
+            {/* AI Blueprint Actions */}
+            <div className="d-flex align-items-center justify-content-between gap-3 flex-wrap pt-3 border-top" style={{ borderColor: 'rgba(255, 255, 255, 0.1)' }}>
+              <div className="d-flex align-items-center gap-2 text-muted small" style={{ color: '#94a3b8' }}>
+                <span className="text-success fw-bold">✓</span>
+                <span>Pre-calibrated in Malleshwaram test bay • 100% Insured</span>
+              </div>
+
+              <div className="d-flex gap-2 flex-wrap">
+                <Link
+                  to={selectedAiPreset.bookingLink}
+                  className="btn btn-primary rounded-pill px-4 py-2 fw-semibold"
+                  style={{ background: 'linear-gradient(135deg, #2563eb 0%, #7c3aed 100%)', border: 'none', fontSize: '0.9rem' }}
+                >
+                  Reserve This AI Setup ➔
+                </Link>
+                <Link
+                  to="/assets"
+                  className="btn btn-outline-light rounded-pill px-4 py-2 fw-semibold"
+                  style={{ fontSize: '0.9rem' }}
+                >
+                  Browse Equipment Catalog
+                </Link>
+              </div>
+            </div>
+          </div>
+        </Container>
+      </section>
+
+      {/* 5. Section: Studio Amenities & Production Inclusions (Modern Studio Infrastructure Grid) */}
       <section className="studio-amenities-section" id="amenities">
         <Container>
           <div className="text-center mx-auto mb-5" style={{ maxWidth: '720px' }}>
@@ -518,7 +790,7 @@ export default function Home() {
         </Container>
       </section>
 
-      {/* 5. Section: Equipment Rental Departments */}
+      {/* 6. Section: Equipment Rental Departments */}
       <section className="framelease-cat-split-section" id="categories">
         <Container>
           <Row className="g-5 align-items-start">
@@ -578,7 +850,7 @@ export default function Home() {
         </Container>
       </section>
 
-      {/* 6. Section: Production Workflow (How Studio & Gear Rentals Work) */}
+      {/* 7. Section: Production Workflow (How Studio & Gear Rentals Work) */}
       <section className="studio-workflow-section" id="how-it-works">
         <Container>
           <div className="text-center mx-auto mb-5" style={{ maxWidth: '680px' }}>
@@ -607,7 +879,7 @@ export default function Home() {
         </Container>
       </section>
 
-      {/* 7. Section: Full-Bleed Cinema Dark Showcase */}
+      {/* 8. Section: Full-Bleed Cinema Dark Showcase */}
       <section className="framelease-cinema-section" id="studio-banner">
         <Container>
           <Row className="align-items-center g-5">
@@ -666,7 +938,7 @@ export default function Home() {
         </Container>
       </section>
 
-      {/* 8. Section: Studio Hub & Impact Stats (About Aslikahani) */}
+      {/* 9. Section: Studio Hub & Impact Stats (About Aslikahani) */}
       <section className="framelease-about-section" id="about">
         <Container>
           <Row className="g-4 align-items-stretch">
