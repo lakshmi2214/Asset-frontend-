@@ -56,88 +56,118 @@ const categories = [
 const studioFacilities = [
   {
     id: 'studio-cyc',
-    name: 'Main Infinity Cyclorama Stage',
-    badge: 'Soundstage A • 850 Sq.Ft',
-    specs: '35ft × 25ft • 16ft Motorized Grid • 63A 3-Phase Power',
-    desc: 'Full 3-wall seamless white cyclorama soundstage with acoustic baffling, dedicated green room, hair & makeup vanity station, and roll-up equipment load-in bay.',
+    name: 'Main Infinity Cyclorama Soundstage',
+    stageTag: 'Soundstage A • 850 Sq.Ft',
+    rate: '₹12,000 / Half-Day • ₹20,000 / Full-Day',
+    dimensions: '35ft × 25ft • 16ft Motorized Grid',
+    power: '63A 3-Phase Camlock Heavy Power',
+    highlights: ['Seamless 3-Wall Cyc', 'Drive-In Roll-Up Bay', 'Green Room & Vanity', 'Acoustic STC-55'],
+    desc: 'Full 3-wall seamless white cyclorama soundstage with acoustic baffling, dedicated green room, hair & makeup vanity station, and direct roll-up vehicle/gear load-in access.',
     image: process.env.PUBLIC_URL + '/assets/images/banner_studio.png',
     link: '/book-asset?category=studio',
   },
   {
     id: 'studio-blackbox',
-    name: 'Blackout Commercial Insert Stage',
-    badge: 'Stage B • 450 Sq.Ft',
-    specs: '22ft × 18ft • Blackout Curtains • 12ft Ceiling',
-    desc: 'Acoustic black box stage ideal for high-end product photography, commercial inserts, music videos, and fashion shoots with pre-rigged ceiling pantographs.',
+    name: 'Blackout Commercial Insert & Photo Stage',
+    stageTag: 'Stage B • 450 Sq.Ft',
+    rate: '₹8,000 / Half-Day • ₹14,000 / Full-Day',
+    dimensions: '22ft × 18ft • 12ft Ceiling',
+    power: '32A Dedicated Clean Circuit',
+    highlights: ['Matte Blackout Drapes', 'Pre-Rigged Pantographs', 'Turntable Available', 'Silent Ducted AC'],
+    desc: 'Acoustic black box stage engineered for high-contrast commercial inserts, luxury product cinematography, music videos, and editorial fashion photography.',
     image: process.env.PUBLIC_URL + '/assets/images/mockup_banner.png',
     link: '/book-asset?category=studio',
   },
   {
     id: 'studio-podcast',
     name: 'Broadcast Podcast & Livestream Suite',
-    badge: 'Studio C • Acoustic Suite',
-    specs: 'Soundproof Booth • 4 Shure / AT2040 Mics • 4K Switcher',
-    desc: 'Turnkey acoustic recording suite equipped with multi-cam 4K recording, teleprompter, Blackmagic live switcher, sound engineer, and livestream encoder.',
+    stageTag: 'Studio C • Broadcast Suite',
+    rate: '₹4,500 / 2-Hr Session • ₹15,000 / Full-Day',
+    dimensions: 'Acoustically Isolated Vocal Suite',
+    power: '4K Multi-Cam Switcher + Sound Desk',
+    highlights: ['4 Shure/AT Mics', '1Gbps Symmetrical Fiber', 'Teleprompter Ready', 'On-Site Sound Tech'],
+    desc: 'Turnkey live broadcast and video podcast recording suite equipped with multi-cam 4K recording, teleprompter, Blackmagic live switcher, sound engineer, and livestream encoder.',
     image: process.env.PUBLIC_URL + '/assets/images/Camera_1.jpeg',
     link: '/book-asset?category=audio',
   },
 ];
 
-const turnkeyPackages = [
+const studioAmenities = [
   {
-    id: 'run-and-gun-cine',
-    title: 'Run-&-Gun Cinema Package',
-    tag: 'Most Popular for Indie Shoots',
-    specs: 'Everything needed for commercial & short film shoots in one flight case.',
-    items: [
-      'Sony FX3 Full-Frame Cinema Camera Body',
-      'Sony 50mm High-Speed Prime Lens',
-      '2x NP-FZ100 Batteries + Dual Bay Charger',
-      '160GB Lexar Professional CFexpress Type A Card',
-      'DJI Mic Mini Wireless Transmitter & Receiver Kit',
-      'Rugged Pelican Waterproof Hard Case',
-    ],
-    link: '/book-asset?category=camera',
+    icon: '⚡',
+    title: '63A 3-Phase Camlock Power',
+    subtitle: 'Heavy Industrial Distribution',
+    desc: 'Dedicated high-amperage power drops for high-draw HMIs, Aputure 1200D/600C LEDs, and Skypanels without breaker trips.',
   },
   {
-    id: 'studio-lighting-kit',
-    title: 'Commercial Studio Lighting Rig',
-    tag: 'Studio & Fashion Shoots',
-    specs: 'High-output continuous illumination with full softbox diffusion.',
-    items: [
-      '2x Godox 300W Bi-Color High-CRI LED Heads',
-      '2x 85cm Octagon Grid Softboxes & Diffusers',
-      '2x Heavy-Duty Steel C-Stands with 40-inch Gobo Arms',
-      'Wireless 2.4GHz Digital Lighting Remote',
-      '4x 10kg Shot Sandbags & Power Extension Cables',
-      'Padded Wheeled Heavy-Duty Transport Bag',
-    ],
-    link: '/book-asset?category=lighting',
+    icon: '🚛',
+    title: 'Drive-In Load-In Bay',
+    subtitle: 'Ground-Level Roll-Up Door',
+    desc: '10ft ground-floor roll-up door allows lighting trucks and camera carts to roll gear directly onto the soundstage floor.',
   },
   {
-    id: 'podcast-broadcast-kit',
-    title: '4-Person Podcast Broadcast Kit',
-    tag: 'Podcasts & Livestreams',
-    specs: 'Broadcast-grade multi-host dialogue and livestream recording.',
-    items: [
-      '4x Audio-Technica AT2040 Hypercardioid Microphones',
-      'Presonus 10-Channel Low-Noise Audio Mixer / Interface',
-      '4x Heavy-Duty Cast-Iron Table Boom Arms',
-      '4x Professional Studio Monitoring Headphones',
-      '4x Shielded Balanced XLR Audio Cables',
-      'Custom Protective Equipment Flight Case',
-    ],
-    link: '/book-asset?category=audio',
+    icon: '💄',
+    title: 'Private Green Room & HMU Vanity',
+    subtitle: 'Talent & Wardrobe Suite',
+    desc: 'Dedicated dressing suite with illuminated Hollywood vanity mirrors, wardrobe steamers, garment racks, and private changing rooms.',
+  },
+  {
+    icon: '🌐',
+    title: '1 Gbps Broadcast Fiber Internet',
+    subtitle: 'Symmetrical Enterprise Line',
+    desc: 'Ultra-low latency dedicated line for multi-cam 4K livestreams, remote client director feeds, and high-speed cloud rushes backup.',
+  },
+  {
+    icon: '🔇',
+    title: 'Acoustic Isolation & Silent HVAC',
+    subtitle: 'STC-55 Soundproofing',
+    desc: 'Acoustically treated sound walls with whisper-quiet ducted inverter air conditioning so boom microphones capture clean audio on every take.',
+  },
+  {
+    icon: '🛠️',
+    title: 'In-House Camera & Rig Prep Bay',
+    subtitle: 'Pre-Shoot Rig Assembly',
+    desc: 'Dual prep tables equipped with Siemens star charts, lens collimators, and monitor calibrators to build and balance rigs before shooting.',
+  },
+  {
+    icon: '☕',
+    title: 'Client Lounge & Production Desk',
+    subtitle: 'Air-Conditioned Comfort',
+    desc: 'Comfortable client lounge with calibrated 65-inch 4K reference OLED display, high-speed WiFi, dedicated production desks, and espresso bar.',
+  },
+  {
+    icon: '🅿️',
+    title: 'Dedicated On-Site Crew Parking',
+    subtitle: 'Secure Production Staging',
+    desc: 'Safe on-premises parking bays for crew vans, camera trucks, and client vehicles right outside the studio entrance in Malleshwaram.',
+  },
+];
+
+const productionWorkflowSteps = [
+  {
+    step: '01',
+    title: 'Select Space & Cinema Gear',
+    desc: 'Choose soundstage hours or browse our catalog of 8K cameras, prime lenses, and lighting rigs with instant real-time availability.',
+  },
+  {
+    step: '02',
+    title: 'Prep & Test at Malleshwaram Hub',
+    desc: 'Use our dedicated camera prep bay to build your rig, test focus with optical charts, and verify battery and media health before roll time.',
+  },
+  {
+    step: '03',
+    title: 'Shoot, Create & Seamless Wrap',
+    desc: 'Execute your production on stage or on location with peace of mind. Transparent day rates, zero hidden deposit fees, and flexible wrap times.',
   },
 ];
 
 const popularSearches = [
+  { label: 'Infinity Cyc Stage', query: 'studio' },
   { label: 'Cinema Cameras', query: 'camera' },
   { label: 'Sony Lenses', query: 'lens' },
   { label: 'Studio Lighting', query: 'lighting' },
   { label: 'Podcast Audio', query: 'audio' },
   { label: 'C-Stands & Grip', query: 'tripod' },
-  { label: 'Soundstages', query: 'studio' },
 ];
 
 const impactStats = [
@@ -150,6 +180,7 @@ const impactStats = [
 export default function Home() {
   const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState('');
+  const [activeTab, setActiveTab] = useState('all');
 
   const handleSearch = (e) => {
     e.preventDefault();
@@ -163,19 +194,83 @@ export default function Home() {
   return (
     <div className="home-page-root" style={{ backgroundColor: '#ffffff', overflowX: 'hidden' }}>
 
-      {/* 1. Hero Section: Studio & Equipment Production House */}
+      {/* 1. Hero Section: Modern Rental Studio & Production Platform */}
       <section className="framelease-hero-wrap">
         <Container>
           <div className="hero-centered-content">
             <div className="framelease-section-badge mb-3">
-              ✦ BENGALURU&apos;S PREMIER FILM STUDIO &amp; EQUIPMENT RENTALS
+              ✦ BANGALORE&apos;S PREMIER PRODUCTION SOUNDSTAGES &amp; FILM GEAR
             </div>
             <h1 className="framelease-hero-title">
-              The Production Hub for<br />Filmmakers &amp; Creators
+              World-Class Soundstages &amp;<br />Cinema Equipment on Demand
             </h1>
             <p className="framelease-hero-desc">
-              Full-service soundstages with infinity cyclorama walls, 8K cinema cameras, master primes, and high-CRI lighting rigs – calibrated, tested, and ready for your shoot in Malleshwaram.
+              Drive-in cyclorama stages, blackout commercial insert bays, 4K broadcast podcast suites, and cinema camera packages. Prepped, calibrated, and ready in Malleshwaram.
             </p>
+
+            {/* Quick Category/Space Switcher Pills */}
+            <div className="d-flex align-items-center justify-content-center gap-2 flex-wrap mb-3">
+              <button
+                type="button"
+                onClick={() => setActiveTab('all')}
+                className={`btn btn-sm rounded-pill px-3 py-1 fw-semibold transition-all ${
+                  activeTab === 'all'
+                    ? 'btn-dark text-white'
+                    : 'btn-outline-secondary border-0 bg-light text-dark'
+                }`}
+                style={{ fontSize: '0.82rem' }}
+              >
+                🏢 All Spaces &amp; Gear
+              </button>
+              <button
+                type="button"
+                onClick={() => { setActiveTab('stages'); navigate('/book-asset?category=studio'); }}
+                className={`btn btn-sm rounded-pill px-3 py-1 fw-semibold transition-all ${
+                  activeTab === 'stages'
+                    ? 'btn-dark text-white'
+                    : 'btn-outline-secondary border-0 bg-light text-dark'
+                }`}
+                style={{ fontSize: '0.82rem' }}
+              >
+                📐 Soundstage A (Cyc)
+              </button>
+              <button
+                type="button"
+                onClick={() => { setActiveTab('blackout'); navigate('/book-asset?category=studio'); }}
+                className={`btn btn-sm rounded-pill px-3 py-1 fw-semibold transition-all ${
+                  activeTab === 'blackout'
+                    ? 'btn-dark text-white'
+                    : 'btn-outline-secondary border-0 bg-light text-dark'
+                }`}
+                style={{ fontSize: '0.82rem' }}
+              >
+                🖤 Black Box Stage B
+              </button>
+              <button
+                type="button"
+                onClick={() => { setActiveTab('podcast'); navigate('/book-asset?category=audio'); }}
+                className={`btn btn-sm rounded-pill px-3 py-1 fw-semibold transition-all ${
+                  activeTab === 'podcast'
+                    ? 'btn-dark text-white'
+                    : 'btn-outline-secondary border-0 bg-light text-dark'
+                }`}
+                style={{ fontSize: '0.82rem' }}
+              >
+                🎙️ Podcast Suite C
+              </button>
+              <button
+                type="button"
+                onClick={() => { setActiveTab('cameras'); navigate('/assets?category=camera'); }}
+                className={`btn btn-sm rounded-pill px-3 py-1 fw-semibold transition-all ${
+                  activeTab === 'cameras'
+                    ? 'btn-dark text-white'
+                    : 'btn-outline-secondary border-0 bg-light text-dark'
+                }`}
+                style={{ fontSize: '0.82rem' }}
+              >
+                🎥 Cinema Cameras
+              </button>
+            </div>
 
             {/* Centered Search Capsule */}
             <form onSubmit={handleSearch} className="framelease-search-capsule">
@@ -195,7 +290,7 @@ export default function Home() {
               </svg>
               <input
                 type="text"
-                placeholder="Search cinema cameras, lenses, lighting, soundstages..."
+                placeholder="Search cyclorama stages, cinema cameras, master primes, continuous lights..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className="framelease-search-input"
@@ -210,7 +305,7 @@ export default function Home() {
               <span className="text-muted small fw-semibold me-1">Popular:</span>
               {popularSearches.map((item) => (
                 <Link
-                  key={item.query}
+                  key={item.label}
                   to={`/assets?category=${item.query}`}
                   className="framelease-hero-chip"
                 >
@@ -221,11 +316,11 @@ export default function Home() {
 
             {/* Dual CTAs: Explore Equipments & Book Studio */}
             <div className="d-flex align-items-center justify-content-center gap-3 mt-4 flex-wrap">
-              <Link to="/assets" className="btn btn-dark rounded-pill px-4 py-2 fw-semibold shadow-sm" style={{ fontSize: '0.92rem' }}>
-                Explore Equipments ➔
-              </Link>
-              <Link to="/book-asset?category=studio" className="btn btn-outline-dark rounded-pill px-4 py-2 fw-semibold" style={{ fontSize: '0.92rem' }}>
-                Book Studio Soundstage ➔
+              <a href="#studio-spaces" className="btn btn-dark rounded-pill px-4 py-2 fw-semibold shadow-sm" style={{ fontSize: '0.92rem' }}>
+                Explore Soundstages ➔
+              </a>
+              <Link to="/assets" className="btn btn-outline-dark rounded-pill px-4 py-2 fw-semibold" style={{ fontSize: '0.92rem' }}>
+                Browse Equipment Catalog ➔
               </Link>
             </div>
           </div>
@@ -239,7 +334,7 @@ export default function Home() {
             />
             <div className="hero-panoramic-badge-left">
               <span>⚡</span>
-              <span>100% Sensor-Cleaned &amp; Tested Pro Gear</span>
+              <span>63A 3-Phase Camlock • Drive-In Roll-Up Access</span>
             </div>
             <div className="hero-panoramic-badge-right">
               <span>📍</span>
@@ -304,19 +399,19 @@ export default function Home() {
         </Container>
       </section>
 
-      {/* 3. Section: Production Studio Facilities (Dedicated Soundstage Showcase) */}
+      {/* 3. Section: Production Studio Facilities (Modern Soundstages Showcase) */}
       <section className="studio-facilities-section" id="studio-spaces">
         <Container>
           <div className="d-flex flex-wrap align-items-end justify-content-between gap-3 mb-5">
             <div>
               <div className="framelease-section-badge mb-2">
-                ✦ SOUNDSTAGES &amp; CREATIVE SPACES
+                ✦ PRODUCTION SOUNDSTAGES &amp; CREATIVE SPACES
               </div>
               <h2 className="framelease-section-title mb-2">
-                Our Production Studio Facilities
+                Studio Spaces Built for Scale
               </h2>
               <p className="framelease-section-sub mb-0" style={{ maxWidth: '640px' }}>
-                Fully acoustically isolated, air-conditioned studio stages engineered for high-end commercials, fashion films, music videos, and multi-cam video podcasts.
+                Acoustically isolated stages, heavy 3-phase power, high ceiling grids, and drive-in access for commercials, fashion, and broadcast productions.
               </p>
             </div>
             <Link to="/book-asset?category=studio" className="btn btn-outline-dark rounded-pill px-4 py-2 fw-semibold small">
@@ -335,14 +430,43 @@ export default function Home() {
                       className="studio-facility-img"
                     />
                     <div className="studio-facility-badge">
-                      {facility.badge}
+                      {facility.stageTag}
                     </div>
                   </div>
 
                   <div className="studio-facility-body">
+                    <div className="d-flex align-items-center justify-content-between gap-2 mb-2">
+                      <span className="badge bg-light text-primary fw-bold px-2 py-1 rounded-pill" style={{ fontSize: '0.75rem', border: '1px solid #bfdbfe' }}>
+                        {facility.rate}
+                      </span>
+                    </div>
+
                     <h3 className="studio-facility-title">{facility.name}</h3>
-                    <div className="studio-facility-specs">{facility.specs}</div>
+
+                    {/* Architectural Specs List */}
+                    <div className="mb-3 p-2 rounded-3 bg-light" style={{ fontSize: '0.8rem' }}>
+                      <div className="text-secondary mb-1">
+                        <strong className="text-dark">Dimensions:</strong> {facility.dimensions}
+                      </div>
+                      <div className="text-secondary">
+                        <strong className="text-dark">Power:</strong> {facility.power}
+                      </div>
+                    </div>
+
                     <p className="studio-facility-desc">{facility.desc}</p>
+
+                    {/* Feature Pill Tags */}
+                    <div className="d-flex flex-wrap gap-1 mb-4">
+                      {facility.highlights.map((h, i) => (
+                        <span
+                          key={i}
+                          className="badge bg-white text-secondary fw-semibold border px-2 py-1"
+                          style={{ fontSize: '0.72rem' }}
+                        >
+                          ✓ {h}
+                        </span>
+                      ))}
+                    </div>
 
                     <div className="mt-auto pt-2">
                       <Link
@@ -350,7 +474,7 @@ export default function Home() {
                         className="btn btn-dark w-100 rounded-pill py-2 fw-semibold d-flex align-items-center justify-content-center gap-2"
                         style={{ fontSize: '0.88rem' }}
                       >
-                        <span>Reserve Studio Stage</span>
+                        <span>Reserve Stage</span>
                         <span>➔</span>
                       </Link>
                     </div>
@@ -362,7 +486,39 @@ export default function Home() {
         </Container>
       </section>
 
-      {/* 4. Section: Equipment Rental Departments */}
+      {/* 4. Section: Studio Amenities & Production Inclusions (Modern Studio Infrastructure Grid) */}
+      <section className="studio-amenities-section" id="amenities">
+        <Container>
+          <div className="text-center mx-auto mb-5" style={{ maxWidth: '720px' }}>
+            <div className="framelease-section-badge">
+              ✦ INFRASTRUCTURE &amp; AMENITIES
+            </div>
+            <h2 className="framelease-section-title">
+              Everything Your Production Needs Under One Roof
+            </h2>
+            <p className="framelease-section-sub mx-auto">
+              Engineered specifically for film directors, commercial DP crews, photographers, and agency producers to shoot comfortably and efficiently.
+            </p>
+          </div>
+
+          <Row className="g-4">
+            {studioAmenities.map((amenity, index) => (
+              <Col key={index} lg={3} md={6} xs={12}>
+                <div className="studio-amenity-card">
+                  <div className="studio-amenity-icon-box">
+                    <span>{amenity.icon}</span>
+                  </div>
+                  <h3 className="studio-amenity-title">{amenity.title}</h3>
+                  <div className="studio-amenity-sub">{amenity.subtitle}</div>
+                  <p className="studio-amenity-desc">{amenity.desc}</p>
+                </div>
+              </Col>
+            ))}
+          </Row>
+        </Container>
+      </section>
+
+      {/* 5. Section: Equipment Rental Departments */}
       <section className="framelease-cat-split-section" id="categories">
         <Container>
           <Row className="g-5 align-items-start">
@@ -376,7 +532,7 @@ export default function Home() {
                   Explore by Department
                 </h2>
                 <p className="framelease-section-sub mb-4">
-                  Everything you need for full-scale commercial productions and independent cinema shoots.
+                  Full-scale commercial cinema equipment, master prime optics, high-output lighting, and broadcast audio.
                 </p>
 
                 <div className="cat-info-card">
@@ -422,48 +578,28 @@ export default function Home() {
         </Container>
       </section>
 
-      {/* 5. Section: Curated Production Turnkey Packages */}
-      <section className="rental-packages-section" id="packages">
+      {/* 6. Section: Production Workflow (How Studio & Gear Rentals Work) */}
+      <section className="studio-workflow-section" id="how-it-works">
         <Container>
           <div className="text-center mx-auto mb-5" style={{ maxWidth: '680px' }}>
             <div className="framelease-section-badge">
-              ✦ TURNKEY RENTAL PACKAGES
+              ✦ SIMPLE 3-STEP PROCESS
             </div>
             <h2 className="framelease-section-title">
-              Curated Production Packages
+              How Studio &amp; Gear Rental Works
             </h2>
             <p className="framelease-section-sub mx-auto">
-              Pre-configured, field-tested kits with matching accessories, power, and media cards packed in rugged Pelican hard flight cases.
+              From online booking to camera prep and wrap, our workflow is designed for maximum production efficiency.
             </p>
           </div>
 
-          <Row className="g-4 align-items-stretch">
-            {turnkeyPackages.map((pkg) => (
-              <Col key={pkg.id} lg={4} md={6} xs={12}>
-                <div className="package-card">
-                  <span className="package-pill-tag">{pkg.tag}</span>
-                  <h3 className="package-card-title">{pkg.title}</h3>
-                  <p className="text-muted small mb-3">{pkg.specs}</p>
-
-                  <div className="package-items-list">
-                    {pkg.items.map((item, idx) => (
-                      <div key={idx} className="package-item">
-                        <span className="package-item-check">✓</span>
-                        <span>{item}</span>
-                      </div>
-                    ))}
-                  </div>
-
-                  <div className="mt-auto pt-3 border-top">
-                    <Link
-                      to={pkg.link}
-                      className="btn btn-dark w-100 rounded-pill py-2 fw-semibold d-flex align-items-center justify-content-center gap-2"
-                      style={{ fontSize: '0.88rem' }}
-                    >
-                      <span>Book Package</span>
-                      <span>⚡</span>
-                    </Link>
-                  </div>
+          <Row className="g-4">
+            {productionWorkflowSteps.map((stepItem, idx) => (
+              <Col key={idx} lg={4} md={12}>
+                <div className="studio-workflow-card">
+                  <div className="studio-workflow-step-num">{stepItem.step}</div>
+                  <h3 className="studio-workflow-title">{stepItem.title}</h3>
+                  <p className="studio-workflow-desc">{stepItem.desc}</p>
                 </div>
               </Col>
             ))}
@@ -471,7 +607,7 @@ export default function Home() {
         </Container>
       </section>
 
-      {/* 6. Section: Full-Bleed Cinema Dark Showcase */}
+      {/* 7. Section: Full-Bleed Cinema Dark Showcase */}
       <section className="framelease-cinema-section" id="studio-banner">
         <Container>
           <Row className="align-items-center g-5">
@@ -530,7 +666,7 @@ export default function Home() {
         </Container>
       </section>
 
-      {/* 7. Section: Studio Hub & Impact Stats (About Aslikahani) */}
+      {/* 8. Section: Studio Hub & Impact Stats (About Aslikahani) */}
       <section className="framelease-about-section" id="about">
         <Container>
           <Row className="g-4 align-items-stretch">
