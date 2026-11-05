@@ -3,16 +3,18 @@ import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import DatePicker from 'react-datepicker';
 import { Form, Button, Card, Alert, Row, Col, Badge, Modal, Container } from 'react-bootstrap';
 import 'react-datepicker/dist/react-datepicker.css';
-import { authorizedFetch, getValidAccessToken, clearTokens, API_BASE } from '../../auth';
+import { authorizedFetch, getValidAccessToken, clearTokens, API_BASE, PROD_BACKEND } from '../../auth';
 import { getAssetGroup, getGroupDisplayName, getRelatedAssets } from '../../assetGroups';
 
 const EQUIPMENT_GROUPS = [
   { id: 'all', label: 'All Equipment' },
   { id: 'camera', label: '📷 Cameras' },
-  { id: 'audio', label: '🎙️ Mics & Audio' },
-  { id: 'power', label: '🔋 Batteries & Power' },
   { id: 'lens', label: '🔍 Lenses' },
+  { id: 'audio', label: '🎙️ Mics & Audio' },
+  { id: 'lighting', label: '💡 Lighting' },
+  { id: 'power', label: '🔋 Batteries & Power' },
   { id: 'storage', label: '💾 Memory Cards' },
+  { id: 'tripod', label: '📐 Stands & Supports' },
 ];
 
 export default function AssetBooking() {
@@ -65,40 +67,69 @@ export default function AssetBooking() {
         const controller = new AbortController();
         const timeoutId = setTimeout(() => controller.abort(), 15000);
 
-        const [assetsRes, categoriesRes] = await Promise.all([
-          fetch(`${API_BASE}/api/v1/assets/`, {
-            headers: { 'Content-Type': 'application/json' },
-            signal: controller.signal
-          }),
-          fetch(`${API_BASE}/api/v1/categories/`, {
-            headers: { 'Content-Type': 'application/json' },
-            signal: controller.signal
-          }).catch(() => ({ ok: false }))
-        ]);
+        let assetsData = null;
+        let categoriesData = null;
+
+        try {
+          const [assetsRes, categoriesRes] = await Promise.all([
+            fetch(`${API_BASE}/api/v1/assets/`, {
+              headers: { 'Content-Type': 'application/json' },
+              signal: controller.signal
+            }).catch(() => null),
+            fetch(`${API_BASE}/api/v1/categories/`, {
+              headers: { 'Content-Type': 'application/json' },
+              signal: controller.signal
+            }).catch(() => null)
+          ]);
+
+          if (assetsRes && assetsRes.ok) {
+            assetsData = await assetsRes.json();
+          }
+          if (categoriesRes && categoriesRes.ok) {
+            categoriesData = await categoriesRes.json();
+          }
+        } catch (e) {
+          console.warn('Initial load error:', e);
+        }
+
+        if ((!assetsData || !Array.isArray(assetsData) || assetsData.length === 0) && API_BASE !== PROD_BACKEND) {
+          try {
+            const fallbackRes = await fetch(`${PROD_BACKEND}/api/v1/assets/`);
+            if (fallbackRes.ok) {
+              assetsData = await fallbackRes.json();
+            }
+          } catch (e) {
+            console.warn('Fallback assets fetch error:', e);
+          }
+        }
+
+        if ((!categoriesData || !Array.isArray(categoriesData) || categoriesData.length === 0) && API_BASE !== PROD_BACKEND) {
+          try {
+            const fallbackCatRes = await fetch(`${PROD_BACKEND}/api/v1/categories/`);
+            if (fallbackCatRes.ok) {
+              categoriesData = await fallbackCatRes.json();
+            }
+          } catch (e) {
+            console.warn('Fallback categories fetch error:', e);
+          }
+        }
 
         clearTimeout(timeoutId);
 
         if (isMounted) {
-          if (assetsRes && assetsRes.ok) {
-            const assetsData = await assetsRes.json();
-            if (assetsData && assetsData.length > 0) {
-              setAssets(assetsData);
-              const map = new Map();
-              assetsData.forEach((a) => {
-                if (a.location) map.set(a.location.id, a.location);
-              });
-              setLocations(Array.from(map.values()));
-            } else {
-              setAssets([]);
-            }
+          if (assetsData && Array.isArray(assetsData) && assetsData.length > 0) {
+            setAssets(assetsData);
+            const map = new Map();
+            assetsData.forEach((a) => {
+              if (a.location) map.set(a.location.id, a.location);
+            });
+            setLocations(Array.from(map.values()));
           } else {
-            setMsg('Unable to load equipment catalog from backend.');
             setAssets([]);
           }
 
-          if (categoriesRes && categoriesRes.ok) {
-            const categoriesData = await categoriesRes.json();
-            setCategories(Array.isArray(categoriesData) ? categoriesData : []);
+          if (categoriesData && Array.isArray(categoriesData)) {
+            setCategories(categoriesData);
           } else {
             setCategories([]);
           }
@@ -499,28 +530,28 @@ export default function AssetBooking() {
           )}
 
 
-          <Row className="g-4">
+          <Row className="g-3 align-items-stretch">
             {filteredAssets.map((asset) => {
               const isTarget = targetAsset && String(asset.id) === String(targetAsset.id);
 
               return (
-                <Col key={asset.id} xs={12} sm={6} lg={4}>
+                <Col key={asset.id} xs={12} sm={6} md={4} lg={3}>
                   <Card
-                    className="h-100 asset-card"
-                    style={isTarget ? { border: '2px solid #2563eb', boxShadow: '0 6px 18px rgba(37, 99, 235, 0.16)' } : {}}
+                    className="h-100 asset-card rounded-3 shadow-sm border overflow-hidden"
+                    style={isTarget ? { border: '2px solid #2563eb', boxShadow: '0 6px 18px rgba(37, 99, 235, 0.16)' } : { borderColor: '#e2e8f0' }}
                   >
-                    <div className="asset-img-container position-relative">
+                    <div className="asset-img-container position-relative" style={{ height: '145px', backgroundColor: '#f8fafc' }}>
                       {isTarget && (
                         <div className="position-absolute top-0 start-0 m-2" style={{ zIndex: 2 }}>
-                          <span className="badge px-3 py-1 rounded-pill fw-bold" style={{ backgroundColor: '#2563eb', color: '#fff', fontSize: '0.75rem', boxShadow: '0 2px 6px rgba(0,0,0,0.2)' }}>
-                            ★ Selected Item
+                          <span className="badge px-2 py-1 rounded-pill fw-bold" style={{ backgroundColor: '#2563eb', color: '#fff', fontSize: '0.7rem', boxShadow: '0 2px 6px rgba(0,0,0,0.2)' }}>
+                            ★ Selected
                           </span>
                         </div>
                       )}
                       {targetAsset && !isTarget && (
                         <div className="position-absolute top-0 start-0 m-2" style={{ zIndex: 2 }}>
-                          <span className="badge bg-light text-dark border px-2 py-1 rounded-pill small" style={{ fontSize: '0.72rem' }}>
-                            Related Gear
+                          <span className="badge bg-light text-dark border px-2 py-1 rounded-pill small" style={{ fontSize: '0.68rem' }}>
+                            Related
                           </span>
                         </div>
                       )}
@@ -530,57 +561,67 @@ export default function AssetBooking() {
                           src={asset.image_url}
                           className="asset-card-img"
                           alt={asset.name}
+                          style={{ maxHeight: '120px', maxWidth: '85%', objectFit: 'contain' }}
                         />
                       ) : (
-                        <div className="asset-card-placeholder">
-                          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                        <div className="asset-card-placeholder p-2">
+                          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" style={{ width: '32px', height: '32px' }}>
                             <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path>
                             <circle cx="12" cy="13" r="4"></circle>
                           </svg>
-                          <span>No Preview Available</span>
+                          <span style={{ fontSize: '0.72rem' }}>No Photo</span>
                         </div>
                       )}
                     </div>
 
-                    <Card.Body className="asset-card-body">
-                      <Card.Title className="asset-card-title" title={asset.name}>
-                        {asset.name}
-                      </Card.Title>
-
-                      {asset.serial_number && (
-                        <div className="text-muted small mb-2" style={{ fontSize: '0.78rem' }}>
-                          S/N: {asset.serial_number}
-                        </div>
-                      )}
-
-                      <div className="d-flex align-items-center gap-2 flex-wrap mt-auto pt-2">
-                        {asset.location && (
-                          <span className="asset-tag-pill location">
-                            📍 {asset.location.name}
-                          </span>
-                        )}
-                        {asset.subcategory && (
-                          <span className="asset-tag-pill">
-                            {asset.subcategory.name}
-                          </span>
-                        )}
+                    <Card.Body className="p-3 d-flex flex-column flex-grow-1">
+                      <div className="d-flex align-items-center justify-content-between mb-1" style={{ minHeight: '16px' }}>
+                        <span className="text-uppercase fw-bold text-muted text-truncate" style={{ fontSize: '0.68rem', letterSpacing: '0.5px' }}>
+                          {asset.category?.name || 'Equipment'}
+                        </span>
                         {asset.total_quantity && (
-                          <span className="asset-tag-pill stock">
-                            ⚡ {asset.total_quantity} Units Available
+                          <span className="badge bg-success bg-opacity-10 text-success border border-success border-opacity-25 rounded-pill small" style={{ fontSize: '0.68rem' }}>
+                            ● {asset.total_quantity} In Stock
                           </span>
                         )}
                       </div>
-                    </Card.Body>
 
-                    <Card.Footer className="asset-card-footer">
-                      <button
-                        className={`btn-card-action ${isTarget ? 'btn-card-action-primary' : 'btn-card-action-success'}`}
-                        style={isTarget ? { backgroundColor: '#2563eb', color: '#fff' } : {}}
-                        onClick={() => openBookingForm(asset.id)}
+                      <Card.Title
+                        className="fw-bold mb-1 text-dark"
+                        title={asset.name}
+                        style={{
+                          fontSize: '0.94rem',
+                          lineHeight: '1.25rem',
+                          minHeight: '2.5rem',
+                          display: '-webkit-box',
+                          WebkitLineClamp: 2,
+                          WebkitBoxOrient: 'vertical',
+                          overflow: 'hidden',
+                        }}
                       >
-                        {isTarget ? 'Book This Asset ⚡' : 'Book Equipment ⚡'}
-                      </button>
-                    </Card.Footer>
+                        {asset.name}
+                      </Card.Title>
+
+                      <div className="text-muted small mb-2 text-truncate" style={{ fontSize: '0.75rem', minHeight: '16px' }}>
+                        {asset.serial_number ? `S/N: ${asset.serial_number}` : ''}
+                        {asset.serial_number && asset.location?.name ? ' • ' : ''}
+                        {asset.location?.name || ''}
+                      </div>
+
+                      <div className="mt-auto pt-2">
+                        <button
+                          className="btn w-100 py-2 fw-semibold text-white rounded-pill d-flex align-items-center justify-content-center gap-1 shadow-sm border-0"
+                          style={{
+                            backgroundColor: isTarget ? '#2563eb' : '#0f172a',
+                            fontSize: '0.84rem',
+                            transition: 'all 0.2s ease',
+                          }}
+                          onClick={() => openBookingForm(asset.id)}
+                        >
+                          {isTarget ? 'Selected Item ✓' : 'Book Gear ➔'}
+                        </button>
+                      </div>
+                    </Card.Body>
                   </Card>
                 </Col>
               );

@@ -50,7 +50,6 @@ function App() {
               <Nav className="mx-auto gap-4 align-items-center my-2 my-lg-0">
                 <Nav.Link as={Link} to="/" className="framelease-nav-link active">Home</Nav.Link>
                 <Nav.Link as={Link} to="/assets" className="framelease-nav-link">Equipment</Nav.Link>
-                <Nav.Link as={Link} to="/#how-it-works" className="framelease-nav-link">How It Works</Nav.Link>
                 <Nav.Link as={Link} to="/#about" className="framelease-nav-link">About</Nav.Link>
               </Nav>
               <Nav className="gap-3 align-items-center flex-row justify-content-end">

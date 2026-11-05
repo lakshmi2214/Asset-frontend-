@@ -92,24 +92,6 @@ const popularSearches = [
   { label: 'Tripods', query: 'tripod' },
 ];
 
-const howItWorksSteps = [
-  {
-    step: '01',
-    title: 'Select Your Gear',
-    desc: 'Browse our catalog of cinema cameras, lenses, lighting, and audio equipment. Pick the exact units you need for your shoot.',
-  },
-  {
-    step: '02',
-    title: 'Choose Shoot Dates',
-    desc: 'Pick your start and return schedule. Book single-day shoots, weekend packages, or multi-week production blocks.',
-  },
-  {
-    step: '03',
-    title: 'Pick Up & Create',
-    desc: 'Collect fully tested, sensor-cleaned equipment from our Malleshwaram studio hub and bring your creative vision to life.',
-  },
-];
-
 const impactStats = [
   { number: '500+', label: 'Verified Gear Units' },
   { number: '100%', label: 'Tested & Insured' },
@@ -327,42 +309,7 @@ export default function Home() {
         </Container>
       </section>
 
-      {/* 4. Section 4: Connected Step Roadmap (Linear Stepper Flow) */}
-      <section className="framelease-roadmap-section" id="how-it-works">
-        <Container>
-          <div className="text-center mx-auto mb-5" style={{ maxWidth: '640px' }}>
-            <div className="framelease-section-badge">
-              ✦ 3 SIMPLE STEPS
-            </div>
-            <h2 className="framelease-section-title">How Rental Works</h2>
-            <p className="framelease-section-sub mx-auto">
-              Fast, reliable equipment booking built specifically for creators and filmmakers.
-            </p>
-          </div>
-
-          <Row className="g-4">
-            {howItWorksSteps.map((stepItem) => (
-              <Col key={stepItem.step} md={4}>
-                <div className="roadmap-card">
-                  <div className="roadmap-step-badge">
-                    {stepItem.step}
-                  </div>
-                  <h4 className="roadmap-title">{stepItem.title}</h4>
-                  <p className="roadmap-desc">{stepItem.desc}</p>
-                </div>
-              </Col>
-            ))}
-          </Row>
-
-          <div className="text-center mt-5">
-            <Link to="/assets" className="btn-purple-pill py-2 px-5 text-white text-decoration-none">
-              Start Your Reservation ➔
-            </Link>
-          </div>
-        </Container>
-      </section>
-
-      {/* 5. Section 5: Full-Bleed Cinema Dark Showcase (Reversed: Image Left, Text Right) */}
+      {/* 4. Section 4: Full-Bleed Cinema Dark Showcase (Reversed: Image Left, Text Right) */}
       <section className="framelease-cinema-section" id="studio-banner">
         <Container>
           <Row className="align-items-center g-5">
@@ -417,7 +364,7 @@ export default function Home() {
         </Container>
       </section>
 
-      {/* 6. Section 6: Spotlight Layout (1 Large Featured Card Left + 3 Stacked Horizontal Rows Right) */}
+      {/* 5. Section 5: Spotlight Layout (1 Large Featured Card Left + 3 Stacked Horizontal Rows Right) */}
       <section className="framelease-spotlight-section" id="recently-added">
         <Container>
           <div className="framelease-section-header">
@@ -510,7 +457,7 @@ export default function Home() {
         </Container>
       </section>
 
-      {/* 7. Section 7: Studio Hub & Impact Stats (Asymmetrical Split Layout) */}
+      {/* 6. Section 6: Studio Hub & Impact Stats (Asymmetrical Split Layout) */}
       <section className="framelease-about-section" id="about">
         <Container>
           <Row className="g-4 align-items-stretch">

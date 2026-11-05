@@ -84,19 +84,40 @@ export function getAssetGroup(asset) {
     name.includes('aputure') ||
     name.includes('softbox') ||
     name.includes('led') ||
-    cat.includes('light')
+    name.includes('godox') ||
+    cat.includes('light') ||
+    sub.includes('light') ||
+    sub.includes('softbox')
   ) {
     return 'lighting';
   }
 
-  // 7. Tripods & Rigging
+  // 7. Tripods & Rigging / Stands & Support
   if (
     name.includes('tripod') ||
     name.includes('monopod') ||
     name.includes('gimbal') ||
-    name.includes('stabilizer')
+    name.includes('stabilizer') ||
+    name.includes('stand') ||
+    name.includes('boom') ||
+    name.includes('c-stand') ||
+    name.includes('holder') ||
+    cat.includes('stand') ||
+    cat.includes('support') ||
+    sub.includes('stand')
   ) {
     return 'tripod';
+  }
+
+  // 8. Backdrops & Studio Rigging
+  if (
+    name.includes('backdrop') ||
+    name.includes('screen') ||
+    name.includes('green screen') ||
+    cat.includes('backdrop') ||
+    sub.includes('screen')
+  ) {
+    return 'backdrop';
   }
 
   // Fallbacks by subcategory
@@ -123,6 +144,8 @@ export function getGroupDisplayName(group) {
       return 'Lighting & Studio Setup';
     case 'tripod':
       return 'Tripods & Supports';
+    case 'backdrop':
+      return 'Backdrops & Studio Rigging';
     default:
       return 'Related Equipment';
   }

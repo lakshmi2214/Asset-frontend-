@@ -1,16 +1,18 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import { Container, Row, Col, Badge } from 'react-bootstrap';
-import { API_BASE } from '../../auth';
+import { API_BASE, PROD_BACKEND } from '../../auth';
 import { getAssetGroup } from '../../assetGroups';
 
 const ASSET_CATEGORIES = [
   { id: 'all', name: 'All Equipment' },
   { id: 'camera', name: '📷 Cameras' },
-  { id: 'audio', name: '🎙️ Mics & Audio' },
-  { id: 'power', name: '🔋 Batteries & Power' },
   { id: 'lens', name: '🔍 Lenses' },
+  { id: 'audio', name: '🎙️ Mics & Audio' },
+  { id: 'lighting', name: '💡 Lighting' },
+  { id: 'power', name: '🔋 Batteries & Power' },
   { id: 'storage', name: '💾 Storage & Media' },
+  { id: 'tripod', name: '📐 Stands & Supports' },
 ];
 
 export default function AssetList() {
@@ -32,35 +34,63 @@ export default function AssetList() {
         const controller = new AbortController();
         const timeoutId = setTimeout(() => controller.abort(), 15000);
 
-        const [assetsRes, categoriesRes] = await Promise.all([
-          fetch(`${API_BASE}/api/v1/assets/`, {
-            headers: { 'Content-Type': 'application/json' },
-            signal: controller.signal
-          }),
-          fetch(`${API_BASE}/api/v1/categories/`, {
-            headers: { 'Content-Type': 'application/json' },
-            signal: controller.signal
-          }).catch(() => ({ ok: false }))
-        ]);
+        let assetsData = null;
+        let categoriesData = null;
+
+        // Try primary API_BASE first
+        try {
+          const [assetsRes, categoriesRes] = await Promise.all([
+            fetch(`${API_BASE}/api/v1/assets/`, {
+              headers: { 'Content-Type': 'application/json' },
+              signal: controller.signal
+            }).catch(() => null),
+            fetch(`${API_BASE}/api/v1/categories/`, {
+              headers: { 'Content-Type': 'application/json' },
+              signal: controller.signal
+            }).catch(() => null)
+          ]);
+
+          if (assetsRes && assetsRes.ok) {
+            assetsData = await assetsRes.json();
+          }
+          if (categoriesRes && categoriesRes.ok) {
+            categoriesData = await categoriesRes.json();
+          }
+        } catch (e) {
+          console.warn("Primary API fetch error:", e);
+        }
+
+        // If primary API didn't return assets (e.g. local backend empty or down), fallback to PROD_BACKEND
+        if ((!assetsData || !Array.isArray(assetsData) || assetsData.length === 0) && API_BASE !== PROD_BACKEND) {
+          try {
+            const fallbackRes = await fetch(`${PROD_BACKEND}/api/v1/assets/`);
+            if (fallbackRes.ok) {
+              assetsData = await fallbackRes.json();
+            }
+          } catch (e) {
+            console.warn("Fallback assets fetch error:", e);
+          }
+        }
+
+        if ((!categoriesData || !Array.isArray(categoriesData) || categoriesData.length === 0) && API_BASE !== PROD_BACKEND) {
+          try {
+            const fallbackCatRes = await fetch(`${PROD_BACKEND}/api/v1/categories/`);
+            if (fallbackCatRes.ok) {
+              categoriesData = await fallbackCatRes.json();
+            }
+          } catch (e) {
+            console.warn("Fallback categories fetch error:", e);
+          }
+        }
 
         clearTimeout(timeoutId);
 
         if (isMounted) {
-          if (assetsRes && assetsRes.ok) {
-            const assetsData = await assetsRes.json();
-            setAssets(Array.isArray(assetsData) ? assetsData : []);
-          } else {
-            setAssets([]);
-          }
-          if (categoriesRes && categoriesRes.ok) {
-            const categoriesData = await categoriesRes.json();
-            setCategories(Array.isArray(categoriesData) ? categoriesData : []);
-          } else {
-            setCategories([]);
-          }
+          setAssets(Array.isArray(assetsData) ? assetsData : []);
+          setCategories(Array.isArray(categoriesData) ? categoriesData : []);
         }
       } catch (err) {
-        console.error("AssetList fetch error:", err);
+        console.error("AssetList load error:", err);
         if (isMounted) {
           setAssets([]);
           setCategories([]);
@@ -85,6 +115,8 @@ export default function AssetList() {
       else if (paramLower.includes('battery') || paramLower.includes('power')) setSelectedCategoryId('power');
       else if (paramLower.includes('lens')) setSelectedCategoryId('lens');
       else if (paramLower.includes('card') || paramLower.includes('storage') || paramLower.includes('media')) setSelectedCategoryId('storage');
+      else if (paramLower.includes('light')) setSelectedCategoryId('lighting');
+      else if (paramLower.includes('tripod') || paramLower.includes('stand')) setSelectedCategoryId('tripod');
       else if (categories.length > 0) {
         const match = categories.find(c =>
           c.name.toLowerCase().includes(paramLower) ||
@@ -110,7 +142,7 @@ export default function AssetList() {
     let list = assets;
 
     if (selectedCategoryId !== 'all') {
-      if (['camera', 'audio', 'power', 'lens', 'storage', 'lighting', 'tripod'].includes(selectedCategoryId)) {
+      if (['camera', 'audio', 'power', 'lens', 'storage', 'lighting', 'tripod', 'backdrop'].includes(selectedCategoryId)) {
         list = list.filter(a => getAssetGroup(a) === selectedCategoryId);
       } else {
         list = list.filter(a => {
@@ -136,6 +168,8 @@ export default function AssetList() {
         if (q === 'battery' || q === 'batteries' || q === 'charger' || q === 'power') return grp === 'power';
         if (q === 'card' || q === 'cards' || q === 'storage' || q === 'media') return grp === 'storage';
         if (q === 'lens' || q === 'lenses') return grp === 'lens';
+        if (q === 'light' || q === 'lights' || q === 'lighting') return grp === 'lighting';
+        if (q === 'tripod' || q === 'tripods' || q === 'stand' || q === 'stands') return grp === 'tripod';
 
         return (
           (a.name && a.name.toLowerCase().includes(q)) ||
@@ -167,6 +201,7 @@ export default function AssetList() {
     <div className="py-4" style={{ backgroundColor: '#ffffff', minHeight: '80vh' }}>
       <Container>
 
+        {/* Page Header */}
         <div className="d-flex flex-wrap align-items-center justify-content-between gap-3 mb-4">
           <div>
             <h1 className="fw-bolder mb-1" style={{ fontSize: '1.9rem', color: '#0f172a', letterSpacing: '-0.5px' }}>
@@ -187,7 +222,7 @@ export default function AssetList() {
           </div>
         </div>
 
-
+        {/* Filter & Search Bar */}
         <div className="bg-white rounded-4 p-3 mb-4 shadow-sm border" style={{ borderColor: '#e2e8f0' }}>
           <div className="d-flex flex-column flex-lg-row align-items-stretch align-items-lg-center justify-content-between gap-3">
 
@@ -230,6 +265,7 @@ export default function AssetList() {
               )}
             </div>
 
+            {/* Category Filter Pills */}
             <div
               className="d-flex align-items-center gap-2 flex-nowrap overflow-x-auto no-scrollbar py-1"
               style={{
@@ -300,17 +336,18 @@ export default function AssetList() {
           )}
         </div>
 
+        {/* Active Filter Badges */}
         {(selectedCategoryId !== 'all' || searchQuery.trim() || selectedSubcategoryId !== 'all') && (
           <div className="d-flex align-items-center gap-2 flex-wrap mb-4">
             <span className="text-muted small">Active filters:</span>
-            {activeCategory && (
+            {selectedCategoryId !== 'all' && (
               <Badge
                 bg="dark"
                 className="rounded-pill px-3 py-2 fw-medium d-inline-flex align-items-center gap-1"
                 style={{ cursor: 'pointer', fontSize: '0.8rem' }}
                 onClick={() => handleCategorySelect('all')}
               >
-                {activeCategory.name} <span>✕</span>
+                {ASSET_CATEGORIES.find(c => c.id === selectedCategoryId)?.name || activeCategory?.name || selectedCategoryId} <span>✕</span>
               </Badge>
             )}
             {selectedSubcategoryId !== 'all' && (
@@ -345,107 +382,140 @@ export default function AssetList() {
           </div>
         )}
 
+        {/* Skeleton Loading State (4 columns compact) */}
         {loading && (
-          <Row className="g-4">
-            {[1, 2, 3, 4, 5, 6].map((idx) => (
-              <Col key={idx} xs={12} sm={6} lg={4}>
-                <div className="bg-white rounded-4 border p-3 shadow-sm h-100" style={{ borderColor: '#f1f5f9' }}>
-                  <div className="rounded-3 mb-3" style={{ height: '200px', backgroundColor: '#f1f5f9' }}></div>
-                  <div className="rounded mb-2" style={{ height: '20px', width: '70%', backgroundColor: '#f1f5f9' }}></div>
-                  <div className="rounded mb-3" style={{ height: '14px', width: '40%', backgroundColor: '#f8fafc' }}></div>
-                  <div className="rounded-pill" style={{ height: '36px', width: '100%', backgroundColor: '#f1f5f9' }}></div>
+          <Row className="g-3 align-items-stretch">
+            {[1, 2, 3, 4, 5, 6, 7, 8].map((idx) => (
+              <Col key={idx} xs={12} sm={6} md={4} lg={3}>
+                <div className="bg-white rounded-3 border p-3 shadow-sm h-100 d-flex flex-column" style={{ borderColor: '#f1f5f9' }}>
+                  <div className="rounded-3 mb-2" style={{ height: '145px', backgroundColor: '#f1f5f9' }}></div>
+                  <div className="rounded mb-2" style={{ height: '12px', width: '40%', backgroundColor: '#f1f5f9' }}></div>
+                  <div className="rounded mb-2" style={{ height: '16px', width: '85%', backgroundColor: '#f1f5f9' }}></div>
+                  <div className="rounded mb-3" style={{ height: '12px', width: '55%', backgroundColor: '#f8fafc' }}></div>
+                  <div className="rounded-pill mt-auto" style={{ height: '32px', width: '100%', backgroundColor: '#f1f5f9' }}></div>
                 </div>
               </Col>
             ))}
           </Row>
         )}
 
+        {/* Compact, Perfectly Aligned Asset Cards Grid (4 columns) */}
         {!loading && filteredAssets.length > 0 && (
-          <Row className="g-4">
+          <Row className="g-3 align-items-stretch">
             {filteredAssets.map((asset) => {
               const isAvailable = Boolean(asset.available || asset.status?.toLowerCase().includes('available'));
               const unitsCount = asset.available_quantity || asset.total_quantity || asset.quantity || 1;
-              const totalCount = asset.total_quantity || asset.quantity || 1;
 
               return (
-                <Col key={asset.id} xs={12} sm={6} lg={4}>
+                <Col key={asset.id} xs={12} sm={6} md={4} lg={3}>
                   <div
-                    className="card h-100 border rounded-4 overflow-hidden shadow-sm equipment-card-hover"
+                    className="card h-100 border rounded-3 overflow-hidden shadow-sm equipment-card-hover"
                     style={{
                       borderColor: '#e2e8f0',
-                      backgroundColor: '#ffffff'
+                      backgroundColor: '#ffffff',
+                      display: 'flex',
+                      flexDirection: 'column',
                     }}
                   >
+                    {/* Compact Image Container: 145px height */}
                     <div
-                      className="d-flex align-items-center justify-content-center p-3"
-                      style={{ height: '220px', backgroundColor: '#f8fafc' }}
+                      className="d-flex align-items-center justify-content-center p-2 position-relative"
+                      style={{
+                        height: '145px',
+                        backgroundColor: '#f8fafc',
+                        borderBottom: '1px solid #f1f5f9',
+                      }}
                     >
                       {asset.image_url ? (
                         <img
                           src={asset.image_url}
                           alt={asset.name}
                           style={{
-                            maxHeight: '180px',
+                            maxHeight: '120px',
                             maxWidth: '85%',
                             objectFit: 'contain',
-                            transition: 'transform 0.3s ease',
+                            transition: 'transform 0.25s ease',
                           }}
                           className="equipment-img-hover"
                         />
                       ) : (
-                        <div className="text-center text-muted">
-                          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#cbd5e1" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                        <div className="text-center text-muted d-flex flex-column align-items-center justify-content-center">
+                          <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#cbd5e1" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
                             <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path>
                             <circle cx="12" cy="13" r="4"></circle>
                           </svg>
-                          <div className="small mt-1" style={{ fontSize: '0.78rem' }}>No Image Available</div>
+                          <span className="small mt-1 text-muted" style={{ fontSize: '0.72rem' }}>No Photo</span>
                         </div>
                       )}
                     </div>
 
-
-                    <div className="card-body p-4 d-flex flex-column">
-                      <h5
-                        className="fw-bold mb-1 text-truncate"
-                        title={asset.name}
-                        style={{ fontSize: '1.15rem', color: '#0f172a' }}
-                      >
-                        {asset.name}
-                      </h5>
-
-                      <div className="text-muted small mb-3" style={{ fontSize: '0.8rem', color: '#94a3b8' }}>
-                        S/N: {asset.serial_number || '01'}
-                      </div>
-
-                      <div className="d-flex align-items-center gap-2 flex-wrap mb-4 mt-auto">
+                    {/* Compact Card Body with Uniform Alignment */}
+                    <div className="card-body p-3 d-flex flex-column flex-grow-1">
+                      {/* Department / Category Tag & Stock Status Header */}
+                      <div className="d-flex align-items-center justify-content-between gap-1 mb-1" style={{ minHeight: '18px' }}>
                         <span
-                          className="badge fw-semibold px-3 py-2 d-inline-flex align-items-center gap-1"
+                          className="text-uppercase fw-bold text-muted text-truncate"
+                          style={{ fontSize: '0.68rem', letterSpacing: '0.5px', maxWidth: '58%' }}
+                        >
+                          {asset.category?.name || asset.subcategory?.name || 'Equipment'}
+                        </span>
+                        <span
+                          className="badge fw-semibold text-nowrap"
                           style={{
-                            backgroundColor: isAvailable ? '#10b981' : '#ef4444',
-                            color: '#ffffff',
-                            fontSize: '0.78rem',
+                            backgroundColor: isAvailable ? '#ecfdf5' : '#fef2f2',
+                            color: isAvailable ? '#059669' : '#dc2626',
+                            fontSize: '0.7rem',
                             borderRadius: '9999px',
-                            letterSpacing: '0.2px',
+                            padding: '2px 8px',
                           }}
                         >
-                          • {isAvailable ? `${unitsCount} Unit${unitsCount > 1 ? 's' : ''} Available` : 'Unavailable'}
+                          ● {isAvailable ? `${unitsCount} in stock` : 'Unavailable'}
                         </span>
                       </div>
 
-                      <Link
-                        to={`/book-asset?assetId=${asset.id}`}
-                        className="btn w-100 py-2 fw-semibold text-white d-flex align-items-center justify-content-center gap-2 text-decoration-none"
+                      {/* Clamped 2-Line Title: Consistent Height across every card in row */}
+                      <h6
+                        className="fw-bold mb-1 text-dark"
+                        title={asset.name}
                         style={{
-                          backgroundColor: '#2563eb',
-                          borderRadius: '12px',
-                          fontSize: '0.92rem',
-                          border: 'none',
-                          boxShadow: '0 2px 4px rgba(37, 99, 235, 0.18)',
-                          transition: 'all 0.2s ease',
+                          fontSize: '0.94rem',
+                          lineHeight: '1.25rem',
+                          minHeight: '2.5rem',
+                          display: '-webkit-box',
+                          WebkitLineClamp: 2,
+                          WebkitBoxOrient: 'vertical',
+                          overflow: 'hidden',
                         }}
                       >
-                        Book This Asset ⚡
-                      </Link>
+                        {asset.name}
+                      </h6>
+
+                      {/* Serial Number & Location */}
+                      <div className="text-muted small mb-3 text-truncate" style={{ fontSize: '0.75rem', minHeight: '16px' }}>
+                        {asset.serial_number ? `S/N: ${asset.serial_number}` : ''}
+                        {asset.serial_number && asset.location?.name ? ' • ' : ''}
+                        {asset.location?.name || ''}
+                      </div>
+
+                      {/* Pinned Bottom Book Button */}
+                      <div className="mt-auto pt-1">
+                        <Link
+                          to={`/book-asset?assetId=${asset.id}`}
+                          className="btn w-100 py-2 fw-semibold text-white d-flex align-items-center justify-content-center gap-1 text-decoration-none shadow-sm"
+                          style={{
+                            backgroundColor: '#0f172a',
+                            borderRadius: '10px',
+                            fontSize: '0.84rem',
+                            border: 'none',
+                            transition: 'all 0.2s ease',
+                          }}
+                          onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = '#2563eb'; }}
+                          onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = '#0f172a'; }}
+                        >
+                          <span>Book Equipment</span>
+                          <span>➔</span>
+                        </Link>
+                      </div>
                     </div>
                   </div>
                 </Col>
@@ -454,7 +524,7 @@ export default function AssetList() {
           </Row>
         )}
 
-
+        {/* Empty State */}
         {!loading && filteredAssets.length === 0 && (
           <div className="text-center py-5 my-5 bg-white rounded-4 border p-5 shadow-sm" style={{ borderColor: '#e2e8f0' }}>
             <div
