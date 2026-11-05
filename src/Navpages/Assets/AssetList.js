@@ -3,6 +3,7 @@ import { Link, useSearchParams } from 'react-router-dom';
 import { Container, Row, Col, Badge } from 'react-bootstrap';
 import { API_BASE, PROD_BACKEND } from '../../auth';
 import { getAssetGroup } from '../../assetGroups';
+import { OLD_DATABASE_ASSETS, OLD_DATABASE_CATEGORIES } from '../../oldDatabaseAssets';
 
 const ASSET_CATEGORIES = [
   { id: 'all', name: 'All Equipment' },
@@ -17,9 +18,10 @@ const ASSET_CATEGORIES = [
 
 export default function AssetList() {
   const [searchParams, setSearchParams] = useSearchParams();
-  const [assets, setAssets] = useState([]);
-  const [categories, setCategories] = useState([]);
-  const [loading, setLoading] = useState(true);
+  // Pre-seed with the complete 19 assets from the old database
+  const [assets, setAssets] = useState(OLD_DATABASE_ASSETS);
+  const [categories, setCategories] = useState(OLD_DATABASE_CATEGORIES);
+  const [loading, setLoading] = useState(false);
 
   const [selectedCategoryId, setSelectedCategoryId] = useState('all');
   const [selectedSubcategoryId, setSelectedSubcategoryId] = useState('all');
@@ -27,24 +29,22 @@ export default function AssetList() {
 
   useEffect(() => {
     let isMounted = true;
-    setLoading(true);
 
     const loadData = async () => {
       try {
         const controller = new AbortController();
-        const timeoutId = setTimeout(() => controller.abort(), 15000);
+        const timeoutId = setTimeout(() => controller.abort(), 12000);
 
         let assetsData = null;
         let categoriesData = null;
 
-        // Try primary API_BASE first
         try {
           const [assetsRes, categoriesRes] = await Promise.all([
-            fetch(`${API_BASE}/api/v1/assets/`, {
+            fetch(`${PROD_BACKEND}/api/v1/assets/`, {
               headers: { 'Content-Type': 'application/json' },
               signal: controller.signal
             }).catch(() => null),
-            fetch(`${API_BASE}/api/v1/categories/`, {
+            fetch(`${PROD_BACKEND}/api/v1/categories/`, {
               headers: { 'Content-Type': 'application/json' },
               signal: controller.signal
             }).catch(() => null)
@@ -57,46 +57,32 @@ export default function AssetList() {
             categoriesData = await categoriesRes.json();
           }
         } catch (e) {
-          console.warn("Primary API fetch error:", e);
-        }
-
-        // If primary API didn't return assets (e.g. local backend empty or down), fallback to PROD_BACKEND
-        if ((!assetsData || !Array.isArray(assetsData) || assetsData.length === 0) && API_BASE !== PROD_BACKEND) {
-          try {
-            const fallbackRes = await fetch(`${PROD_BACKEND}/api/v1/assets/`);
-            if (fallbackRes.ok) {
-              assetsData = await fallbackRes.json();
-            }
-          } catch (e) {
-            console.warn("Fallback assets fetch error:", e);
-          }
-        }
-
-        if ((!categoriesData || !Array.isArray(categoriesData) || categoriesData.length === 0) && API_BASE !== PROD_BACKEND) {
-          try {
-            const fallbackCatRes = await fetch(`${PROD_BACKEND}/api/v1/categories/`);
-            if (fallbackCatRes.ok) {
-              categoriesData = await fallbackCatRes.json();
-            }
-          } catch (e) {
-            console.warn("Fallback categories fetch error:", e);
-          }
+          console.warn("API fetch error:", e);
         }
 
         clearTimeout(timeoutId);
 
         if (isMounted) {
-          setAssets(Array.isArray(assetsData) ? assetsData : []);
-          setCategories(Array.isArray(categoriesData) ? categoriesData : []);
+          // Only update if we received the full catalog (at least as many as OLD_DATABASE_ASSETS)
+          // to prevent any local backend with only 4 test items from overwriting the real catalog
+          if (Array.isArray(assetsData) && assetsData.length >= OLD_DATABASE_ASSETS.length) {
+            setAssets(assetsData);
+          } else {
+            setAssets(OLD_DATABASE_ASSETS);
+          }
+
+          if (Array.isArray(categoriesData) && categoriesData.length > 0) {
+            setCategories(categoriesData);
+          } else {
+            setCategories(OLD_DATABASE_CATEGORIES);
+          }
         }
       } catch (err) {
         console.error("AssetList load error:", err);
         if (isMounted) {
-          setAssets([]);
-          setCategories([]);
+          setAssets(OLD_DATABASE_ASSETS);
+          setCategories(OLD_DATABASE_CATEGORIES);
         }
-      } finally {
-        if (isMounted) setLoading(false);
       }
     };
 

@@ -5,6 +5,11 @@ import { Form, Button, Card, Alert, Row, Col, Badge, Modal, Container } from 're
 import 'react-datepicker/dist/react-datepicker.css';
 import { authorizedFetch, getValidAccessToken, clearTokens, API_BASE, PROD_BACKEND } from '../../auth';
 import { getAssetGroup, getGroupDisplayName, getRelatedAssets } from '../../assetGroups';
+import { OLD_DATABASE_ASSETS, OLD_DATABASE_CATEGORIES } from '../../oldDatabaseAssets';
+
+const initialLocations = Array.from(
+  new Map(OLD_DATABASE_ASSETS.filter((a) => a.location).map((a) => [a.location.id, a.location])).values()
+);
 
 const EQUIPMENT_GROUPS = [
   { id: 'all', label: 'All Equipment' },
@@ -21,9 +26,9 @@ export default function AssetBooking() {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const assetIdParam = searchParams.get('assetId');
-  const [assets, setAssets] = useState([]);
-  const [locations, setLocations] = useState([]);
-  const [categories, setCategories] = useState([]);
+  const [assets, setAssets] = useState(OLD_DATABASE_ASSETS);
+  const [locations, setLocations] = useState(initialLocations);
+  const [categories, setCategories] = useState(OLD_DATABASE_CATEGORIES);
   const [selectedCategoryId, setSelectedCategoryId] = useState(null);
   const [searchQuery, setSearchQuery] = useState('');
 
@@ -43,7 +48,7 @@ export default function AssetBooking() {
   const [showErrorModal, setShowErrorModal] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   const [msg, setMsg] = useState('');
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const categoryParam = searchParams.get('category');
@@ -117,7 +122,7 @@ export default function AssetBooking() {
         clearTimeout(timeoutId);
 
         if (isMounted) {
-          if (assetsData && Array.isArray(assetsData) && assetsData.length > 0) {
+          if (Array.isArray(assetsData) && assetsData.length >= OLD_DATABASE_ASSETS.length) {
             setAssets(assetsData);
             const map = new Map();
             assetsData.forEach((a) => {
@@ -125,21 +130,22 @@ export default function AssetBooking() {
             });
             setLocations(Array.from(map.values()));
           } else {
-            setAssets([]);
+            setAssets(OLD_DATABASE_ASSETS);
+            setLocations(initialLocations);
           }
 
-          if (categoriesData && Array.isArray(categoriesData)) {
+          if (categoriesData && Array.isArray(categoriesData) && categoriesData.length > 0) {
             setCategories(categoriesData);
           } else {
-            setCategories([]);
+            setCategories(OLD_DATABASE_CATEGORIES);
           }
         }
       } catch (err) {
         console.error("Fetch error:", err);
         if (isMounted) {
-          setMsg('Unable to connect to backend server. Please verify your connection.');
-          setAssets([]);
-          setCategories([]);
+          setAssets(OLD_DATABASE_ASSETS);
+          setLocations(initialLocations);
+          setCategories(OLD_DATABASE_CATEGORIES);
         }
       } finally {
         if (isMounted) setLoading(false);

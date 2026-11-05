@@ -9,21 +9,8 @@ const isVercel = typeof window !== 'undefined' && Boolean(window.location.hostna
 // Default production backend containing the full equipment catalog / old database
 export const PROD_BACKEND = 'https://asset-booking-backend.vercel.app';
 
-// Local backend URL for local development (port 8030)
-export const LOCAL_BACKEND = `http://${hostname}:8030`;
-
-// Detect if an explicit remote URL was provided in environment variables
-const envApiUrl = process.env.REACT_APP_API_URL &&
-    !process.env.REACT_APP_API_URL.includes('127.0.0.1') &&
-    !process.env.REACT_APP_API_URL.includes('localhost')
-    ? process.env.REACT_APP_API_URL
-    : null;
-
-// Connect to PROD_BACKEND by default to display the old database assets.
-// Only route to local backend if explicitly requested via REACT_APP_USE_LOCAL_BACKEND === 'true'
-export const API_BASE = process.env.REACT_APP_USE_LOCAL_BACKEND === 'true'
-    ? LOCAL_BACKEND
-    : (envApiUrl || PROD_BACKEND);
+// Always route to PROD_BACKEND so the old database assets are always displayed
+export const API_BASE = PROD_BACKEND;
 
 export function clearTokens() {
     localStorage.removeItem('access');

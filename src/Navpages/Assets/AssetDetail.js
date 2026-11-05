@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { Container, Row, Col, Card, Badge, Button, Spinner } from 'react-bootstrap';
-import { API_BASE } from '../../auth';
+import { API_BASE, PROD_BACKEND } from '../../auth';
+import { OLD_DATABASE_ASSETS } from '../../oldDatabaseAssets';
 
 export default function AssetDetail() {
   const { id } = useParams();
@@ -18,7 +19,7 @@ export default function AssetDetail() {
         const controller = new AbortController();
         const timeoutId = setTimeout(() => controller.abort(), 15000);
 
-        const response = await fetch(`${API_BASE}/api/v1/assets/${id}/`, {
+        const response = await fetch(`${PROD_BACKEND}/api/v1/assets/${id}/`, {
           method: 'GET',
           headers: { 'Content-Type': 'application/json' },
           signal: controller.signal
@@ -26,7 +27,15 @@ export default function AssetDetail() {
 
         clearTimeout(timeoutId);
 
-        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+        if (!response.ok) {
+          const fallback = OLD_DATABASE_ASSETS.find((a) => String(a.id) === String(id));
+          if (fallback && isMounted) {
+            setAsset(fallback);
+            setError(null);
+            return;
+          }
+          throw new Error(`HTTP ${response.status}`);
+        }
         const data = await response.json();
 
         if (isMounted) {
@@ -35,7 +44,11 @@ export default function AssetDetail() {
         }
       } catch (err) {
         console.error('Error loading asset:', err);
-        if (isMounted) {
+        const fallback = OLD_DATABASE_ASSETS.find((a) => String(a.id) === String(id));
+        if (fallback && isMounted) {
+          setAsset(fallback);
+          setError(null);
+        } else if (isMounted) {
           setError('Failed to load asset details from backend.');
         }
       } finally {
