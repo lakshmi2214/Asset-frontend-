@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route, Link, Navigate, useParams } from 'react-router-dom';
-import { Navbar, Nav, Container, Button, Badge } from 'react-bootstrap';
+import { BrowserRouter as Router, Routes, Route, Link, Navigate, useParams, useLocation } from 'react-router-dom';
+import { Navbar, Nav, Container, Button } from 'react-bootstrap';
 import Signup from './Home/Signup';
 import Login from './Home/Login';
 import AssetList from './Navpages/Assets/AssetList';
@@ -8,13 +8,99 @@ import BookingList from './Navpages/Bookings/BookingList';
 import Home from './Home/Home';
 import AssetBooking from './Navpages/Bookings/BookingForm';
 import Footer from './Home/Footer';
+import { API_BASE } from './auth';
 
 function AssetRedirect() {
   const { id } = useParams();
   return <Navigate to={`/book-asset?assetId=${id}`} replace />;
 }
 
-import { API_BASE } from './auth';
+function AppContent({ user, setUser, handleLogout }) {
+  const location = useLocation();
+  const [navExpanded, setNavExpanded] = useState(false);
+
+  // Automatically collapse the mobile 3-bar hamburger menu whenever navigating to any page
+  useEffect(() => {
+    setNavExpanded(false);
+  }, [location.pathname, location.search, location.hash]);
+
+  const closeNav = () => setNavExpanded(false);
+
+  return (
+    <div className="d-flex flex-column min-vh-100">
+      <Navbar
+        variant="dark"
+        expand="lg"
+        sticky="top"
+        expanded={navExpanded}
+        onToggle={(expanded) => setNavExpanded(expanded)}
+        collapseOnSelect
+        className="py-3 shadow"
+        style={{ backgroundColor: '#0f172a', borderBottom: '1px solid rgba(255, 255, 255, 0.1)' }}
+      >
+        <Container>
+          <Navbar.Brand as={Link} to="/" onClick={closeNav} className="d-flex align-items-center gap-2 text-decoration-none">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#ffffff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z" />
+              <circle cx="12" cy="13" r="4" />
+            </svg>
+            <span style={{ fontWeight: 800, fontSize: '1.25rem', color: '#ffffff', letterSpacing: '-0.3px' }}>Aslikahani</span>
+          </Navbar.Brand>
+
+          <Navbar.Toggle
+            aria-controls="basic-navbar-nav"
+            className="border-0 shadow-none text-light"
+          />
+
+          <Navbar.Collapse id="basic-navbar-nav">
+            <Nav className="ms-lg-5 me-auto gap-4 align-items-center my-2 my-lg-0">
+              <Nav.Link as={Link} to="/" onClick={closeNav} className="framelease-nav-link active">Home</Nav.Link>
+              <Nav.Link as={Link} to="/assets" onClick={closeNav} className="framelease-nav-link">Equipment</Nav.Link>
+              <Nav.Link as={Link} to="/#about" onClick={closeNav} className="framelease-nav-link">About</Nav.Link>
+            </Nav>
+
+            <Nav className="gap-3 align-items-center flex-row justify-content-end">
+              {user ? (
+                <>
+                  <Nav.Link as={Link} to="/bookings" onClick={closeNav} className="text-white fw-semibold px-2">My History</Nav.Link>
+                  <Button variant="link" className="text-light opacity-75 text-decoration-none fw-medium p-0" onClick={() => { closeNav(); handleLogout(); }}>
+                    Sign Out
+                  </Button>
+                </>
+              ) : (
+                <>
+                  <Link to="/login" onClick={closeNav} className="btn rounded-pill px-4 py-1 fw-semibold text-white border-0" style={{ fontSize: '0.88rem', backgroundColor: 'rgba(255, 255, 255, 0.12)' }}>
+                    Login
+                  </Link>
+                  <Link to="/signup" onClick={closeNav} className="btn rounded-pill px-4 py-1 fw-bold text-dark border-0" style={{ fontSize: '0.88rem', backgroundColor: '#ffffff' }}>
+                    Sign Up
+                  </Link>
+                </>
+              )}
+            </Nav>
+          </Navbar.Collapse>
+        </Container>
+      </Navbar>
+
+      <main className="flex-grow-1">
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/signup" element={<Container className="mt-4"><Signup setUser={setUser} /></Container>} />
+          <Route path="/login" element={<Container className="mt-4"><Login setUser={setUser} /></Container>} />
+
+          <Route path="/assets" element={user ? <Container className="mt-4"><AssetList /></Container> : <Navigate to="/login" />} />
+          <Route path="/assets/:id" element={user ? <AssetRedirect /> : <Navigate to="/login" />} />
+          <Route path="/book-asset" element={user ? <Container className="mt-4"><AssetBooking /></Container> : <Navigate to="/login" />} />
+          <Route path="/bookings" element={user ? <Container className="mt-4"><BookingList /></Container> : <Navigate to="/login" />} />
+
+          <Route path="*" element={<Navigate to="/" />} />
+        </Routes>
+      </main>
+
+      <Footer />
+    </div>
+  );
+}
 
 function App() {
   const [user, setUser] = useState(() => localStorage.getItem('access') || null);
@@ -35,64 +121,7 @@ function App() {
 
   return (
     <Router>
-      <div className="d-flex flex-column min-vh-100">
-        <Navbar variant="dark" expand="lg" sticky="top" className="py-3 shadow" style={{ backgroundColor: '#0f172a', borderBottom: '1px solid rgba(255, 255, 255, 0.1)' }}>
-          <Container>
-            <Navbar.Brand as={Link} to="/" className="d-flex align-items-center gap-2 text-decoration-none">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#ffffff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z" />
-                <circle cx="12" cy="13" r="4" />
-              </svg>
-              <span style={{ fontWeight: 800, fontSize: '1.25rem', color: '#ffffff', letterSpacing: '-0.3px' }}>Aslikahani</span>
-            </Navbar.Brand>
-            <Navbar.Toggle aria-controls="basic-navbar-nav" className="border-0 shadow-none text-light" />
-            <Navbar.Collapse id="basic-navbar-nav">
-              <Nav className="ms-lg-5 me-auto gap-4 align-items-center my-2 my-lg-0">
-                <Nav.Link as={Link} to="/" className="framelease-nav-link active">Home</Nav.Link>
-                <Nav.Link as={Link} to="/assets" className="framelease-nav-link">Equipment</Nav.Link>
-                <Nav.Link as={Link} to="/#about" className="framelease-nav-link">About</Nav.Link>
-              </Nav>
-              <Nav className="gap-3 align-items-center flex-row justify-content-end">
-                {user ? (
-                  <>
-                    <Nav.Link as={Link} to="/bookings" className="text-white fw-semibold px-2">My History</Nav.Link>
-                    <Button variant="link" className="text-light opacity-75 text-decoration-none fw-medium p-0" onClick={handleLogout}>
-                      Sign Out
-                    </Button>
-                  </>
-                ) : (
-                  <>
-                    <Link to="/login" className="btn rounded-pill px-4 py-1 fw-semibold text-white border-0" style={{ fontSize: '0.88rem', backgroundColor: 'rgba(255, 255, 255, 0.12)' }}>
-                      Login
-                    </Link>
-                    <Link to="/signup" className="btn rounded-pill px-4 py-1 fw-bold text-dark border-0" style={{ fontSize: '0.88rem', backgroundColor: '#ffffff' }}>
-                      Sign Up
-                    </Link>
-                  </>
-                )}
-              </Nav>
-            </Navbar.Collapse>
-          </Container>
-        </Navbar>
-
-
-        <main className="flex-grow-1">
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/signup" element={<Container className="mt-4"><Signup setUser={setUser} /></Container>} />
-            <Route path="/login" element={<Container className="mt-4"><Login setUser={setUser} /></Container>} />
-
-            <Route path="/assets" element={user ? <Container className="mt-4"><AssetList /></Container> : <Navigate to="/login" />} />
-            <Route path="/assets/:id" element={user ? <AssetRedirect /> : <Navigate to="/login" />} />
-            <Route path="/book-asset" element={user ? <Container className="mt-4"><AssetBooking /></Container> : <Navigate to="/login" />} />
-            <Route path="/bookings" element={user ? <Container className="mt-4"><BookingList /></Container> : <Navigate to="/login" />} />
-
-            <Route path="*" element={<Navigate to="/" />} />
-          </Routes>
-        </main>
-
-        <Footer />
-      </div>
+      <AppContent user={user} setUser={setUser} handleLogout={handleLogout} />
     </Router>
   );
 }
