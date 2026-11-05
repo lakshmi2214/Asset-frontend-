@@ -24,7 +24,7 @@ const categories = [
     name: 'Lighting',
     query: 'lighting',
     count: '8+ Units',
-    desc: 'High-CRI LED panels & continuous lights.',
+    desc: 'High-CRI LED panels, Godox 300W continuous lights & softboxes.',
     image: process.env.PUBLIC_URL + '/assets/images/cat_icon_3.png',
   },
   {
@@ -32,69 +32,117 @@ const categories = [
     name: 'Audio',
     query: 'audio',
     count: '10+ Units',
-    desc: 'Broadcast shotgun & wireless lav kits.',
+    desc: 'Broadcast shotgun, Shure mics & wireless DJI mic kits.',
     image: process.env.PUBLIC_URL + '/assets/images/cat_icon_4.png',
   },
   {
     id: 'tripods',
-    name: 'Tripods',
-    query: 'tripods',
+    name: 'Tripods & Grip',
+    query: 'tripod',
     count: '6+ Units',
-    desc: 'Fluid video heads & carbon legs.',
+    desc: 'Fluid video heads, heavy-duty C-stands & boom arms.',
     image: process.env.PUBLIC_URL + '/assets/images/cat_icon_5.png',
   },
   {
-    id: 'studio-setup',
-    name: 'Studio Setup',
-    query: 'studio',
-    count: '3 Studios',
-    desc: 'Soundstages with cyclorama walls.',
+    id: 'storage-power',
+    name: 'Power & Storage',
+    query: 'power',
+    count: '15+ Units',
+    desc: '160GB Lexar CFexpress cards, NP-FZ100 batteries & chargers.',
     image: process.env.PUBLIC_URL + '/assets/images/cat_icon_6.png',
   },
 ];
 
-const recentlyAdded = [
+const studioFacilities = [
   {
-    id: 'canon-r5',
-    title: 'Canon R5 Camera',
-    category: 'Cinema Camera',
-    specs: '45MP Full-Frame • 8K RAW Recording',
-    image: process.env.PUBLIC_URL + '/assets/images/item_img_1.png',
+    id: 'studio-cyc',
+    name: 'Main Infinity Cyclorama Stage',
+    badge: 'Soundstage A • 850 Sq.Ft',
+    specs: '35ft × 25ft • 16ft Motorized Grid • 63A 3-Phase Power',
+    desc: 'Full 3-wall seamless white cyclorama soundstage with acoustic baffling, dedicated green room, hair & makeup vanity station, and roll-up equipment load-in bay.',
+    image: process.env.PUBLIC_URL + '/assets/images/banner_studio.png',
+    link: '/book-asset?category=studio',
   },
   {
-    id: 'aputure-300d',
-    title: 'Aputure 300D II',
-    category: 'Continuous Light',
-    specs: '55,000 Lux @ 0.5m • Bowens Mount',
-    image: process.env.PUBLIC_URL + '/assets/images/item_img_2.png',
+    id: 'studio-blackbox',
+    name: 'Blackout Commercial Insert Stage',
+    badge: 'Stage B • 450 Sq.Ft',
+    specs: '22ft × 18ft • Blackout Curtains • 12ft Ceiling',
+    desc: 'Acoustic black box stage ideal for high-end product photography, commercial inserts, music videos, and fashion shoots with pre-rigged ceiling pantographs.',
+    image: process.env.PUBLIC_URL + '/assets/images/mockup_banner.png',
+    link: '/book-asset?category=studio',
   },
   {
-    id: 'rode-ntg5',
-    title: 'Rode NTG5 Mic',
-    category: 'Broadcast Audio',
-    specs: 'Supercardioid RF-Bias Shotgun Mic',
-    image: process.env.PUBLIC_URL + '/assets/images/item_img_3.png',
+    id: 'studio-podcast',
+    name: 'Broadcast Podcast & Livestream Suite',
+    badge: 'Studio C • Acoustic Suite',
+    specs: 'Soundproof Booth • 4 Shure / AT2040 Mics • 4K Switcher',
+    desc: 'Turnkey acoustic recording suite equipped with multi-cam 4K recording, teleprompter, Blackmagic live switcher, sound engineer, and livestream encoder.',
+    image: process.env.PUBLIC_URL + '/assets/images/Camera_1.jpeg',
+    link: '/book-asset?category=audio',
+  },
+];
+
+const turnkeyPackages = [
+  {
+    id: 'run-and-gun-cine',
+    title: 'Run-&-Gun Cinema Package',
+    tag: 'Most Popular for Indie Shoots',
+    specs: 'Everything needed for commercial & short film shoots in one flight case.',
+    items: [
+      'Sony FX3 Full-Frame Cinema Camera Body',
+      'Sony 50mm High-Speed Prime Lens',
+      '2x NP-FZ100 Batteries + Dual Bay Charger',
+      '160GB Lexar Professional CFexpress Type A Card',
+      'DJI Mic Mini Wireless Transmitter & Receiver Kit',
+      'Rugged Pelican Waterproof Hard Case',
+    ],
+    link: '/book-asset?category=camera',
   },
   {
-    id: 'manfrotto-tripod',
-    title: 'Manfrotto Tripod',
-    category: 'Camera Support',
-    specs: 'Fluid Video Head • 8kg Max Payload',
-    image: process.env.PUBLIC_URL + '/assets/images/item_img_4.png',
+    id: 'studio-lighting-kit',
+    title: 'Commercial Studio Lighting Rig',
+    tag: 'Studio & Fashion Shoots',
+    specs: 'High-output continuous illumination with full softbox diffusion.',
+    items: [
+      '2x Godox 300W Bi-Color High-CRI LED Heads',
+      '2x 85cm Octagon Grid Softboxes & Diffusers',
+      '2x Heavy-Duty Steel C-Stands with 40-inch Gobo Arms',
+      'Wireless 2.4GHz Digital Lighting Remote',
+      '4x 10kg Shot Sandbags & Power Extension Cables',
+      'Padded Wheeled Heavy-Duty Transport Bag',
+    ],
+    link: '/book-asset?category=lighting',
+  },
+  {
+    id: 'podcast-broadcast-kit',
+    title: '4-Person Podcast Broadcast Kit',
+    tag: 'Podcasts & Livestreams',
+    specs: 'Broadcast-grade multi-host dialogue and livestream recording.',
+    items: [
+      '4x Audio-Technica AT2040 Hypercardioid Microphones',
+      'Presonus 10-Channel Low-Noise Audio Mixer / Interface',
+      '4x Heavy-Duty Cast-Iron Table Boom Arms',
+      '4x Professional Studio Monitoring Headphones',
+      '4x Shielded Balanced XLR Audio Cables',
+      'Custom Protective Equipment Flight Case',
+    ],
+    link: '/book-asset?category=audio',
   },
 ];
 
 const popularSearches = [
-  { label: 'Cameras', query: 'camera' },
-  { label: 'Lenses', query: 'lenses' },
-  { label: 'Lighting', query: 'lighting' },
-  { label: 'Audio', query: 'audio' },
-  { label: 'Tripods', query: 'tripod' },
+  { label: 'Cinema Cameras', query: 'camera' },
+  { label: 'Sony Lenses', query: 'lens' },
+  { label: 'Studio Lighting', query: 'lighting' },
+  { label: 'Podcast Audio', query: 'audio' },
+  { label: 'C-Stands & Grip', query: 'tripod' },
+  { label: 'Soundstages', query: 'studio' },
 ];
 
 const impactStats = [
   { number: '500+', label: 'Verified Gear Units' },
-  { number: '100%', label: 'Tested & Insured' },
+  { number: '3', label: 'Soundstages & Prep Bays' },
   { number: '4.9★', label: 'Filmmaker Rating' },
   { number: '24/7', label: 'Technical Support' },
 ];
@@ -112,24 +160,21 @@ export default function Home() {
     }
   };
 
-  const heroItem = recentlyAdded[0];
-  const listItems = recentlyAdded.slice(1);
-
   return (
     <div className="home-page-root" style={{ backgroundColor: '#ffffff', overflowX: 'hidden' }}>
 
-      {/* 1. Hero Section: Centered Vertical Stack Layout */}
+      {/* 1. Hero Section: Studio & Equipment Production House */}
       <section className="framelease-hero-wrap">
         <Container>
           <div className="hero-centered-content">
             <div className="framelease-section-badge mb-3">
-              ✦ ASLIKAHANI STUDIO RENTALS
+              ✦ BENGALURU&apos;S PREMIER FILM STUDIO &amp; EQUIPMENT RENTALS
             </div>
             <h1 className="framelease-hero-title">
-              Create More, Rent Better
+              The Production Hub for<br />Filmmakers &amp; Creators
             </h1>
             <p className="framelease-hero-desc">
-              Professional cinema camera bodies, prime lenses, continuous lighting, wireless audio, and studio setups – prepared and tested in Bengaluru.
+              Full-service soundstages with infinity cyclorama walls, 8K cinema cameras, master primes, and high-CRI lighting rigs – calibrated, tested, and ready for your shoot in Malleshwaram.
             </p>
 
             {/* Centered Search Capsule */}
@@ -150,7 +195,7 @@ export default function Home() {
               </svg>
               <input
                 type="text"
-                placeholder="Search for cameras, mics, lighting..."
+                placeholder="Search cinema cameras, lenses, lighting, soundstages..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className="framelease-search-input"
@@ -160,7 +205,7 @@ export default function Home() {
               </button>
             </form>
 
-            {/* Centered Category Quick Filter Chips */}
+            {/* Quick Filter Chips */}
             <div className="framelease-hero-chips">
               <span className="text-muted small fw-semibold me-1">Popular:</span>
               {popularSearches.map((item) => (
@@ -173,9 +218,19 @@ export default function Home() {
                 </Link>
               ))}
             </div>
+
+            {/* Dual CTAs: Explore Equipments & Book Studio */}
+            <div className="d-flex align-items-center justify-content-center gap-3 mt-4 flex-wrap">
+              <Link to="/assets" className="btn btn-dark rounded-pill px-4 py-2 fw-semibold shadow-sm" style={{ fontSize: '0.92rem' }}>
+                Explore Equipments ➔
+              </Link>
+              <Link to="/book-asset?category=studio" className="btn btn-outline-dark rounded-pill px-4 py-2 fw-semibold" style={{ fontSize: '0.92rem' }}>
+                Book Studio Soundstage ➔
+              </Link>
+            </div>
           </div>
 
-          {/* Panoramic Gear Banner at Bottom of Hero */}
+          {/* Panoramic Gear & Studio Banner */}
           <div className="hero-panoramic-showcase">
             <img
               src={process.env.PUBLIC_URL + '/assets/images/mockup_hero_camera.png'}
@@ -184,17 +239,17 @@ export default function Home() {
             />
             <div className="hero-panoramic-badge-left">
               <span>⚡</span>
-              <span>100% Tested Pro Cameras • Ready to Shoot</span>
+              <span>100% Sensor-Cleaned &amp; Tested Pro Gear</span>
             </div>
             <div className="hero-panoramic-badge-right">
               <span>📍</span>
-              <span>Malleshwaram • Bengaluru</span>
+              <span>Malleshwaram Studio Hub • Bengaluru</span>
             </div>
           </div>
         </Container>
       </section>
 
-      {/* 2. Full-Width Solid Dark Navy Trust Ribbon (Instant Visual Contrast) */}
+      {/* 2. Solid Dark Navy Trust Ribbon */}
       <section className="framelease-trust-ribbon">
         <Container>
           <Row className="g-4 align-items-center justify-content-between">
@@ -204,8 +259,8 @@ export default function Home() {
                   🛡️
                 </div>
                 <div>
-                  <div className="framelease-trust-ribbon-title">Quality Cinema Gear</div>
-                  <div className="framelease-trust-ribbon-sub">from Top Brands</div>
+                  <div className="framelease-trust-ribbon-title">100% Gear Insured</div>
+                  <div className="framelease-trust-ribbon-sub">Full Production Coverage</div>
                 </div>
               </div>
             </Col>
@@ -217,7 +272,7 @@ export default function Home() {
                 </div>
                 <div>
                   <div className="framelease-trust-ribbon-title">Instant Booking</div>
-                  <div className="framelease-trust-ribbon-sub">Zero Paperwork</div>
+                  <div className="framelease-trust-ribbon-sub">Real-Time Availability</div>
                 </div>
               </div>
             </Col>
@@ -225,11 +280,11 @@ export default function Home() {
             <Col xs={6} lg={3}>
               <div className="framelease-trust-ribbon-item">
                 <div className="framelease-trust-ribbon-icon ribbon-icon-purple">
-                  📅
+                  🎬
                 </div>
                 <div>
-                  <div className="framelease-trust-ribbon-title">Flexible Shoot Plans</div>
-                  <div className="framelease-trust-ribbon-sub">Day &amp; Week Rates</div>
+                  <div className="framelease-trust-ribbon-title">3 Soundstages</div>
+                  <div className="framelease-trust-ribbon-sub">White Cyc &amp; Podcast Bays</div>
                 </div>
               </div>
             </Col>
@@ -241,7 +296,7 @@ export default function Home() {
                 </div>
                 <div>
                   <div className="framelease-trust-ribbon-title">Malleshwaram Hub</div>
-                  <div className="framelease-trust-ribbon-sub">Local Studio Pickup</div>
+                  <div className="framelease-trust-ribbon-sub">Test in Prep Bay Before Pickup</div>
                 </div>
               </div>
             </Col>
@@ -249,7 +304,65 @@ export default function Home() {
         </Container>
       </section>
 
-      {/* 3. Section 3: Categories Split Layout (Sticky Sidebar Left + 2x3 Grid Right) */}
+      {/* 3. Section: Production Studio Facilities (Dedicated Soundstage Showcase) */}
+      <section className="studio-facilities-section" id="studio-spaces">
+        <Container>
+          <div className="d-flex flex-wrap align-items-end justify-content-between gap-3 mb-5">
+            <div>
+              <div className="framelease-section-badge mb-2">
+                ✦ SOUNDSTAGES &amp; CREATIVE SPACES
+              </div>
+              <h2 className="framelease-section-title mb-2">
+                Our Production Studio Facilities
+              </h2>
+              <p className="framelease-section-sub mb-0" style={{ maxWidth: '640px' }}>
+                Fully acoustically isolated, air-conditioned studio stages engineered for high-end commercials, fashion films, music videos, and multi-cam video podcasts.
+              </p>
+            </div>
+            <Link to="/book-asset?category=studio" className="btn btn-outline-dark rounded-pill px-4 py-2 fw-semibold small">
+              Check Studio Calendar ➔
+            </Link>
+          </div>
+
+          <Row className="g-4 align-items-stretch">
+            {studioFacilities.map((facility) => (
+              <Col key={facility.id} lg={4} md={6} xs={12}>
+                <div className="studio-facility-card">
+                  <div className="studio-facility-img-wrap">
+                    <img
+                      src={facility.image}
+                      alt={facility.name}
+                      className="studio-facility-img"
+                    />
+                    <div className="studio-facility-badge">
+                      {facility.badge}
+                    </div>
+                  </div>
+
+                  <div className="studio-facility-body">
+                    <h3 className="studio-facility-title">{facility.name}</h3>
+                    <div className="studio-facility-specs">{facility.specs}</div>
+                    <p className="studio-facility-desc">{facility.desc}</p>
+
+                    <div className="mt-auto pt-2">
+                      <Link
+                        to={facility.link}
+                        className="btn btn-dark w-100 rounded-pill py-2 fw-semibold d-flex align-items-center justify-content-center gap-2"
+                        style={{ fontSize: '0.88rem' }}
+                      >
+                        <span>Reserve Studio Stage</span>
+                        <span>➔</span>
+                      </Link>
+                    </div>
+                  </div>
+                </div>
+              </Col>
+            ))}
+          </Row>
+        </Container>
+      </section>
+
+      {/* 4. Section: Equipment Rental Departments */}
       <section className="framelease-cat-split-section" id="categories">
         <Container>
           <Row className="g-5 align-items-start">
@@ -263,21 +376,21 @@ export default function Home() {
                   Explore by Department
                 </h2>
                 <p className="framelease-section-sub mb-4">
-                  Everything you need for full-scale commercial productions and independent film shoots.
+                  Everything you need for full-scale commercial productions and independent cinema shoots.
                 </p>
 
                 <div className="cat-info-card">
                   <div className="d-flex align-items-center gap-2 mb-2">
                     <span className="text-primary fw-bold">✓</span>
-                    <span className="small fw-semibold text-dark">Calibrated and tested sensors</span>
+                    <span className="small fw-semibold text-dark">Calibrated and tested camera sensors</span>
                   </div>
                   <div className="d-flex align-items-center gap-2 mb-2">
                     <span className="text-primary fw-bold">✓</span>
-                    <span className="small fw-semibold text-dark">Batteries and memory cards ready</span>
+                    <span className="small fw-semibold text-dark">Batteries and memory cards formatted</span>
                   </div>
                   <div className="d-flex align-items-center gap-2 mb-3">
                     <span className="text-primary fw-bold">✓</span>
-                    <span className="small fw-semibold text-dark">Rigid Pelican protective cases</span>
+                    <span className="small fw-semibold text-dark">Rigid waterproof Pelican flight cases</span>
                   </div>
                   <Link to="/assets" className="btn btn-outline-dark w-100 rounded-pill py-2 small fw-semibold">
                     View Complete Inventory &rarr;
@@ -309,7 +422,56 @@ export default function Home() {
         </Container>
       </section>
 
-      {/* 4. Section 4: Full-Bleed Cinema Dark Showcase (Reversed: Image Left, Text Right) */}
+      {/* 5. Section: Curated Production Turnkey Packages */}
+      <section className="rental-packages-section" id="packages">
+        <Container>
+          <div className="text-center mx-auto mb-5" style={{ maxWidth: '680px' }}>
+            <div className="framelease-section-badge">
+              ✦ TURNKEY RENTAL PACKAGES
+            </div>
+            <h2 className="framelease-section-title">
+              Curated Production Packages
+            </h2>
+            <p className="framelease-section-sub mx-auto">
+              Pre-configured, field-tested kits with matching accessories, power, and media cards packed in rugged Pelican hard flight cases.
+            </p>
+          </div>
+
+          <Row className="g-4 align-items-stretch">
+            {turnkeyPackages.map((pkg) => (
+              <Col key={pkg.id} lg={4} md={6} xs={12}>
+                <div className="package-card">
+                  <span className="package-pill-tag">{pkg.tag}</span>
+                  <h3 className="package-card-title">{pkg.title}</h3>
+                  <p className="text-muted small mb-3">{pkg.specs}</p>
+
+                  <div className="package-items-list">
+                    {pkg.items.map((item, idx) => (
+                      <div key={idx} className="package-item">
+                        <span className="package-item-check">✓</span>
+                        <span>{item}</span>
+                      </div>
+                    ))}
+                  </div>
+
+                  <div className="mt-auto pt-3 border-top">
+                    <Link
+                      to={pkg.link}
+                      className="btn btn-dark w-100 rounded-pill py-2 fw-semibold d-flex align-items-center justify-content-center gap-2"
+                      style={{ fontSize: '0.88rem' }}
+                    >
+                      <span>Book Package</span>
+                      <span>⚡</span>
+                    </Link>
+                  </div>
+                </div>
+              </Col>
+            ))}
+          </Row>
+        </Container>
+      </section>
+
+      {/* 6. Section: Full-Bleed Cinema Dark Showcase */}
       <section className="framelease-cinema-section" id="studio-banner">
         <Container>
           <Row className="align-items-center g-5">
@@ -330,23 +492,27 @@ export default function Home() {
             {/* Right: Studio Details & Checklist */}
             <Col lg={6} md={12}>
               <div className="framelease-section-badge framelease-section-badge-dark mb-3">
-                ✦ PRODUCTION READY GEAR
+                ✦ PRODUCTION-READY INFRASTRUCTURE
               </div>
               <h2 className="cinema-title">
-                Your Vision,<br />Our Equipment
+                Your Vision,<br />Our Studio &amp; Gear
               </h2>
               <p className="cinema-desc">
-                From indie filmmakers to commercial crews, we supply broadcast-ready cinema camera packages, anamorphic lenses, and studio lighting.
+                From independent filmmakers to high-tier commercial crews, we provide soundstages, cinema camera packages, anamorphic lenses, and studio lighting without friction.
               </p>
 
               <div className="cinema-features-list">
                 <div className="cinema-feature-item">
                   <span className="cinema-check-badge">✓</span>
-                  <span>Sensor-cleaned and battery-charged before pickup</span>
+                  <span>Sensor-cleaned bodies and battery-charged packs before pickup</span>
                 </div>
                 <div className="cinema-feature-item">
                   <span className="cinema-check-badge">✓</span>
-                  <span>Protective hard cases, extra cables &amp; media cards included</span>
+                  <span>Protective Pelican hard flight cases with extra cables and media</span>
+                </div>
+                <div className="cinema-feature-item">
+                  <span className="cinema-check-badge">✓</span>
+                  <span>Dedicated Malleshwaram prep bay to build and test before shoot day</span>
                 </div>
                 <div className="cinema-feature-item">
                   <span className="cinema-check-badge">✓</span>
@@ -364,100 +530,7 @@ export default function Home() {
         </Container>
       </section>
 
-      {/* 5. Section 5: Spotlight Layout (1 Large Featured Card Left + 3 Stacked Horizontal Rows Right) */}
-      <section className="framelease-spotlight-section" id="recently-added">
-        <Container>
-          <div className="framelease-section-header">
-            <div>
-              <div className="framelease-section-badge">
-                ✦ INVENTORY SPOTLIGHT
-              </div>
-              <h2 className="framelease-section-title">Recently Added Gear</h2>
-              <p className="framelease-section-sub">
-                Fresh additions to our rental catalog, ready to reserve for your upcoming shoot.
-              </p>
-            </div>
-            <Link to="/assets" className="framelease-view-all">
-              View All Equipment <span>&rarr;</span>
-            </Link>
-          </div>
-
-          <Row className="g-4 align-items-stretch">
-            {/* Left: 1 Large Hero Card */}
-            <Col lg={5} md={12}>
-              <div className="gear-hero-card">
-                <div>
-                  <div className="d-flex justify-content-between align-items-center mb-3">
-                    <span className="badge bg-primary bg-opacity-10 text-primary border border-primary border-opacity-25 px-3 py-1 rounded-pill small fw-semibold">
-                      Featured Cinema Unit
-                    </span>
-                    <span className="small text-success fw-bold">● Available Now</span>
-                  </div>
-
-                  <div className="gear-hero-img-box">
-                    <img
-                      src={heroItem.image}
-                      alt={heroItem.title}
-                      className="gear-hero-img"
-                    />
-                  </div>
-
-                  <div className="small text-muted fw-bold text-uppercase mb-1">{heroItem.category}</div>
-                  <h3 className="fw-bold mb-2 text-dark" style={{ fontSize: '1.4rem' }}>{heroItem.title}</h3>
-                  <p className="text-muted small mb-4">{heroItem.specs}</p>
-                </div>
-
-                <Link
-                  to={`/assets?q=${encodeURIComponent(heroItem.title)}`}
-                  className="btn btn-dark w-100 rounded-pill py-2 fw-semibold d-flex align-items-center justify-content-center gap-2"
-                >
-                  <span>Book Equipment</span>
-                  <span>➔</span>
-                </Link>
-              </div>
-            </Col>
-
-            {/* Right: 3 Stacked Horizontal Row Cards */}
-            <Col lg={7} md={12}>
-              <div className="d-flex flex-column gap-3 h-100 justify-content-between">
-                {listItems.map((item) => (
-                  <Link
-                    key={item.id}
-                    to={`/assets?q=${encodeURIComponent(item.title)}`}
-                    className="gear-row-card"
-                  >
-                    <div className="gear-row-img-box">
-                      <img
-                        src={item.image}
-                        alt={item.title}
-                        style={{ maxHeight: '60px', maxWidth: '68px', objectFit: 'contain' }}
-                      />
-                    </div>
-
-                    <div className="flex-grow-1">
-                      <div className="small text-primary fw-bold text-uppercase mb-1" style={{ fontSize: '0.72rem' }}>
-                        {item.category}
-                      </div>
-                      <div className="fw-bold text-dark mb-1" style={{ fontSize: '1.05rem' }}>
-                        {item.title}
-                      </div>
-                      <div className="text-muted small">
-                        {item.specs}
-                      </div>
-                    </div>
-
-                    <div className="gear-row-btn">
-                      Book ➔
-                    </div>
-                  </Link>
-                ))}
-              </div>
-            </Col>
-          </Row>
-        </Container>
-      </section>
-
-      {/* 6. Section 6: Studio Hub & Impact Stats (Asymmetrical Split Layout) */}
+      {/* 7. Section: Studio Hub & Impact Stats (About Aslikahani) */}
       <section className="framelease-about-section" id="about">
         <Container>
           <Row className="g-4 align-items-stretch">
@@ -471,7 +544,7 @@ export default function Home() {
                   Empowering Bengaluru&apos;s Filmmakers
                 </h2>
                 <p className="framelease-section-sub mb-4" style={{ maxWidth: '100%' }}>
-                  We provide independent creators, commercial crews, and film students with frictionless access to professional production equipment.
+                  We provide independent creators, commercial crews, and film students with frictionless access to professional production equipment and soundstages.
                 </p>
 
                 <Row className="g-3">

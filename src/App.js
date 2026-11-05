@@ -55,8 +55,8 @@ function AppContent({ user, setUser, handleLogout }) {
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="ms-lg-5 me-auto gap-4 align-items-center my-2 my-lg-0">
               <Nav.Link as={Link} to="/" onClick={closeNav} className="framelease-nav-link active">Home</Nav.Link>
-              <Nav.Link as={Link} to="/assets" onClick={closeNav} className="framelease-nav-link">Equipment</Nav.Link>
               <Nav.Link as={Link} to="/#about" onClick={closeNav} className="framelease-nav-link">About</Nav.Link>
+              <Nav.Link as={Link} to="/assets" onClick={closeNav} className="framelease-nav-link">Equipments</Nav.Link>
             </Nav>
 
             <Nav className="gap-3 align-items-center flex-row justify-content-end">
@@ -68,14 +68,9 @@ function AppContent({ user, setUser, handleLogout }) {
                   </Button>
                 </>
               ) : (
-                <>
-                  <Link to="/login" onClick={closeNav} className="btn rounded-pill px-4 py-1 fw-semibold text-white border-0" style={{ fontSize: '0.88rem', backgroundColor: 'rgba(255, 255, 255, 0.12)' }}>
-                    Login
-                  </Link>
-                  <Link to="/signup" onClick={closeNav} className="btn rounded-pill px-4 py-1 fw-bold text-dark border-0" style={{ fontSize: '0.88rem', backgroundColor: '#ffffff' }}>
-                    Sign Up
-                  </Link>
-                </>
+                <Link to="/login" onClick={closeNav} className="btn rounded-pill px-4 py-2 fw-semibold text-white border-0" style={{ fontSize: '0.88rem', backgroundColor: '#2563eb', boxShadow: '0 2px 8px rgba(37, 99, 235, 0.3)' }}>
+                  Login
+                </Link>
               )}
             </Nav>
           </Navbar.Collapse>
