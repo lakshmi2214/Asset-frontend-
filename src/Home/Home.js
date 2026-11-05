@@ -184,11 +184,11 @@ export default function Home() {
             />
             <div className="hero-panoramic-badge-left">
               <span>⚡</span>
-              <span>100% Tested Pro Gear • Ready to Shoot</span>
+              <span>100% Tested Pro Cameras • Ready to Shoot</span>
             </div>
             <div className="hero-panoramic-badge-right">
               <span>📍</span>
-              <span>Malleshwaram Hub • Bengaluru</span>
+              <span>Malleshwaram • Bengaluru</span>
             </div>
           </div>
         </Container>
