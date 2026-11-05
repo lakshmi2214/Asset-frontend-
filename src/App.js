@@ -47,7 +47,7 @@ function App() {
             </Navbar.Brand>
             <Navbar.Toggle aria-controls="basic-navbar-nav" className="border-0 shadow-none text-light" />
             <Navbar.Collapse id="basic-navbar-nav">
-              <Nav className="mx-auto gap-4 align-items-center my-2 my-lg-0">
+              <Nav className="ms-lg-5 me-auto gap-4 align-items-center my-2 my-lg-0">
                 <Nav.Link as={Link} to="/" className="framelease-nav-link active">Home</Nav.Link>
                 <Nav.Link as={Link} to="/assets" className="framelease-nav-link">Equipment</Nav.Link>
                 <Nav.Link as={Link} to="/#about" className="framelease-nav-link">About</Nav.Link>
