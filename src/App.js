@@ -53,12 +53,6 @@ function App() {
                 <Nav.Link as={Link} to="/#about" className="framelease-nav-link">About</Nav.Link>
               </Nav>
               <Nav className="gap-3 align-items-center flex-row justify-content-end">
-                <Link to="/assets" className="text-decoration-none p-2 d-flex align-items-center" title="Search equipment">
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#cbd5e1" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
-                    <circle cx="11" cy="11" r="8"></circle>
-                    <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-                  </svg>
-                </Link>
                 {user ? (
                   <>
                     <Nav.Link as={Link} to="/bookings" className="text-white fw-semibold px-2">My History</Nav.Link>
