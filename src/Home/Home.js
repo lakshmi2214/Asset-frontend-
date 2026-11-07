@@ -80,10 +80,14 @@ export default function Home() {
             <Col lg={6} md={12} className="ak-hero-right d-none d-lg-flex">
               <div className="ak-hero-img-wrap">
                 <img
-                  src={process.env.PUBLIC_URL + '/assets/images/mockup_hero_camera.png'}
-                  alt="Cinema Camera Setup"
+                  src={process.env.PUBLIC_URL + '/assets/images/aslikahani_hero_cinema.jpg'}
+                  alt="Cinema Camera Rig in Studio"
                   className="ak-hero-img"
                 />
+                <div className="ak-hero-badge-overlay">
+                  <span className="ak-hero-live-dot"></span>
+                  <span>4K/8K Cinema Gear • Calibrated &amp; Ready</span>
+                </div>
               </div>
             </Col>
           </Row>
