@@ -190,10 +190,10 @@ export default function AssetList() {
         {/* Page Header */}
         <div className="d-flex flex-wrap align-items-center justify-content-between gap-3 mb-4">
           <div>
-            <h1 className="mb-1" style={{ fontSize: '1.65rem', color: '#0a192f', letterSpacing: '-0.3px', fontWeight: 600 }}>
+            <h1 className="mb-1" style={{ fontSize: '1.85rem', color: '#0a192f', letterSpacing: '-0.4px', fontWeight: 600 }}>
               Equipment Catalog
             </h1>
-            <p className="mb-0" style={{ fontSize: '13px', color: '#475569', fontWeight: 400 }}>
+            <p className="mb-0" style={{ fontSize: '15px', color: '#475569', fontWeight: 400 }}>
               Explore and reserve high-grade camera gear, lighting, and accessories.
             </p>
           </div>
@@ -201,7 +201,7 @@ export default function AssetList() {
           <div className="d-flex align-items-center gap-2">
             <span
               className="badge px-3 py-2 rounded-pill"
-              style={{ backgroundColor: '#eff6ff', color: '#2563eb', border: '1px solid #bfdbfe', fontSize: '12px', fontWeight: 600 }}
+              style={{ backgroundColor: '#eff6ff', color: '#2563eb', border: '1px solid #bfdbfe', fontSize: '13.5px', fontWeight: 600 }}
             >
               {loading ? 'Loading...' : `${filteredAssets.length} Equipment${filteredAssets.length === 1 ? '' : 's'}`}
             </span>
@@ -224,9 +224,9 @@ export default function AssetList() {
                   key={cat.id}
                   type="button"
                   onClick={() => handleCategorySelect(cat.id)}
-                  className="btn rounded-pill px-3 py-1 border text-nowrap flex-shrink-0"
+                  className="btn rounded-pill px-3 py-2 border text-nowrap flex-shrink-0"
                   style={{
-                    fontSize: '13px',
+                    fontSize: '14.5px',
                     fontWeight: 600,
                     backgroundColor: isActive ? '#2563eb' : '#ffffff',
                     color: isActive ? '#ffffff' : '#0a192f',
@@ -245,13 +245,14 @@ export default function AssetList() {
               className="d-flex align-items-center gap-2 flex-nowrap overflow-x-auto no-scrollbar pt-3 mt-3 border-top"
               style={{ borderColor: '#f1f5f9', WebkitOverflowScrolling: 'touch' }}
             >
-              <span className="text-secondary small fw-semibold me-1 text-nowrap flex-shrink-0">Subcategories:</span>
+              <span className="text-secondary fw-semibold me-1 text-nowrap flex-shrink-0" style={{ fontSize: '13.5px' }}>Subcategories:</span>
               <button
                 type="button"
                 onClick={() => setSelectedSubcategoryId('all')}
-                className="btn btn-sm rounded-pill px-3 py-0 border text-nowrap flex-shrink-0"
+                className="btn btn-sm rounded-pill px-3 py-1 border text-nowrap flex-shrink-0"
                 style={{
-                  fontSize: '0.8rem',
+                  fontSize: '13.5px',
+                  fontWeight: 600,
                   backgroundColor: selectedSubcategoryId === 'all' ? '#334155' : 'transparent',
                   color: selectedSubcategoryId === 'all' ? '#ffffff' : '#64748b',
                   borderColor: selectedSubcategoryId === 'all' ? '#334155' : '#e2e8f0',
@@ -266,9 +267,10 @@ export default function AssetList() {
                     key={sub.id}
                     type="button"
                     onClick={() => setSelectedSubcategoryId(sub.id)}
-                    className="btn btn-sm rounded-pill px-3 py-0 border text-nowrap flex-shrink-0"
+                    className="btn btn-sm rounded-pill px-3 py-1 border text-nowrap flex-shrink-0"
                     style={{
-                      fontSize: '0.8rem',
+                      fontSize: '13.5px',
+                      fontWeight: 600,
                       backgroundColor: isSubActive ? '#334155' : 'transparent',
                       color: isSubActive ? '#ffffff' : '#64748b',
                       borderColor: isSubActive ? '#334155' : '#e2e8f0',
@@ -398,10 +400,10 @@ export default function AssetList() {
                     {/* Compact Card Body with Uniform Alignment */}
                     <div className="card-body p-3 d-flex flex-column flex-grow-1">
                       {/* Department / Category Tag & Stock Status Header */}
-                      <div className="d-flex align-items-center justify-content-between gap-1 mb-1" style={{ minHeight: '18px' }}>
+                      <div className="d-flex align-items-center justify-content-between gap-1 mb-1" style={{ minHeight: '20px' }}>
                         <span
-                          className="text-uppercase fw-bold text-muted text-truncate"
-                          style={{ fontSize: '0.68rem', letterSpacing: '0.5px', maxWidth: '58%' }}
+                          className="text-uppercase fw-semibold text-muted text-truncate"
+                          style={{ fontSize: '12px', letterSpacing: '0.5px', maxWidth: '58%', fontWeight: 600 }}
                         >
                           {asset.category?.name || asset.subcategory?.name || 'Equipment'}
                         </span>
@@ -410,9 +412,10 @@ export default function AssetList() {
                           style={{
                             backgroundColor: isAvailable ? '#ecfdf5' : '#fef2f2',
                             color: isAvailable ? '#059669' : '#dc2626',
-                            fontSize: '0.7rem',
+                            fontSize: '12px',
                             borderRadius: '9999px',
-                            padding: '2px 8px',
+                            padding: '3px 8px',
+                            fontWeight: 600,
                           }}
                         >
                           ● {isAvailable ? `${unitsCount} in stock` : 'Unavailable'}
@@ -424,10 +427,10 @@ export default function AssetList() {
                         className="mb-1 text-dark"
                         title={asset.name}
                         style={{
-                          fontSize: '13.5px',
+                          fontSize: '15px',
                           fontWeight: 600,
-                          lineHeight: '1.25rem',
-                          minHeight: '2.5rem',
+                          lineHeight: '1.35rem',
+                          minHeight: '2.7rem',
                           display: '-webkit-box',
                           WebkitLineClamp: 2,
                           WebkitBoxOrient: 'vertical',
@@ -438,7 +441,7 @@ export default function AssetList() {
                       </h6>
 
                       {/* Serial Number & Location */}
-                      <div className="text-muted mb-3 text-truncate" style={{ fontSize: '12px', minHeight: '16px', fontWeight: 400 }}>
+                      <div className="text-muted mb-3 text-truncate" style={{ fontSize: '13px', minHeight: '18px', fontWeight: 400 }}>
                         {asset.serial_number ? `S/N: ${asset.serial_number}` : ''}
                         {asset.serial_number && asset.location?.name ? ' • ' : ''}
                         {asset.location?.name || ''}
@@ -452,7 +455,7 @@ export default function AssetList() {
                           style={{
                             backgroundColor: '#2563eb',
                             borderRadius: '10px',
-                            fontSize: '13px',
+                            fontSize: '14px',
                             fontWeight: 600,
                             border: 'none',
                             transition: 'all 0.2s ease',
@@ -484,14 +487,14 @@ export default function AssetList() {
                 <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
               </svg>
             </div>
-            <h4 className="mb-2" style={{ color: '#0a192f', fontSize: '1.25rem', fontWeight: 600 }}>No Equipment Found</h4>
-            <p className="mb-4 mx-auto" style={{ maxWidth: '420px', fontSize: '12px', color: '#475569', fontWeight: 400 }}>
+            <h4 className="mb-2" style={{ color: '#0a192f', fontSize: '1.4rem', fontWeight: 600 }}>No Equipment Found</h4>
+            <p className="mb-4 mx-auto" style={{ maxWidth: '420px', fontSize: '14px', color: '#475569', fontWeight: 400 }}>
               We couldn't find any gear matching your current search or category filter. Try clearing filters or searching for something else.
             </p>
             <button
               type="button"
               className="btn rounded-pill px-4 py-2 border-0 text-white"
-              style={{ backgroundColor: '#2563eb', fontSize: '13px', fontWeight: 600 }}
+              style={{ backgroundColor: '#2563eb', fontSize: '14px', fontWeight: 600 }}
               onClick={resetAllFilters}
             >
               Reset All Filters
