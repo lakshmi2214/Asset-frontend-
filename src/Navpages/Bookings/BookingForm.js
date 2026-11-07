@@ -399,7 +399,7 @@ export default function AssetBooking() {
         <>
 
           {targetAsset ? (
-            <div className="page-hero-banner mb-4" style={{ background: 'linear-gradient(135deg, #0b192c 0%, #0f2942 50%, #0d9488 100%)', borderRadius: '16px', padding: '24px 28px' }}>
+            <div className="page-hero-banner mb-4" style={{ background: 'linear-gradient(135deg, #0a192f 0%, #1e3a8a 60%, #2563eb 100%)', borderRadius: '16px', padding: '24px 28px' }}>
               <div className="d-flex flex-wrap align-items-center justify-content-between gap-3">
                 <div>
                   <div className="d-flex align-items-center gap-2 mb-2 flex-wrap">
@@ -618,7 +618,7 @@ export default function AssetBooking() {
                         <button
                           className="btn w-100 py-2 fw-semibold text-white rounded-pill d-flex align-items-center justify-content-center gap-1 shadow-sm border-0"
                           style={{
-                            backgroundColor: isTarget ? '#0f766e' : '#0d9488',
+                            backgroundColor: isTarget ? '#1d4ed8' : '#2563eb',
                             fontSize: '0.84rem',
                             transition: 'all 0.2s ease',
                           }}

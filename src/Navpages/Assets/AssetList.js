@@ -190,10 +190,10 @@ export default function AssetList() {
         {/* Page Header */}
         <div className="d-flex flex-wrap align-items-center justify-content-between gap-3 mb-4">
           <div>
-            <h1 className="fw-bolder mb-1" style={{ fontSize: '1.9rem', color: '#0b192c', letterSpacing: '-0.5px' }}>
+            <h1 className="fw-bolder mb-1" style={{ fontSize: '1.9rem', color: '#0a192f', letterSpacing: '-0.5px' }}>
               Equipment Catalog
             </h1>
-            <p className="mb-0" style={{ fontSize: '0.95rem', color: '#0f766e', opacity: 0.9 }}>
+            <p className="mb-0" style={{ fontSize: '0.95rem', color: '#475569' }}>
               Explore and reserve high-grade camera gear, lighting, and accessories.
             </p>
           </div>
@@ -201,7 +201,7 @@ export default function AssetList() {
           <div className="d-flex align-items-center gap-2">
             <span
               className="badge px-3 py-2 rounded-pill fw-semibold"
-              style={{ backgroundColor: '#f0fdfa', color: '#0d9488', border: '1px solid #99f6e4', fontSize: '0.85rem' }}
+              style={{ backgroundColor: '#eff6ff', color: '#2563eb', border: '1px solid #bfdbfe', fontSize: '0.85rem' }}
             >
               {loading ? 'Loading...' : `${filteredAssets.length} Equipment${filteredAssets.length === 1 ? '' : 's'}`}
             </span>
@@ -209,7 +209,7 @@ export default function AssetList() {
         </div>
 
         {/* Filter & Search Bar */}
-        <div className="bg-white rounded-4 p-3 mb-4 shadow-sm border" style={{ borderColor: '#ccfbf1' }}>
+        <div className="bg-white rounded-4 p-3 mb-4 shadow-sm border" style={{ borderColor: '#e2e8f0' }}>
           <div className="d-flex flex-column flex-lg-row align-items-stretch align-items-lg-center justify-content-between gap-3">
 
             <div
@@ -221,7 +221,7 @@ export default function AssetList() {
                 height="17"
                 viewBox="0 0 24 24"
                 fill="none"
-                stroke="#0d9488"
+                stroke="#2563eb"
                 strokeWidth="2.2"
                 strokeLinecap="round"
                 strokeLinejoin="round"
@@ -237,7 +237,7 @@ export default function AssetList() {
                 placeholder="Search equipment..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                style={{ backgroundColor: '#f0fdfa', borderColor: '#99f6e4', fontSize: '0.88rem', color: '#0b192c' }}
+                style={{ backgroundColor: '#f8fafc', borderColor: '#e2e8f0', fontSize: '0.88rem', color: '#0a192f' }}
               />
               {searchQuery && (
                 <button
@@ -268,9 +268,9 @@ export default function AssetList() {
                     className="btn rounded-pill px-3 py-1 fw-semibold border text-nowrap flex-shrink-0"
                     style={{
                       fontSize: '0.85rem',
-                      backgroundColor: isActive ? '#0d9488' : '#ffffff',
-                      color: isActive ? '#ffffff' : '#0b192c',
-                      borderColor: isActive ? '#0d9488' : '#ccfbf1',
+                      backgroundColor: isActive ? '#2563eb' : '#ffffff',
+                      color: isActive ? '#ffffff' : '#0a192f',
+                      borderColor: isActive ? '#2563eb' : '#e2e8f0',
                       transition: 'all 0.2s ease',
                     }}
                   >
@@ -537,14 +537,14 @@ export default function AssetList() {
                           to={`/book-asset?assetId=${asset.id}`}
                           className="btn w-100 py-2 fw-semibold text-white d-flex align-items-center justify-content-center gap-1 text-decoration-none shadow-sm"
                           style={{
-                            backgroundColor: '#0d9488',
+                            backgroundColor: '#2563eb',
                             borderRadius: '10px',
                             fontSize: '0.84rem',
                             border: 'none',
                             transition: 'all 0.2s ease',
                           }}
-                          onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = '#0f766e'; }}
-                          onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = '#0d9488'; }}
+                          onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = '#1d4ed8'; }}
+                          onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = '#2563eb'; }}
                         >
                           <span>Book Equipment</span>
                           <span>➔</span>
@@ -560,24 +560,24 @@ export default function AssetList() {
 
         {/* Empty State */}
         {!loading && filteredAssets.length === 0 && (
-          <div className="text-center py-5 my-5 bg-white rounded-4 border p-5 shadow-sm" style={{ borderColor: '#ccfbf1' }}>
+          <div className="text-center py-5 my-5 bg-white rounded-4 border p-5 shadow-sm" style={{ borderColor: '#e2e8f0' }}>
             <div
               className="rounded-circle d-inline-flex align-items-center justify-content-center mb-3"
-              style={{ width: '64px', height: '64px', backgroundColor: '#f0fdfa', border: '1px solid #99f6e4' }}
+              style={{ width: '64px', height: '64px', backgroundColor: '#eff6ff', border: '1px solid #bfdbfe' }}
             >
-              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#0d9488" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#2563eb" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <circle cx="11" cy="11" r="8"></circle>
                 <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
               </svg>
             </div>
-            <h4 className="fw-bold mb-2" style={{ color: '#0b192c' }}>No Equipment Found</h4>
-            <p className="mb-4 mx-auto" style={{ maxWidth: '420px', fontSize: '0.92rem', color: '#0f766e', opacity: 0.9 }}>
+            <h4 className="fw-bold mb-2" style={{ color: '#0a192f' }}>No Equipment Found</h4>
+            <p className="mb-4 mx-auto" style={{ maxWidth: '420px', fontSize: '0.92rem', color: '#475569' }}>
               We couldn't find any gear matching your current search or category filter. Try clearing filters or searching for something else.
             </p>
             <button
               type="button"
               className="btn rounded-pill px-4 py-2 fw-semibold border-0 text-white"
-              style={{ backgroundColor: '#0d9488', fontSize: '0.88rem' }}
+              style={{ backgroundColor: '#2563eb', fontSize: '0.88rem' }}
               onClick={resetAllFilters}
             >
               Reset All Filters
