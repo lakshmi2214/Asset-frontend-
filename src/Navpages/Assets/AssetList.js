@@ -208,125 +208,36 @@ export default function AssetList() {
           </div>
         </div>
 
-        {/* Filter & Search Bar */}
+        {/* Category Filter Bar */}
         <div className="bg-white rounded-4 p-3 mb-4 shadow-sm border" style={{ borderColor: '#e2e8f0' }}>
-          <div className="d-flex flex-column flex-lg-row align-items-stretch align-items-lg-center justify-content-between gap-3">
-
-            <div
-              className="position-relative d-flex align-items-center flex-shrink-0"
-              style={{ width: '100%', maxWidth: '270px' }}
-            >
-              <svg
-                width="17"
-                height="17"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="#2563eb"
-                strokeWidth="2.2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                className="position-absolute ms-3"
-                style={{ pointerEvents: 'none' }}
-              >
-                <circle cx="11" cy="11" r="8"></circle>
-                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-              </svg>
-              <input
-                type="text"
-                className="form-control rounded-pill ps-5 pe-4 py-2 border"
-                placeholder="Search equipment..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                style={{ backgroundColor: '#f8fafc', borderColor: '#e2e8f0', fontSize: '13px', color: '#0a192f', fontWeight: 400 }}
-              />
-              {searchQuery && (
+          {/* Category Filter Pills */}
+          <div
+            className="d-flex align-items-center gap-2 flex-nowrap overflow-x-auto no-scrollbar py-1"
+            style={{
+              WebkitOverflowScrolling: 'touch',
+            }}
+          >
+            {ASSET_CATEGORIES.map((cat) => {
+              const isActive = selectedCategoryId === cat.id;
+              return (
                 <button
+                  key={cat.id}
                   type="button"
-                  onClick={() => setSearchQuery('')}
-                  className="btn btn-link position-absolute end-0 me-2 p-1 text-muted text-decoration-none"
-                  style={{ fontSize: '12px' }}
+                  onClick={() => handleCategorySelect(cat.id)}
+                  className="btn rounded-pill px-3 py-1 border text-nowrap flex-shrink-0"
+                  style={{
+                    fontSize: '13px',
+                    fontWeight: 600,
+                    backgroundColor: isActive ? '#2563eb' : '#ffffff',
+                    color: isActive ? '#ffffff' : '#0a192f',
+                    borderColor: isActive ? '#2563eb' : '#e2e8f0',
+                    transition: 'all 0.2s ease',
+                  }}
                 >
-                  ✕
+                  {cat.name}
                 </button>
-              )}
-            </div>
-
-            {/* Category Filter Pills */}
-            <div
-              className="d-flex align-items-center gap-2 flex-nowrap overflow-x-auto no-scrollbar py-1"
-              style={{
-                WebkitOverflowScrolling: 'touch',
-              }}
-            >
-              {ASSET_CATEGORIES.map((cat) => {
-                const isActive = selectedCategoryId === cat.id;
-                return (
-                  <button
-                    key={cat.id}
-                    type="button"
-                    onClick={() => handleCategorySelect(cat.id)}
-                    className="btn rounded-pill px-3 py-1 border text-nowrap flex-shrink-0"
-                    style={{
-                      fontSize: '13px',
-                      fontWeight: 600,
-                      backgroundColor: isActive ? '#2563eb' : '#ffffff',
-                      color: isActive ? '#ffffff' : '#0a192f',
-                      borderColor: isActive ? '#2563eb' : '#e2e8f0',
-                      transition: 'all 0.2s ease',
-                    }}
-                  >
-                    {cat.name}
-                  </button>
-                );
-              })}
-            </div>
-          </div>
-
-          {/* AI Smart Presets Quick Bar */}
-          <div className="d-flex align-items-center gap-2 flex-wrap pt-2 mt-2 border-top" style={{ borderColor: '#f1f5f9' }}>
-            <span className="badge rounded-pill text-white fw-bold px-2 py-1" style={{ background: 'linear-gradient(135deg, #2563eb 0%, #7c3aed 100%)', fontSize: '0.72rem' }}>
-              ✦ AI Presets
-            </span>
-            <button
-              type="button"
-              onClick={() => { setSelectedCategoryId('camera'); setSearchQuery('Sony'); }}
-              className="btn btn-sm btn-light rounded-pill px-2 py-0 text-secondary border"
-              style={{ fontSize: '0.76rem' }}
-            >
-              🎥 4K Cine Bodies
-            </button>
-            <button
-              type="button"
-              onClick={() => { setSelectedCategoryId('audio'); setSearchQuery('Mic'); }}
-              className="btn btn-sm btn-light rounded-pill px-2 py-0 text-secondary border"
-              style={{ fontSize: '0.76rem' }}
-            >
-              🎙️ Wireless Audio
-            </button>
-            <button
-              type="button"
-              onClick={() => { setSelectedCategoryId('lighting'); setSearchQuery('Godox'); }}
-              className="btn btn-sm btn-light rounded-pill px-2 py-0 text-secondary border"
-              style={{ fontSize: '0.76rem' }}
-            >
-              💡 Continuous Lights
-            </button>
-            <button
-              type="button"
-              onClick={() => { setSelectedCategoryId('power'); setSearchQuery('Battery'); }}
-              className="btn btn-sm btn-light rounded-pill px-2 py-0 text-secondary border"
-              style={{ fontSize: '0.76rem' }}
-            >
-              🔋 Power &amp; Chargers
-            </button>
-            <button
-              type="button"
-              onClick={() => { setSelectedCategoryId('storage'); setSearchQuery('CFexpress'); }}
-              className="btn btn-sm btn-light rounded-pill px-2 py-0 text-secondary border"
-              style={{ fontSize: '0.76rem' }}
-            >
-              💾 High-Speed Media
-            </button>
+              );
+            })}
           </div>
 
           {activeCategory && activeCategory.subcategories && activeCategory.subcategories.length > 0 && (
