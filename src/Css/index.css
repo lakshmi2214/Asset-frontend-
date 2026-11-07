@@ -3851,13 +3851,13 @@ strong, b, th,
 }
 
 /* ================================================================
-   Cinema Studio Footer (Deep Midnight Navy with Cyan/Amber Highlights)
+   Cinema Studio Footer (Compact Midnight Navy Theme)
 ================================================================ */
 .ak-footer-root {
   background: linear-gradient(180deg, #071224 0%, #0a192f 100%);
   color: #e2e8f0;
-  border-top: 2px solid #1e3a8a;
-  padding: 4.5rem 0 2rem;
+  border-top: 1.5px solid #1e3a8a;
+  padding: 2.25rem 0 1.25rem;
   margin-top: auto;
   position: relative;
   overflow: hidden;
@@ -3874,132 +3874,33 @@ strong, b, th,
   opacity: 0.6;
 }
 
-.ak-footer-newsletter-box {
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(59, 130, 246, 0.22);
-  border-radius: 20px;
-  padding: 2.25rem 2.5rem;
-  margin-bottom: 3.5rem;
-  backdrop-filter: blur(10px);
-  box-shadow: 0 16px 36px -10px rgba(0, 0, 0, 0.35);
-}
-
-.ak-footer-newsletter-badge {
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 1.2px;
-  text-transform: uppercase;
-  color: #38bdf8;
-  background: rgba(56, 189, 248, 0.12);
-  padding: 3px 10px;
-  border-radius: 9999px;
-  border: 1px solid rgba(56, 189, 248, 0.25);
-}
-
-.ak-footer-newsletter-title {
-  font-size: 1.65rem;
-  font-weight: 600;
-  color: #ffffff;
-  letter-spacing: -0.4px;
-}
-
-.ak-footer-newsletter-sub {
-  font-size: 14px;
-  color: #94a3b8;
-  line-height: 1.6;
-  max-width: 520px;
-  font-weight: 400;
-}
-
-.ak-newsletter-form {
-  display: flex;
-  align-items: center;
-  background: rgba(15, 23, 42, 0.6);
-  border: 1.5px solid rgba(59, 130, 246, 0.3);
-  border-radius: 9999px;
-  padding: 4px;
-  transition: all 0.2s ease;
-}
-
-.ak-newsletter-form:focus-within {
-  border-color: #38bdf8;
-  box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.18);
-}
-
-.ak-newsletter-input {
-  flex: 1;
-  background: transparent;
-  border: none;
-  outline: none;
-  font-size: 13.5px;
-  color: #ffffff;
-  padding: 0.65rem 1.1rem;
-  font-weight: 400;
-}
-
-.ak-newsletter-input::placeholder {
-  color: #64748b;
-  font-size: 13px;
-}
-
-.ak-newsletter-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  background: linear-gradient(135deg, #1d4ed8 0%, #2563eb 100%);
-  color: #ffffff;
-  border: none;
-  border-radius: 9999px;
-  padding: 0.65rem 1.35rem;
-  font-weight: 600;
-  font-size: 13.5px;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  flex-shrink: 0;
-}
-
-.ak-newsletter-btn:hover {
-  background: #1e40af;
-  box-shadow: 0 2px 10px rgba(37, 99, 235, 0.4);
-}
-
-.ak-newsletter-success {
-  background: rgba(16, 185, 129, 0.12);
-  border: 1px solid rgba(16, 185, 129, 0.3);
-  color: #6ee7b7;
-  padding: 0.75rem 1.25rem;
-  border-radius: 12px;
-  font-size: 13.5px;
-  font-weight: 500;
-}
-
 .ak-footer-heading {
   font-size: 13px;
   font-weight: 600;
   color: #ffffff;
   text-transform: uppercase;
-  letter-spacing: 1px;
-  margin-bottom: 1.25rem;
+  letter-spacing: 0.8px;
+  margin-bottom: 0.85rem;
 }
 
 .ak-footer-link {
-  display: block;
-  font-size: 14px;
+  display: inline-block;
+  font-size: 13px;
   color: #94a3b8;
   text-decoration: none;
-  margin-bottom: 0.7rem;
   font-weight: 400;
   transition: all 0.2s ease;
+  width: fit-content;
 }
 
 .ak-footer-link:hover {
   color: #38bdf8;
-  transform: translateX(3px);
+  transform: translateX(2px);
 }
 
 .ak-footer-social-btn {
-  width: 36px;
-  height: 36px;
+  width: 32px;
+  height: 32px;
   border-radius: 50%;
   background: rgba(255, 255, 255, 0.05);
   border: 1px solid rgba(59, 130, 246, 0.25);
@@ -4015,54 +3916,15 @@ strong, b, th,
   background: #2563eb;
   color: #ffffff;
   border-color: #2563eb;
-  transform: translateY(-3px);
-  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.4);
-}
-
-.ak-footer-status-pill {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  background: rgba(16, 185, 129, 0.08);
-  border: 1px solid rgba(16, 185, 129, 0.25);
-  color: #6ee7b7;
-  font-size: 12px;
-  font-weight: 500;
-  padding: 5px 12px;
-  border-radius: 9999px;
-  width: fit-content;
-}
-
-.ak-footer-status-dot {
-  width: 8px;
-  height: 8px;
-  background-color: #10b981;
-  border-radius: 50%;
-  display: inline-block;
-  box-shadow: 0 0 8px #10b981;
-  animation: pulseDot 2s infinite;
-}
-
-@keyframes pulseDot {
-  0%, 100% { opacity: 1; transform: scale(1); }
-  50% { opacity: 0.5; transform: scale(1.2); }
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(37, 99, 235, 0.4);
 }
 
 .ak-footer-bottom {
   border-top: 1px solid rgba(255, 255, 255, 0.08);
-  padding-top: 2rem;
-  margin-top: 3.5rem;
-  font-size: 12.5px;
+  padding-top: 1.25rem;
+  margin-top: 1.75rem;
+  font-size: 12px;
   color: #64748b;
   font-weight: 400;
-}
-
-.ak-footer-cinema-badge {
-  display: inline-block;
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  padding: 4px 12px;
-  border-radius: 9999px;
-  color: #94a3b8;
-  font-size: 12px;
 }
