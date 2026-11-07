@@ -50,11 +50,11 @@ function AppContent({ user, setUser, handleLogout }) {
           <Navbar.Toggle aria-controls="ak-nav" className="border-0 shadow-none" />
 
           <Navbar.Collapse id="ak-nav">
-            {/* Centre links */}
-            <Nav className="mx-auto gap-1 align-items-center my-2 my-lg-0">
+            {/* Left-aligned links */}
+            <Nav className="ms-lg-4 me-auto gap-1 align-items-center my-2 my-lg-0">
               <Nav.Link as={Link} to="/" onClick={closeNav} className="ak-nav-link">Home</Nav.Link>
-              <Nav.Link as={Link} to="/assets" onClick={closeNav} className="ak-nav-link">Browse</Nav.Link>
               <Nav.Link as={Link} to="/#about" onClick={closeNav} className="ak-nav-link">About</Nav.Link>
+              <Nav.Link as={Link} to="/assets" onClick={closeNav} className="ak-nav-link">Equipments</Nav.Link>
             </Nav>
 
             {/* Right actions */}
