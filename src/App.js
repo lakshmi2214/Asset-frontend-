@@ -27,6 +27,11 @@ function AppContent({ user, setUser, handleLogout }) {
 
   const closeNav = () => setNavExpanded(false);
 
+  const isActive = (path) => {
+    if (path === '/') return location.pathname === '/';
+    return location.pathname.startsWith(path);
+  };
+
   return (
     <div className="d-flex flex-column min-vh-100">
       <Navbar
@@ -35,35 +40,48 @@ function AppContent({ user, setUser, handleLogout }) {
         expanded={navExpanded}
         onToggle={(expanded) => setNavExpanded(expanded)}
         collapseOnSelect
-        className="py-2 ak-navbar"
+        className="ak-navbar"
       >
         <Container>
-          {/* Logo */}
-          <Navbar.Brand as={Link} to="/" onClick={closeNav} className="d-flex align-items-center gap-2 text-decoration-none">
-            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#2563eb" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z" />
-              <circle cx="12" cy="13" r="4" />
-            </svg>
-            <span style={{ fontWeight: 600, fontSize: '1.42rem', color: '#0a192f', letterSpacing: '-0.4px' }}>AsliKahani</span>
+          {/* Logo with Studio Icon Wrap & Clean Subtitle */}
+          <Navbar.Brand as={Link} to="/" onClick={closeNav} className="d-flex align-items-center gap-3 text-decoration-none py-1">
+            <div className="ak-brand-icon-wrap">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#2563eb" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z" />
+                <circle cx="12" cy="13" r="4" />
+              </svg>
+            </div>
+            <div className="d-flex flex-column">
+              <span className="ak-brand-title">AsliKahani</span>
+              <span className="ak-brand-tagline">Studio &amp; Equipment Hub</span>
+            </div>
           </Navbar.Brand>
 
-          <Navbar.Toggle aria-controls="ak-nav" className="border-0 shadow-none" />
+          <Navbar.Toggle aria-controls="ak-nav" className="border-0 shadow-none ak-nav-toggle" />
 
           <Navbar.Collapse id="ak-nav">
-            {/* Left-aligned links */}
-            <Nav className="ms-lg-4 me-auto gap-1 align-items-center my-2 my-lg-0">
-              <Nav.Link as={Link} to="/" onClick={closeNav} className="ak-nav-link">Home</Nav.Link>
-              <Nav.Link as={Link} to="/about" onClick={closeNav} className="ak-nav-link">About</Nav.Link>
-              <Nav.Link as={Link} to="/assets" onClick={closeNav} className="ak-nav-link">Equipments</Nav.Link>
+            {/* Left-aligned navigation links */}
+            <Nav className="ms-lg-4 me-auto gap-2 align-items-center my-3 my-lg-0">
+              <Nav.Link as={Link} to="/" onClick={closeNav} className={`ak-nav-link ${isActive('/') ? 'active' : ''}`}>
+                Home
+              </Nav.Link>
+              <Nav.Link as={Link} to="/about" onClick={closeNav} className={`ak-nav-link ${isActive('/about') ? 'active' : ''}`}>
+                About
+              </Nav.Link>
+              <Nav.Link as={Link} to="/assets" onClick={closeNav} className={`ak-nav-link ${isActive('/assets') || isActive('/book-asset') ? 'active' : ''}`}>
+                Equipments
+              </Nav.Link>
             </Nav>
 
             {/* Right actions */}
             <Nav className="gap-2 align-items-center flex-row justify-content-end">
               {user ? (
                 <>
-                  <Nav.Link as={Link} to="/bookings" onClick={closeNav} className="ak-nav-link">My History</Nav.Link>
+                  <Nav.Link as={Link} to="/bookings" onClick={closeNav} className={`ak-nav-link ${isActive('/bookings') ? 'active' : ''}`}>
+                    My History
+                  </Nav.Link>
                   <button
-                    className="btn ak-btn-outline btn-sm rounded-pill px-3"
+                    className="btn ak-btn-outline"
                     onClick={() => { closeNav(); handleLogout(); }}
                   >
                     Sign Out
@@ -71,8 +89,10 @@ function AppContent({ user, setUser, handleLogout }) {
                 </>
               ) : (
                 <>
-                  <Link to="/login" onClick={closeNav} className="ak-nav-link px-2">Login</Link>
-                  <Link to="/signup" onClick={closeNav} className="btn ak-btn-dark btn-sm rounded-pill px-3">
+                  <Link to="/login" onClick={closeNav} className={`ak-nav-link ${isActive('/login') ? 'active' : ''}`}>
+                    Login
+                  </Link>
+                  <Link to="/signup" onClick={closeNav} className="btn ak-btn-dark">
                     Sign Up
                   </Link>
                 </>

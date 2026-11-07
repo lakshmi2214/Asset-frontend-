@@ -18,7 +18,6 @@ const ASSET_CATEGORIES = [
 
 export default function AssetList() {
   const [searchParams, setSearchParams] = useSearchParams();
-  // Pre-seed with the complete 19 assets from the old database
   const [assets, setAssets] = useState(OLD_DATABASE_ASSETS);
   const [categories, setCategories] = useState(OLD_DATABASE_CATEGORIES);
   const [loading, setLoading] = useState(false);
@@ -63,8 +62,6 @@ export default function AssetList() {
         clearTimeout(timeoutId);
 
         if (isMounted) {
-          // Only update if we received the full catalog (at least as many as OLD_DATABASE_ASSETS)
-          // to prevent any local backend with only 4 test items from overwriting the real catalog
           if (Array.isArray(assetsData) && assetsData.length >= OLD_DATABASE_ASSETS.length) {
             setAssets(assetsData);
           } else {
@@ -187,7 +184,6 @@ export default function AssetList() {
     <div className="py-4" style={{ backgroundColor: '#ffffff', minHeight: '80vh' }}>
       <Container>
 
-        {/* Page Header */}
         <div className="d-flex flex-wrap align-items-center justify-content-between gap-3 mb-4">
           <div>
             <h1 className="mb-1" style={{ fontSize: '1.85rem', color: '#0a192f', letterSpacing: '-0.4px', fontWeight: 600 }}>
@@ -208,9 +204,7 @@ export default function AssetList() {
           </div>
         </div>
 
-        {/* Category Filter Bar */}
         <div className="bg-white rounded-4 p-3 mb-4 shadow-sm border" style={{ borderColor: '#e2e8f0' }}>
-          {/* Category Filter Pills */}
           <div
             className="d-flex align-items-center gap-2 flex-nowrap overflow-x-auto no-scrollbar py-1"
             style={{
@@ -284,7 +278,6 @@ export default function AssetList() {
           )}
         </div>
 
-        {/* Active Filter Badges */}
         {(selectedCategoryId !== 'all' || searchQuery.trim() || selectedSubcategoryId !== 'all') && (
           <div className="d-flex align-items-center gap-2 flex-wrap mb-4">
             <span className="text-muted small">Active filters:</span>
@@ -330,7 +323,6 @@ export default function AssetList() {
           </div>
         )}
 
-        {/* Skeleton Loading State (4 columns compact) */}
         {loading && (
           <Row className="g-3 align-items-stretch">
             {[1, 2, 3, 4, 5, 6, 7, 8].map((idx) => (
@@ -347,7 +339,6 @@ export default function AssetList() {
           </Row>
         )}
 
-        {/* Compact, Perfectly Aligned Asset Cards Grid (4 columns) */}
         {!loading && filteredAssets.length > 0 && (
           <Row className="g-3 align-items-stretch">
             {filteredAssets.map((asset) => {
@@ -365,7 +356,6 @@ export default function AssetList() {
                       flexDirection: 'column',
                     }}
                   >
-                    {/* Compact Image Container: 145px height */}
                     <div
                       className="d-flex align-items-center justify-content-center p-2 position-relative"
                       style={{
@@ -397,9 +387,7 @@ export default function AssetList() {
                       )}
                     </div>
 
-                    {/* Compact Card Body with Uniform Alignment */}
                     <div className="card-body p-3 d-flex flex-column flex-grow-1">
-                      {/* Department / Category Tag & Stock Status Header */}
                       <div className="d-flex align-items-center justify-content-between gap-1 mb-1" style={{ minHeight: '20px' }}>
                         <span
                           className="text-uppercase fw-semibold text-muted text-truncate"
@@ -422,7 +410,6 @@ export default function AssetList() {
                         </span>
                       </div>
 
-                      {/* Clamped 2-Line Title */}
                       <h6
                         className="mb-1 text-dark"
                         title={asset.name}
@@ -440,14 +427,12 @@ export default function AssetList() {
                         {asset.name}
                       </h6>
 
-                      {/* Serial Number & Location */}
                       <div className="text-muted mb-3 text-truncate" style={{ fontSize: '13px', minHeight: '18px', fontWeight: 400 }}>
                         {asset.serial_number ? `S/N: ${asset.serial_number}` : ''}
                         {asset.serial_number && asset.location?.name ? ' • ' : ''}
                         {asset.location?.name || ''}
                       </div>
 
-                      {/* Pinned Bottom Book Button */}
                       <div className="mt-auto pt-1">
                         <Link
                           to={`/book-asset?assetId=${asset.id}`}
@@ -475,7 +460,6 @@ export default function AssetList() {
           </Row>
         )}
 
-        {/* Empty State */}
         {!loading && filteredAssets.length === 0 && (
           <div className="text-center py-5 my-5 bg-white rounded-4 border p-5 shadow-sm" style={{ borderColor: '#e2e8f0' }}>
             <div

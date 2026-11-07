@@ -105,7 +105,6 @@ export default function Signup({ setUser }) {
         }}
       >
         <Form onSubmit={submit}>
-          {/* Username Input */}
           <div className="mb-3">
             <input
               type="text"
@@ -126,7 +125,6 @@ export default function Signup({ setUser }) {
             />
           </div>
 
-          {/* Email Input */}
           <div className="mb-3">
             <input
               type="email"
@@ -147,7 +145,6 @@ export default function Signup({ setUser }) {
             />
           </div>
 
-          {/* Phone Number Input */}
           <div className="mb-3">
             <input
               type="tel"
@@ -168,7 +165,6 @@ export default function Signup({ setUser }) {
             />
           </div>
 
-          {/* Password Input with Eye Toggle */}
           <div className="mb-4 position-relative">
             <input
               type={showPassword ? 'text' : 'password'}
@@ -198,7 +194,6 @@ export default function Signup({ setUser }) {
             </button>
           </div>
 
-          {/* Primary Signup Button */}
           <button
             type="submit"
             disabled={loading}
@@ -215,7 +210,6 @@ export default function Signup({ setUser }) {
             {loading ? 'Signing up...' : 'Signup'}
           </button>
 
-          {/* Already have an account? Login */}
           <div className="text-center mt-3 mb-1" style={{ fontSize: '0.94rem', color: '#475569' }}>
             <span>Already have an account? </span>
             <Link to="/login" className="fw-bold text-decoration-none" style={{ color: '#1877f2' }}>

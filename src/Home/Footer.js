@@ -17,7 +17,7 @@ const Footer = () => {
     <footer className="ak-footer-root">
       <Container>
         <Row className="gy-4 gx-lg-5 align-items-start">
-          {/* Brand & Social */}
+
           <Col lg={5} md={6}>
             <div className="d-flex align-items-center gap-2 mb-2">
               <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
@@ -53,7 +53,6 @@ const Footer = () => {
             </div>
           </Col>
 
-          {/* Quick Links */}
           <Col lg={3} sm={6} xs={6}>
             <h6 className="ak-footer-heading">Quick Links</h6>
             <div className="d-flex flex-column gap-2">
@@ -64,7 +63,7 @@ const Footer = () => {
             </div>
           </Col>
 
-          {/* Contact & Location */}
+
           <Col lg={4} sm={6} xs={6}>
             <h6 className="ak-footer-heading">Contact &amp; Hub</h6>
             <div className="d-flex flex-column gap-2">
@@ -88,7 +87,6 @@ const Footer = () => {
           </Col>
         </Row>
 
-        {/* Bottom Bar */}
         <div className="ak-footer-bottom">
           <Row className="align-items-center">
             <Col sm={6} className="text-center text-sm-start">

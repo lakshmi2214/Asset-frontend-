@@ -265,7 +265,6 @@ export default function AssetBooking() {
       } catch (e) { }
 
       if (res.status === 400) {
-        // Check if it's an overlap error or validation error
         if (typeof t === 'object') {
           if (JSON.stringify(t).includes('overlap')) {
             setErrorMessage("Book after 1 hour. This period of time is already booked.");

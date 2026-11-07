@@ -129,7 +129,7 @@ export default function Home() {
       <section className="ak-section ak-bg-offwhite">
         <Container>
           <div className="ak-vision-banner">
-            {/* Left text */}
+
             <div className="ak-vision-left">
               <h2 className="ak-vision-heading">Your Vision<br />Our Equipment</h2>
               <p className="ak-vision-desc">
@@ -187,9 +187,6 @@ export default function Home() {
         </Container>
       </section>
 
-      {/* ═══════════════════════════════════════════
-          SECTION 6 — HOW IT WORKS (Rental Process)
-      ═══════════════════════════════════════════ */}
       <section className="ak-section ak-bg-offwhite" id="how-it-works">
         <Container>
           <div className="text-center mb-5">
@@ -243,7 +240,6 @@ export default function Home() {
             </Col>
           </Row>
 
-          {/* Quick CTA strip below steps */}
           <div className="ak-cta-banner mt-5">
             <div className="d-flex flex-column flex-md-row align-items-center justify-content-between gap-3 p-4 p-md-5">
               <div>

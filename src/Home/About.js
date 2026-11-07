@@ -33,19 +33,18 @@ const stats = [
 ];
 
 const whatWeDo = [
-  { icon: '📰', label: 'Digital E-Magazine',   desc: 'Monthly magazine covering art, culture, business, tech, education & social issues.' },
-  { icon: '🎬', label: 'Documentaries',         desc: 'Short-form documentary films on stories that mainstream media ignores.' },
-  { icon: '🎧', label: 'Unmute Podcast',        desc: 'Our signature podcast series giving a mic to unheard voices across India.' },
-  { icon: '📡', label: 'Ground Reports',        desc: 'On-ground journalism from the streets, villages, and communities of India.' },
-  { icon: '🏢', label: 'Studio & Gear Rental',  desc: 'Professional camera gear, soundstages and equipment for creators in Bangalore.' },
-  { icon: '🤝', label: 'Creator Community',     desc: 'A collective of journalists, filmmakers, photographers and storytellers.' },
+  { icon: '📰', label: 'Digital E-Magazine', desc: 'Monthly magazine covering art, culture, business, tech, education & social issues.' },
+  { icon: '🎬', label: 'Documentaries', desc: 'Short-form documentary films on stories that mainstream media ignores.' },
+  { icon: '🎧', label: 'Unmute Podcast', desc: 'Our signature podcast series giving a mic to unheard voices across India.' },
+  { icon: '📡', label: 'Ground Reports', desc: 'On-ground journalism from the streets, villages, and communities of India.' },
+  { icon: '🏢', label: 'Studio & Gear Rental', desc: 'Professional camera gear, soundstages and equipment for creators in Bangalore.' },
+  { icon: '🤝', label: 'Creator Community', desc: 'A collective of journalists, filmmakers, photographers and storytellers.' },
 ];
 
 export default function About() {
   return (
     <div style={{ backgroundColor: '#ffffff', overflowX: 'hidden' }}>
 
-      {/* ── HERO ── */}
       <section className="about-hero-section">
         <Container>
           <Row className="align-items-center g-5">
@@ -75,7 +74,7 @@ export default function About() {
             </Col>
 
             <Col lg={5}>
-              {/* Stats card */}
+
               <div className="about-stats-card">
                 {stats.map((s, i) => (
                   <div key={i} className="about-stat-item">
@@ -89,7 +88,6 @@ export default function About() {
         </Container>
       </section>
 
-      {/* ── OUR STORY ── */}
       <section className="about-section about-bg-off">
         <Container>
           <Row className="align-items-center g-5">
@@ -136,7 +134,6 @@ export default function About() {
         </Container>
       </section>
 
-      {/* ── WHAT WE DO ── */}
       <section className="about-section about-bg-white">
         <Container>
           <div className="text-center mb-5">
@@ -164,7 +161,6 @@ export default function About() {
         </Container>
       </section>
 
-      {/* ── OUR VALUES ── */}
       <section className="about-section about-bg-dark">
         <Container>
           <div className="text-center mb-5">
@@ -186,7 +182,6 @@ export default function About() {
         </Container>
       </section>
 
-      {/* ── LOCATION / CONTACT ── */}
       <section className="about-section about-bg-off">
         <Container>
           <Row className="g-5 align-items-center">

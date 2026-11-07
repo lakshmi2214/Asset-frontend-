@@ -34,7 +34,7 @@ export default function Login({ setUser }) {
         });
       } catch (fetchErr) {
         console.error('Login primary API connection error:', fetchErr);
-        // Fallback to PROD_BACKEND if local/primary was unreachable
+
         if (targetApi !== PROD_BACKEND) {
           tokenRes = await fetch(`${PROD_BACKEND}/api/v1/auth/token/`, {
             method: 'POST',
@@ -89,7 +89,7 @@ export default function Login({ setUser }) {
         }}
       >
         <Form onSubmit={submit}>
-          {/* Username / Email Input */}
+
           <div className="mb-3">
             <input
               type="text"
@@ -110,7 +110,7 @@ export default function Login({ setUser }) {
             />
           </div>
 
-          {/* Password Input with Eye Toggle */}
+
           <div className="mb-2 position-relative">
             <input
               type={showPassword ? 'text' : 'password'}
@@ -140,7 +140,7 @@ export default function Login({ setUser }) {
             </button>
           </div>
 
-          {/* Forgot Password Link */}
+
           <div className="text-center my-3">
             <a
               href="#forgot"
@@ -155,7 +155,6 @@ export default function Login({ setUser }) {
             </a>
           </div>
 
-          {/* Primary Login Button */}
           <button
             type="submit"
             disabled={loading}
@@ -172,7 +171,7 @@ export default function Login({ setUser }) {
             {loading ? 'Logging in...' : 'Login'}
           </button>
 
-          {/* Create Account / Signup Prompt */}
+
           <div className="text-center mt-3 mb-3" style={{ fontSize: '0.94rem', color: '#475569' }}>
             <span>Don’t have an account? </span>
             <Link to="/signup" className="fw-bold text-decoration-none" style={{ color: '#1877f2' }}>
@@ -180,14 +179,14 @@ export default function Login({ setUser }) {
             </Link>
           </div>
 
-          {/* Divider with 'Or' */}
+
           <div className="d-flex align-items-center my-3">
             <div className="flex-grow-1 border-top" style={{ borderColor: '#cbd5e1' }}></div>
             <span className="px-3 text-muted small fw-medium" style={{ fontSize: '0.85rem' }}>Or</span>
             <div className="flex-grow-1 border-top" style={{ borderColor: '#cbd5e1' }}></div>
           </div>
 
-          {/* Social Facebook Login Button */}
+
           <button
             type="button"
             onClick={() => setMsg('Facebook OAuth authentication integration initiated.')}
