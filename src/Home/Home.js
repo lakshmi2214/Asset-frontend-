@@ -187,73 +187,79 @@ export default function Home() {
         </Container>
       </section>
 
-      <section className="ak-section ak-bg-offwhite" id="about">
+      {/* ═══════════════════════════════════════════
+          SECTION 6 — HOW IT WORKS (Rental Process)
+      ═══════════════════════════════════════════ */}
+      <section className="ak-section ak-bg-offwhite" id="how-it-works">
         <Container>
-          <Row className="g-5 align-items-center">
-            <Col lg={6} md={12}>
-              <p className="ak-hero-eyebrow">ABOUT ASLIKAHANI</p>
-              <h2 className="ak-about-heading">
-                Bangalore's Studio &amp;<br />Equipment Hub
-              </h2>
-              <p className="ak-about-desc">
-                We provide filmmakers, photographers, and commercial crews with
-                calibrated cinema cameras, master prime lenses, continuous lighting rigs,
-                and acoustically isolated soundstages — all tested and ready at our
-                Malleshwaram prep bay.
-              </p>
-              <div className="ak-about-stats">
-                {[
-                  { n: '500+', l: 'Gear Units' },
-                  { n: '3', l: 'Soundstages' },
-                  { n: '4.9★', l: 'Rating' },
-                  { n: '24/7', l: 'Support' },
-                ].map((s, i) => (
-                  <div key={i} className="ak-stat-box">
-                    <div className="ak-stat-num">{s.n}</div>
-                    <div className="ak-stat-lbl">{s.l}</div>
-                  </div>
-                ))}
+          <div className="text-center mb-5">
+            <p className="ak-hero-eyebrow">SIMPLE 3-STEP RENTAL</p>
+            <h2 className="ak-section-title" style={{ fontSize: '2.35rem' }}>
+              How Renting Works
+            </h2>
+            <p className="ak-hero-subtext mx-auto" style={{ maxWidth: '580px', marginTop: '0.65rem' }}>
+              Professional filmmaking equipment made accessible, fully verified, and ready for your production schedule.
+            </p>
+          </div>
+
+          <Row className="g-4">
+            <Col lg={4} md={6}>
+              <div className="ak-step-card">
+                <div className="ak-step-header">
+                  <span className="ak-step-num">01</span>
+                  <div className="ak-step-icon">🎥</div>
+                </div>
+                <h3 className="ak-step-title">Choose Your Gear</h3>
+                <p className="ak-step-desc">
+                  Browse verified cinema cameras, prime lenses, lighting kits, and audio setups. Select your shoot dates with transparent daily or multi-day rates.
+                </p>
               </div>
-              <Link to="/assets" className="ak-browse-btn mt-4 d-inline-block">
-                Browse Catalog →
-              </Link>
             </Col>
 
-            <Col lg={6} md={12}>
-              <div className="ak-about-info-card">
-                <div className="ak-about-info-row">
-                  <span className="ak-about-info-icon">📍</span>
-                  <div>
-                    <div className="ak-about-info-label">Address</div>
-                    <div className="ak-about-info-val">
-                      280/1, Anniamma Arcade, Sampige Road,<br />
-                      18th Cross, Malleshwaram, Bengaluru 560003
-                    </div>
-                  </div>
+            <Col lg={4} md={6}>
+              <div className="ak-step-card">
+                <div className="ak-step-header">
+                  <span className="ak-step-num">02</span>
+                  <div className="ak-step-icon">🛡️</div>
                 </div>
-                <div className="ak-about-info-row">
-                  <span className="ak-about-info-icon">🕐</span>
-                  <div>
-                    <div className="ak-about-info-label">Hours</div>
-                    <div className="ak-about-info-val">
-                      Mon – Sat: 9:00 AM – 8:00 PM<br />
-                      Sunday: By Reservation
-                    </div>
-                  </div>
+                <h3 className="ak-step-title">Prep &amp; Calibration</h3>
+                <p className="ak-step-desc">
+                  Our certified technicians clean sensors, check optical alignment, format media, and charge batteries—packed securely in flight-ready Pelican cases.
+                </p>
+              </div>
+            </Col>
+
+            <Col lg={4} md={12}>
+              <div className="ak-step-card">
+                <div className="ak-step-header">
+                  <span className="ak-step-num">03</span>
+                  <div className="ak-step-icon">🚀</div>
                 </div>
-                <div className="ak-about-info-row">
-                  <span className="ak-about-info-icon">📞</span>
-                  <div>
-                    <div className="ak-about-info-label">Contact</div>
-                    <div className="ak-about-info-val">
-                      +91 63 66 333 444<br />
-                      support@aslikahani.com
-                    </div>
-                  </div>
-                </div>
+                <h3 className="ak-step-title">Shoot &amp; Return</h3>
+                <p className="ak-step-desc">
+                  Pick up at our studio hub or request on-set courier delivery. Roll camera with 24/7 technical support, and return hassle-free when wrap is called.
+                </p>
               </div>
             </Col>
           </Row>
+
+          {/* Quick CTA strip below steps */}
+          <div className="ak-cta-banner mt-5">
+            <div className="d-flex flex-column flex-md-row align-items-center justify-content-between gap-3 p-4 p-md-5">
+              <div>
+                <h3 className="ak-cta-heading mb-1">Need a custom production package?</h3>
+                <p className="ak-cta-sub mb-0">Speak with our gear specialists or reserve your kit online today.</p>
+              </div>
+              <div className="d-flex gap-3 flex-wrap">
+                <Link to="/assets" className="ak-browse-btn">
+                  Explore Equipments →
+                </Link>
+                <Link to="/about" className="ak-secondary-cta-btn">
+                  About Our Studio
+                </Link>
+              </div>
+            </div>
+          </div>
         </Container>
       </section>
 

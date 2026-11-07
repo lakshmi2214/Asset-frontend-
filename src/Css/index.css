@@ -3395,90 +3395,101 @@ strong, b, th,
   color: #2563eb;
 }
 
-/* ── About Section on Home (Studio Navy & Royal Blue) ── */
-.ak-about-heading {
-  font-size: 2.35rem;
-  font-weight: 600;
-  color: #0a192f;
-  letter-spacing: -0.5px;
-  line-height: 1.25;
-  margin-bottom: 1rem;
-}
-
-.ak-about-desc {
-  font-size: 16px;
-  color: #475569;
-  line-height: 1.7;
-  margin-bottom: 1.75rem;
-  font-weight: 400;
-}
-
-.ak-about-stats {
-  display: flex;
-  gap: 1.75rem;
-  flex-wrap: wrap;
-}
-
-.ak-stat-box {
-  text-align: center;
-  min-width: 80px;
-}
-
-.ak-stat-num {
-  font-size: 1.95rem;
-  font-weight: 600;
-  color: #0a192f;
-  letter-spacing: -0.4px;
-}
-
-.ak-stat-lbl {
-  font-size: 13px;
-  font-weight: 600;
-  color: #2563eb;
-  text-transform: uppercase;
-  letter-spacing: 0.6px;
-  margin-top: 4px;
-}
-
-/* About info card */
-.ak-about-info-card {
+/* ── Section 6 — How It Works (Rental Process) ── */
+.ak-step-card {
   background: #ffffff;
-  border: 1.5px solid #cbd5e1;
+  border: 1.5px solid #e2e8f0;
   border-radius: 20px;
   padding: 2.25rem 2rem;
+  height: 100%;
+  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.03);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.ak-step-card:hover {
+  border-color: #2563eb;
+  transform: translateY(-4px);
+  box-shadow: 0 12px 28px -6px rgba(37, 99, 235, 0.15);
+}
+
+.ak-step-header {
   display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-  box-shadow: 0 8px 24px -6px rgba(15, 23, 42, 0.06);
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.25rem;
 }
 
-.ak-about-info-row {
-  display: flex;
-  gap: 1rem;
-  align-items: flex-start;
-}
-
-.ak-about-info-icon {
-  font-size: 1.35rem;
-  flex-shrink: 0;
-  margin-top: 2px;
-  color: #2563eb;
-}
-
-.ak-about-info-label {
-  font-size: 13px;
+.ak-step-num {
+  font-size: 1.85rem;
   font-weight: 600;
-  letter-spacing: 0.6px;
-  text-transform: uppercase;
   color: #2563eb;
-  margin-bottom: 0.3rem;
+  letter-spacing: -0.5px;
+  opacity: 0.95;
 }
 
-.ak-about-info-val {
-  font-size: 15px;
+.ak-step-icon {
+  font-size: 2.2rem;
+  line-height: 1;
+}
+
+.ak-step-title {
+  font-size: 1.25rem;
+  font-weight: 600;
   color: #0a192f;
-  line-height: 1.6;
+  margin-bottom: 0.65rem;
+  letter-spacing: -0.3px;
+}
+
+.ak-step-desc {
+  font-size: 15px;
+  color: #475569;
+  line-height: 1.65;
+  margin: 0;
   font-weight: 400;
+}
+
+/* Step CTA banner */
+.ak-cta-banner {
+  background: linear-gradient(135deg, #0a192f 0%, #1e3a8a 60%, #2563eb 100%);
+  border-radius: 24px;
+  color: #ffffff;
+  box-shadow: 0 16px 36px -10px rgba(15, 23, 42, 0.25);
+  overflow: hidden;
+}
+
+.ak-cta-heading {
+  font-size: 1.55rem;
+  font-weight: 600;
+  color: #ffffff;
+  letter-spacing: -0.3px;
+}
+
+.ak-cta-sub {
+  font-size: 15px;
+  color: #bfdbfe;
+  font-weight: 400;
+  line-height: 1.6;
+}
+
+.ak-secondary-cta-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255, 255, 255, 0.12);
+  color: #ffffff !important;
+  border: 1.5px solid rgba(255, 255, 255, 0.35);
+  border-radius: 9999px;
+  padding: 0.75rem 1.65rem;
+  font-weight: 600;
+  font-size: 15px;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.ak-secondary-cta-btn:hover {
+  background: rgba(255, 255, 255, 0.25);
+  border-color: #ffffff;
+  transform: translateX(2px);
 }
 
 
