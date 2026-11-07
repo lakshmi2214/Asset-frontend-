@@ -3,28 +3,24 @@ import { Container, Row, Col } from 'react-bootstrap';
 import { Link, useNavigate } from 'react-router-dom';
 import { OLD_DATABASE_ASSETS } from '../oldDatabaseAssets';
 
-/* ── Category tiles ── */
 const shopCategories = [
-  { id: 'camera',  label: 'Cameras',      icon: '📷', query: 'camera'  },
-  { id: 'lens',    label: 'Lenses',       icon: '🔍', query: 'lenses'  },
-  { id: 'lighting',label: 'Lighting',     icon: '💡', query: 'lighting'},
-  { id: 'audio',   label: 'Audio',        icon: '🎙️', query: 'audio'  },
-  { id: 'tripod',  label: 'Tripods',      icon: '📐', query: 'tripod' },
+  { id: 'camera', label: 'Cameras', icon: '📷', query: 'camera' },
+  { id: 'lens', label: 'Lenses', icon: '🔍', query: 'lenses' },
+  { id: 'lighting', label: 'Lighting', icon: '💡', query: 'lighting' },
+  { id: 'audio', label: 'Audio', icon: '🎙️', query: 'audio' },
+  { id: 'tripod', label: 'Tripods', icon: '📐', query: 'tripod' },
   { id: 'storage', label: 'Studio Setup', icon: '🎬', query: 'storage' },
 ];
 
-/* ── Trust strip ── */
 const trustPoints = [
-  { icon: '⭐', title: 'Quality Gear',         sub: 'from Top Brands'       },
-  { icon: '📅', title: 'Easy Online Booking',  sub: ''                       },
-  { icon: '🔄', title: 'Flexible Rental Plans',sub: ''                       },
-  { icon: '🎧', title: 'Support When',         sub: 'You Need It'            },
+  { icon: '⭐', title: 'Quality Gear', sub: 'from Top Brands' },
+  { icon: '📅', title: 'Easy Online Booking', sub: '' },
+  { icon: '🔄', title: 'Flexible Rental Plans', sub: '' },
+  { icon: '🎧', title: 'Support When', sub: 'You Need It' },
 ];
 
-/* ── Recently added: pick last 4 items from catalog ── */
 const recentAssets = OLD_DATABASE_ASSETS.slice(-4);
 
-/* ── Helpers ── */
 function categoryLabel(asset) {
   return asset?.category?.name || 'Equipment';
 }
@@ -50,14 +46,10 @@ export default function Home() {
   return (
     <div style={{ backgroundColor: '#ffffff', overflowX: 'hidden', fontFamily: "'Inter', 'Segoe UI', system-ui, sans-serif" }}>
 
-      {/* ═══════════════════════════════════════════
-          SECTION 1 — HERO (split layout like ref)
-      ═══════════════════════════════════════════ */}
       <section className="ak-hero-section">
         <Container>
           <Row className="align-items-center min-vh-hero g-0">
 
-            {/* Left copy */}
             <Col lg={6} md={12} className="ak-hero-left">
               <p className="ak-hero-eyebrow">CAMERA &amp; STUDIO EQUIPMENT RENTAL</p>
               <h1 className="ak-hero-heading">
@@ -68,7 +60,6 @@ export default function Home() {
                 studio setups — available for your next shoot.
               </p>
 
-              {/* Search bar */}
               <form onSubmit={handleSearch} className="ak-search-form">
                 <span className="ak-search-icon">
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#2563eb" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
@@ -86,7 +77,6 @@ export default function Home() {
               </form>
             </Col>
 
-            {/* Right image */}
             <Col lg={6} md={12} className="ak-hero-right d-none d-lg-flex">
               <div className="ak-hero-img-wrap">
                 <img
@@ -100,9 +90,6 @@ export default function Home() {
         </Container>
       </section>
 
-      {/* ═══════════════════════════════════════════
-          SECTION 2 — TRUST STRIP
-      ═══════════════════════════════════════════ */}
       <section className="ak-trust-strip">
         <Container>
           <Row className="g-0 justify-content-around">
@@ -119,9 +106,6 @@ export default function Home() {
         </Container>
       </section>
 
-      {/* ═══════════════════════════════════════════
-          SECTION 3 — SHOP BY CATEGORY
-      ═══════════════════════════════════════════ */}
       <section className="ak-section ak-bg-white">
         <Container>
           <div className="ak-section-header">
@@ -142,9 +126,6 @@ export default function Home() {
         </Container>
       </section>
 
-      {/* ═══════════════════════════════════════════
-          SECTION 4 — YOUR VISION BANNER
-      ═══════════════════════════════════════════ */}
       <section className="ak-section ak-bg-offwhite">
         <Container>
           <div className="ak-vision-banner">
@@ -157,7 +138,7 @@ export default function Home() {
               </p>
               <Link to="/assets" className="ak-browse-btn">Browse Equipment →</Link>
             </div>
-            {/* Right image */}
+
             <div className="ak-vision-right">
               <img
                 src={process.env.PUBLIC_URL + '/assets/images/banner_studio.png'}
@@ -169,9 +150,6 @@ export default function Home() {
         </Container>
       </section>
 
-      {/* ═══════════════════════════════════════════
-          SECTION 5 — RECENTLY ADDED
-      ═══════════════════════════════════════════ */}
       <section className="ak-section ak-bg-white">
         <Container>
           <div className="ak-section-header">
@@ -183,7 +161,7 @@ export default function Home() {
             {recentAssets.map((asset) => (
               <Col key={asset.id} xs={6} md={3}>
                 <Link to="/assets" className="ak-product-card">
-                  {/* Image box */}
+
                   <div className="ak-product-img-box">
                     {asset.image_url || asset.image ? (
                       <img
@@ -197,7 +175,7 @@ export default function Home() {
                       📷
                     </div>
                   </div>
-                  {/* Info */}
+
                   <div className="ak-product-info">
                     <div className="ak-product-name">{asset.name}</div>
                     <div className="ak-product-rate">{formatRate(asset)}</div>
@@ -209,9 +187,6 @@ export default function Home() {
         </Container>
       </section>
 
-      {/* ═══════════════════════════════════════════
-          SECTION 6 — ABOUT / STUDIO HUB (clean)
-      ═══════════════════════════════════════════ */}
       <section className="ak-section ak-bg-offwhite" id="about">
         <Container>
           <Row className="g-5 align-items-center">
@@ -229,7 +204,7 @@ export default function Home() {
               <div className="ak-about-stats">
                 {[
                   { n: '500+', l: 'Gear Units' },
-                  { n: '3',    l: 'Soundstages' },
+                  { n: '3', l: 'Soundstages' },
                   { n: '4.9★', l: 'Rating' },
                   { n: '24/7', l: 'Support' },
                 ].map((s, i) => (

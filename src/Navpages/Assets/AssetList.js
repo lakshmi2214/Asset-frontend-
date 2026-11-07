@@ -190,18 +190,18 @@ export default function AssetList() {
         {/* Page Header */}
         <div className="d-flex flex-wrap align-items-center justify-content-between gap-3 mb-4">
           <div>
-            <h1 className="fw-bolder mb-1" style={{ fontSize: '1.9rem', color: '#0a192f', letterSpacing: '-0.5px' }}>
+            <h1 className="mb-1" style={{ fontSize: '1.65rem', color: '#0a192f', letterSpacing: '-0.3px', fontWeight: 600 }}>
               Equipment Catalog
             </h1>
-            <p className="mb-0" style={{ fontSize: '0.95rem', color: '#475569' }}>
+            <p className="mb-0" style={{ fontSize: '13px', color: '#475569', fontWeight: 400 }}>
               Explore and reserve high-grade camera gear, lighting, and accessories.
             </p>
           </div>
 
           <div className="d-flex align-items-center gap-2">
             <span
-              className="badge px-3 py-2 rounded-pill fw-semibold"
-              style={{ backgroundColor: '#eff6ff', color: '#2563eb', border: '1px solid #bfdbfe', fontSize: '0.85rem' }}
+              className="badge px-3 py-2 rounded-pill"
+              style={{ backgroundColor: '#eff6ff', color: '#2563eb', border: '1px solid #bfdbfe', fontSize: '12px', fontWeight: 600 }}
             >
               {loading ? 'Loading...' : `${filteredAssets.length} Equipment${filteredAssets.length === 1 ? '' : 's'}`}
             </span>
@@ -237,14 +237,14 @@ export default function AssetList() {
                 placeholder="Search equipment..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                style={{ backgroundColor: '#f8fafc', borderColor: '#e2e8f0', fontSize: '0.88rem', color: '#0a192f' }}
+                style={{ backgroundColor: '#f8fafc', borderColor: '#e2e8f0', fontSize: '13px', color: '#0a192f', fontWeight: 400 }}
               />
               {searchQuery && (
                 <button
                   type="button"
                   onClick={() => setSearchQuery('')}
                   className="btn btn-link position-absolute end-0 me-2 p-1 text-muted text-decoration-none"
-                  style={{ fontSize: '0.8rem' }}
+                  style={{ fontSize: '12px' }}
                 >
                   ✕
                 </button>
@@ -265,9 +265,10 @@ export default function AssetList() {
                     key={cat.id}
                     type="button"
                     onClick={() => handleCategorySelect(cat.id)}
-                    className="btn rounded-pill px-3 py-1 fw-semibold border text-nowrap flex-shrink-0"
+                    className="btn rounded-pill px-3 py-1 border text-nowrap flex-shrink-0"
                     style={{
-                      fontSize: '0.85rem',
+                      fontSize: '13px',
+                      fontWeight: 600,
                       backgroundColor: isActive ? '#2563eb' : '#ffffff',
                       color: isActive ? '#ffffff' : '#0a192f',
                       borderColor: isActive ? '#2563eb' : '#e2e8f0',
@@ -507,12 +508,13 @@ export default function AssetList() {
                         </span>
                       </div>
 
-                      {/* Clamped 2-Line Title: Consistent Height across every card in row */}
+                      {/* Clamped 2-Line Title */}
                       <h6
-                        className="fw-bold mb-1 text-dark"
+                        className="mb-1 text-dark"
                         title={asset.name}
                         style={{
-                          fontSize: '0.94rem',
+                          fontSize: '13.5px',
+                          fontWeight: 600,
                           lineHeight: '1.25rem',
                           minHeight: '2.5rem',
                           display: '-webkit-box',
@@ -525,7 +527,7 @@ export default function AssetList() {
                       </h6>
 
                       {/* Serial Number & Location */}
-                      <div className="text-muted small mb-3 text-truncate" style={{ fontSize: '0.75rem', minHeight: '16px' }}>
+                      <div className="text-muted mb-3 text-truncate" style={{ fontSize: '12px', minHeight: '16px', fontWeight: 400 }}>
                         {asset.serial_number ? `S/N: ${asset.serial_number}` : ''}
                         {asset.serial_number && asset.location?.name ? ' • ' : ''}
                         {asset.location?.name || ''}
@@ -535,11 +537,12 @@ export default function AssetList() {
                       <div className="mt-auto pt-1">
                         <Link
                           to={`/book-asset?assetId=${asset.id}`}
-                          className="btn w-100 py-2 fw-semibold text-white d-flex align-items-center justify-content-center gap-1 text-decoration-none shadow-sm"
+                          className="btn w-100 py-2 text-white d-flex align-items-center justify-content-center gap-1 text-decoration-none shadow-sm"
                           style={{
                             backgroundColor: '#2563eb',
                             borderRadius: '10px',
-                            fontSize: '0.84rem',
+                            fontSize: '13px',
+                            fontWeight: 600,
                             border: 'none',
                             transition: 'all 0.2s ease',
                           }}
@@ -570,14 +573,14 @@ export default function AssetList() {
                 <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
               </svg>
             </div>
-            <h4 className="fw-bold mb-2" style={{ color: '#0a192f' }}>No Equipment Found</h4>
-            <p className="mb-4 mx-auto" style={{ maxWidth: '420px', fontSize: '0.92rem', color: '#475569' }}>
+            <h4 className="mb-2" style={{ color: '#0a192f', fontSize: '1.25rem', fontWeight: 600 }}>No Equipment Found</h4>
+            <p className="mb-4 mx-auto" style={{ maxWidth: '420px', fontSize: '12px', color: '#475569', fontWeight: 400 }}>
               We couldn't find any gear matching your current search or category filter. Try clearing filters or searching for something else.
             </p>
             <button
               type="button"
-              className="btn rounded-pill px-4 py-2 fw-semibold border-0 text-white"
-              style={{ backgroundColor: '#2563eb', fontSize: '0.88rem' }}
+              className="btn rounded-pill px-4 py-2 border-0 text-white"
+              style={{ backgroundColor: '#2563eb', fontSize: '13px', fontWeight: 600 }}
               onClick={resetAllFilters}
             >
               Reset All Filters

@@ -13,9 +13,9 @@ const Footer = () => {
                                 <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z" />
                                 <circle cx="12" cy="13" r="4" />
                             </svg>
-                            <h5 style={{ fontWeight: 800, margin: 0, letterSpacing: '-0.4px', color: '#0a192f', fontSize: '1.25rem' }}>AsliKahani</h5>
+                            <h5 style={{ fontWeight: 600, margin: 0, letterSpacing: '-0.3px', color: '#0a192f', fontSize: '1.15rem' }}>AsliKahani</h5>
                         </div>
-                        <p style={{ color: '#475569', lineHeight: 1.6, fontSize: '0.92rem', marginBottom: '1.2rem' }}>
+                        <p style={{ color: '#475569', lineHeight: 1.6, fontSize: '12px', marginBottom: '1.2rem', fontWeight: 400 }}>
                             Studio camera &amp; audio equipment reservation platform. Powered by creators, built for Bangalore.
                         </p>
                         <div className="d-flex gap-2">
@@ -28,10 +28,10 @@ const Footer = () => {
                     </Col>
 
                     <Col lg={5} md={6}>
-                        <h6 style={{ fontWeight: 800, textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '1rem', color: '#2563eb', fontSize: '0.82rem' }}>Studio Hub Location</h6>
+                        <h6 style={{ fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.8px', marginBottom: '0.85rem', color: '#2563eb', fontSize: '12px' }}>Studio Hub Location</h6>
                         <div className="d-flex align-items-start gap-2">
-                            <FaMapMarkerAlt className="mt-1" style={{ color: '#2563eb', fontSize: '1rem', flexShrink: 0 }} />
-                            <div style={{ color: '#0a192f', fontSize: '0.9rem', lineHeight: 1.5 }}>
+                            <FaMapMarkerAlt className="mt-1" style={{ color: '#2563eb', fontSize: '0.95rem', flexShrink: 0 }} />
+                            <div style={{ color: '#0a192f', fontSize: '13px', lineHeight: 1.55, fontWeight: 400 }}>
                                 280/1, Anniamma Arcade, Sampige Road, <br />
                                 18th Cross Rd, Malleshwaram, <br />
                                 Bengaluru, Karnataka 560003
@@ -42,18 +42,18 @@ const Footer = () => {
                     <Col lg={3} md={6}>
                         <div className="d-flex flex-column gap-3">
                             <div className="d-flex align-items-center gap-2">
-                                <FaPhone style={{ color: '#2563eb', fontSize: '0.9rem' }} />
-                                <div style={{ color: '#0a192f', fontSize: '0.9rem', fontWeight: 600 }}>+91 63 66 333 444</div>
+                                <FaPhone style={{ color: '#2563eb', fontSize: '0.85rem' }} />
+                                <div style={{ color: '#0a192f', fontSize: '13px', fontWeight: 600 }}>+91 63 66 333 444</div>
                             </div>
                             <div className="d-flex align-items-center gap-2">
-                                <FaEnvelope style={{ color: '#2563eb', fontSize: '0.9rem' }} />
-                                <a href="mailto:support@aslikahani.com" style={{ color: '#2563eb', textDecoration: 'none', fontSize: '0.9rem', fontWeight: 600 }}>support@aslikahani.com</a>
+                                <FaEnvelope style={{ color: '#2563eb', fontSize: '0.85rem' }} />
+                                <a href="mailto:support@aslikahani.com" style={{ color: '#2563eb', textDecoration: 'none', fontSize: '13px', fontWeight: 600 }}>support@aslikahani.com</a>
                             </div>
                         </div>
                     </Col>
                 </Row>
                 <hr className="my-4" style={{ borderColor: '#e2e8f0' }} />
-                <div className="text-center" style={{ color: '#64748b', fontSize: '0.85rem', fontWeight: 500 }}>
+                <div className="text-center" style={{ color: '#64748b', fontSize: '12px', fontWeight: 400 }}>
                     © {new Date().getFullYear()} AsliKahani. All rights reserved.
                 </div>
             </Container>

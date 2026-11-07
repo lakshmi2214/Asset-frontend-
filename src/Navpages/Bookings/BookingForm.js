@@ -1010,7 +1010,7 @@ export default function AssetBooking() {
         <Modal show={showSuccessModal} centered size="sm" backdrop="static" keyboard={false}>
           <Modal.Body className="text-center p-4">
             <div className="emoji-pop" style={{ fontSize: '3.5rem', marginBottom: '15px' }}>📸</div>
-            <h4 className="mb-2" style={{ fontWeight: 'bold', color: '#198754' }}>Confirmed!</h4>
+            <h4 className="mb-2" style={{ fontWeight: 600, color: '#198754' }}>Confirmed!</h4>
             <p className="text-muted small mb-4">Your asset has been reserved.</p>
             <div className="emoji-pop" style={{ fontSize: '1.5rem', marginBottom: '20px', animationDelay: '0.2s' }}>✨ 🎥 ✨</div>
             <Button
@@ -1045,7 +1045,7 @@ export default function AssetBooking() {
         </Modal.Header>
         <Modal.Body className="text-center p-4">
           <div style={{ fontSize: '3rem', marginBottom: '15px' }}>⚠️</div>
-          <h5 className="mb-3" style={{ fontWeight: 'bold' }}>Conflict Detected</h5>
+          <h5 className="mb-3" style={{ fontWeight: 600 }}>Conflict Detected</h5>
           <p className="text-dark" style={{ fontSize: '1.1rem' }}>{errorMessage}</p>
         </Modal.Body>
         <Modal.Footer>

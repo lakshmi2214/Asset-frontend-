@@ -141,7 +141,7 @@ export default function About() {
         <Container>
           <div className="text-center mb-5">
             <p className="about-eyebrow text-center">WHAT WE DO</p>
-            <h2 className="about-section-heading" style={{ fontSize: '2rem' }}>
+            <h2 className="about-section-heading">
               More Than a Media Platform
             </h2>
             <p className="about-body-text mx-auto" style={{ maxWidth: '540px' }}>
