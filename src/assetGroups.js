@@ -1,14 +1,10 @@
-/**
- * Categorize an asset into a clean, accurate equipment group
- * based on its name, subcategory, and category.
- */
+
 export function getAssetGroup(asset) {
   if (!asset) return 'other';
   const name = (asset.name || '').toLowerCase().trim();
   const sub = (asset.subcategory?.name || '').toLowerCase().trim();
   const cat = (asset.category?.name || '').toLowerCase().trim();
 
-  // 1. Batteries & Chargers (Power)
   if (
     name.includes('battery') ||
     name.includes('charger') ||
@@ -19,7 +15,6 @@ export function getAssetGroup(asset) {
     return 'power';
   }
 
-  // 2. Microphones & Audio
   if (
     name.includes('mic') ||
     name.includes('audio') ||
@@ -36,7 +31,7 @@ export function getAssetGroup(asset) {
     return 'audio';
   }
 
-  // 3. Storage & Memory Cards
+
   if (
     name.includes('card') ||
     name.includes('lexar') ||
@@ -52,7 +47,6 @@ export function getAssetGroup(asset) {
     return 'storage';
   }
 
-  // 4. Lenses
   if (
     name.includes('lens') ||
     name.includes('50mm') ||

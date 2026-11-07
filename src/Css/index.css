@@ -2832,28 +2832,28 @@ strong, b, th,
   font-weight: 400;
 }
 
-/* Hero right image — Simple, normal, no hover effects */
+/* Hero right image — Simple, natural, uncluttered */
 .ak-hero-right {
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  padding: 2rem 0;
+  padding: 1.5rem 0;
 }
 
 .ak-hero-img-wrap {
   width: 100%;
-  max-width: 500px;
-  border-radius: 14px;
-  overflow: hidden;
+  max-width: 480px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
 }
 
 .ak-hero-img {
   width: 100%;
-  height: auto;
-  aspect-ratio: 16 / 9;
-  object-fit: cover;
+  max-height: 420px;
+  object-fit: contain;
+  object-position: right center;
   display: block;
-  border-radius: 14px;
 }
 
 /* ── Trust Strip ── */

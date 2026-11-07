@@ -20,7 +20,6 @@ function AppContent({ user, setUser, handleLogout }) {
   const location = useLocation();
   const [navExpanded, setNavExpanded] = useState(false);
 
-  // Automatically collapse the mobile 3-bar hamburger menu whenever navigating to any page
   useEffect(() => {
     setNavExpanded(false);
   }, [location.pathname, location.search, location.hash]);
@@ -43,7 +42,7 @@ function AppContent({ user, setUser, handleLogout }) {
         className="ak-navbar"
       >
         <Container>
-          {/* Logo with Studio Icon Wrap & Clean Subtitle */}
+
           <Navbar.Brand as={Link} to="/" onClick={closeNav} className="d-flex align-items-center gap-3 text-decoration-none py-1">
             <div className="ak-brand-icon-wrap">
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#2563eb" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
@@ -60,7 +59,7 @@ function AppContent({ user, setUser, handleLogout }) {
           <Navbar.Toggle aria-controls="ak-nav" className="border-0 shadow-none ak-nav-toggle" />
 
           <Navbar.Collapse id="ak-nav">
-            {/* Left-aligned navigation links */}
+
             <Nav className="ms-lg-4 me-auto gap-2 align-items-center my-3 my-lg-0">
               <Nav.Link as={Link} to="/" onClick={closeNav} className={`ak-nav-link ${isActive('/') ? 'active' : ''}`}>
                 Home
@@ -73,7 +72,6 @@ function AppContent({ user, setUser, handleLogout }) {
               </Nav.Link>
             </Nav>
 
-            {/* Right actions */}
             <Nav className="gap-2 align-items-center flex-row justify-content-end">
               {user ? (
                 <>

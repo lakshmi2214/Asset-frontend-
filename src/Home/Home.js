@@ -79,8 +79,8 @@ export default function Home() {
             <Col lg={6} md={12} className="ak-hero-right d-none d-lg-flex">
               <div className="ak-hero-img-wrap">
                 <img
-                  src={process.env.PUBLIC_URL + '/assets/images/aslikahani_hero_cinema.jpg'}
-                  alt="Cinema Camera Rig in Studio"
+                  src={process.env.PUBLIC_URL + '/assets/images/mockup_hero_camera.png'}
+                  alt="Cinema Camera Setup"
                   className="ak-hero-img"
                 />
               </div>
