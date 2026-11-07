@@ -62,7 +62,7 @@ export default function Home() {
 
               <form onSubmit={handleSearch} className="ak-search-form">
                 <span className="ak-search-icon">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#2563eb" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2563eb" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
                     <circle cx="11" cy="11" r="8" /><line x1="21" y1="21" x2="16.65" y2="16.65" />
                   </svg>
                 </span>
@@ -73,7 +73,6 @@ export default function Home() {
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                 />
-                <button type="submit" className="ak-search-btn">Search</button>
               </form>
             </Col>
 
@@ -84,10 +83,6 @@ export default function Home() {
                   alt="Cinema Camera Rig in Studio"
                   className="ak-hero-img"
                 />
-                <div className="ak-hero-badge-overlay">
-                  <span className="ak-hero-live-dot"></span>
-                  <span>4K/8K Cinema Gear • Calibrated &amp; Ready</span>
-                </div>
               </div>
             </Col>
           </Row>

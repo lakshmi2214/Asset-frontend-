@@ -2796,9 +2796,10 @@ strong, b, th,
   border: 1.5px solid #cbd5e1;
   border-radius: 14px;
   overflow: hidden;
-  max-width: 480px;
+  max-width: 440px;
   box-shadow: 0 4px 16px rgba(15, 23, 42, 0.05);
   transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  padding-right: 1rem;
 }
 
 .ak-search-form:focus-within {
@@ -2831,46 +2832,19 @@ strong, b, th,
   font-weight: 400;
 }
 
-.ak-search-btn {
-  background: linear-gradient(135deg, #1d4ed8 0%, #2563eb 100%);
-  color: #ffffff;
-  border: none;
-  padding: 0.85rem 1.65rem;
-  font-weight: 600;
-  font-size: 15px;
-  cursor: pointer;
-  flex-shrink: 0;
-  transition: all 0.2s ease;
-}
-
-.ak-search-btn:hover {
-  background: #1e40af;
-  box-shadow: 0 2px 8px rgba(37, 99, 235, 0.3);
-}
-
-/* Hero right image */
+/* Hero right image — Simple, normal, no hover effects */
 .ak-hero-right {
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  padding: 2.5rem 0;
+  padding: 2rem 0;
 }
 
 .ak-hero-img-wrap {
-  position: relative;
   width: 100%;
-  max-width: 530px;
-  border-radius: 20px;
+  max-width: 500px;
+  border-radius: 14px;
   overflow: hidden;
-  background: #0a192f;
-  border: 1.5px solid rgba(59, 130, 246, 0.25);
-  box-shadow: 0 20px 45px -10px rgba(10, 25, 47, 0.25), 0 0 0 1px rgba(37, 99, 235, 0.12);
-  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease;
-}
-
-.ak-hero-img-wrap:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 25px 55px -10px rgba(10, 25, 47, 0.32), 0 0 0 1.5px rgba(56, 189, 248, 0.45);
 }
 
 .ak-hero-img {
@@ -2879,46 +2853,7 @@ strong, b, th,
   aspect-ratio: 16 / 9;
   object-fit: cover;
   display: block;
-  transition: transform 0.4s ease;
-}
-
-.ak-hero-img-wrap:hover .ak-hero-img {
-  transform: scale(1.02);
-}
-
-.ak-hero-badge-overlay {
-  position: absolute;
-  bottom: 14px;
-  left: 14px;
-  background: rgba(10, 25, 47, 0.85);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border: 1px solid rgba(56, 189, 248, 0.35);
-  color: #ffffff;
-  padding: 6px 14px;
-  border-radius: 9999px;
-  font-size: 12.5px;
-  font-weight: 500;
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.3);
-  letter-spacing: 0.1px;
-}
-
-.ak-hero-live-dot {
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  background: #38bdf8;
-  box-shadow: 0 0 8px #38bdf8;
-  display: inline-block;
-  animation: akHeroPulse 2s infinite ease-in-out;
-}
-
-@keyframes akHeroPulse {
-  0%, 100% { opacity: 1; transform: scale(1); }
-  50% { opacity: 0.5; transform: scale(1.25); }
+  border-radius: 14px;
 }
 
 /* ── Trust Strip ── */
