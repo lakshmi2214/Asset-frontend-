@@ -23,12 +23,7 @@ function categoryLabel(asset) {
   return asset?.category?.name || 'Equipment';
 }
 
-function formatRate(asset) {
-  const qty = asset.total_quantity ?? 1;
-  if (qty >= 5) return '₹500 / day';
-  if (qty >= 3) return '₹800 / day';
-  return '₹1,500 / day';
-}
+
 
 export default function Home() {
   const navigate = useNavigate();
@@ -187,84 +182,11 @@ export default function Home() {
 
                   <div className="ak-product-info">
                     <div className="ak-product-name">{asset.name}</div>
-                    <div className="ak-product-rate">{formatRate(asset)}</div>
                   </div>
                 </Link>
               </Col>
             ))}
           </Row>
-        </Container>
-      </section>
-
-      <section className="ak-section ak-bg-offwhite" id="how-it-works">
-        <Container>
-          <div className="text-center mb-5">
-            <p className="ak-hero-eyebrow">SIMPLE 3-STEP RENTAL</p>
-            <h2 className="ak-section-title" style={{ fontSize: '2.35rem' }}>
-              How Renting Works
-            </h2>
-            <p className="ak-hero-subtext mx-auto" style={{ maxWidth: '580px', marginTop: '0.65rem' }}>
-              Professional filmmaking equipment made accessible, fully verified, and ready for your production schedule.
-            </p>
-          </div>
-
-          <Row className="g-4">
-            <Col lg={4} md={6}>
-              <div className="ak-step-card">
-                <div className="ak-step-header">
-                  <span className="ak-step-num">01</span>
-                  <div className="ak-step-icon">🎥</div>
-                </div>
-                <h3 className="ak-step-title">Choose Your Gear</h3>
-                <p className="ak-step-desc">
-                  Browse verified cinema cameras, prime lenses, lighting kits, and audio setups. Select your shoot dates with transparent daily or multi-day rates.
-                </p>
-              </div>
-            </Col>
-
-            <Col lg={4} md={6}>
-              <div className="ak-step-card">
-                <div className="ak-step-header">
-                  <span className="ak-step-num">02</span>
-                  <div className="ak-step-icon">🛡️</div>
-                </div>
-                <h3 className="ak-step-title">Prep &amp; Calibration</h3>
-                <p className="ak-step-desc">
-                  Our certified technicians clean sensors, check optical alignment, format media, and charge batteries—packed securely in flight-ready Pelican cases.
-                </p>
-              </div>
-            </Col>
-
-            <Col lg={4} md={12}>
-              <div className="ak-step-card">
-                <div className="ak-step-header">
-                  <span className="ak-step-num">03</span>
-                  <div className="ak-step-icon">🚀</div>
-                </div>
-                <h3 className="ak-step-title">Shoot &amp; Return</h3>
-                <p className="ak-step-desc">
-                  Pick up at our studio hub or request on-set courier delivery. Roll camera with 24/7 technical support, and return hassle-free when wrap is called.
-                </p>
-              </div>
-            </Col>
-          </Row>
-
-          <div className="ak-cta-banner mt-5">
-            <div className="d-flex flex-column flex-md-row align-items-center justify-content-between gap-3 p-4 p-md-5">
-              <div>
-                <h3 className="ak-cta-heading mb-1">Need a custom production package?</h3>
-                <p className="ak-cta-sub mb-0">Speak with our gear specialists or reserve your kit online today.</p>
-              </div>
-              <div className="d-flex gap-3 flex-wrap">
-                <Link to="/assets" className="ak-browse-btn">
-                  Explore Equipments →
-                </Link>
-                <Link to="/about" className="ak-secondary-cta-btn">
-                  About Our Studio
-                </Link>
-              </div>
-            </div>
-          </div>
         </Container>
       </section>
 

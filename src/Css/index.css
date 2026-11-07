@@ -3107,7 +3107,7 @@ strong, b, th,
 }
 
 .ak-product-info {
-  padding: 1rem 1.15rem;
+  padding: 1.1rem 1.15rem;
 }
 
 .ak-product-name {
@@ -3115,7 +3115,7 @@ strong, b, th,
   font-weight: 600;
   color: #0a192f;
   line-height: 1.4;
-  margin-bottom: 0.45rem;
+  margin-bottom: 0;
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
