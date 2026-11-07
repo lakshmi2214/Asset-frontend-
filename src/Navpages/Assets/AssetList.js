@@ -2,8 +2,28 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import { Container, Row, Col, Badge } from 'react-bootstrap';
 import { API_BASE, PROD_BACKEND } from '../../auth';
-import { getAssetGroup } from '../../assetGroups';
-import { OLD_DATABASE_ASSETS, OLD_DATABASE_CATEGORIES } from '../../oldDatabaseAssets';
+
+// Equipment group classification helper
+function getAssetGroup(asset) {
+  if (!asset) return 'other';
+  const name = (asset.name || '').toLowerCase().trim();
+  const sub = (asset.subcategory?.name || '').toLowerCase().trim();
+  const cat = (asset.category?.name || '').toLowerCase().trim();
+
+  if (name.includes('battery') || name.includes('charger') || name.includes('power bank') || name.includes('v-mount') || name.includes('adapter')) return 'power';
+  if (name.includes('mic') || name.includes('audio') || name.includes('sound') || name.includes('speaker') || name.includes('mixer') || name.includes('shure') || name.includes('at2040') || name.includes('podcast') || sub.includes('mic') || sub.includes('audio') || cat.includes('audio')) return 'audio';
+  if (name.includes('card') || name.includes('lexar') || name.includes('storage') || name.includes('media') || name.includes('cf express') || name.includes('sd') || sub.includes('card') || sub.includes('lexar') || cat.includes('storage') || cat.includes('media')) return 'storage';
+  if (name.includes('lens') || name.includes('50mm') || name.includes('28 50') || name.includes('gmaster') || name.includes('prime') || name.includes('zoom')) return 'lens';
+  if (name.includes('camera') || name.includes('fx3') || name.includes('canon') || name.includes('sony a') || name.includes('dslr') || name.includes('cinema') || sub.includes('camera') || sub.includes('fx3')) return 'camera';
+  if (name.includes('light') || name.includes('aputure') || name.includes('softbox') || name.includes('led') || name.includes('godox') || cat.includes('light') || sub.includes('light') || sub.includes('softbox')) return 'lighting';
+  if (name.includes('tripod') || name.includes('monopod') || name.includes('gimbal') || name.includes('stabilizer') || name.includes('stand') || name.includes('boom') || name.includes('c-stand') || name.includes('holder') || cat.includes('stand') || cat.includes('support') || sub.includes('stand')) return 'tripod';
+  if (name.includes('backdrop') || name.includes('screen') || name.includes('green screen') || cat.includes('backdrop') || sub.includes('screen')) return 'backdrop';
+
+  if (sub.includes('battery') || sub.includes('charger')) return 'power';
+  if (sub.includes('lens')) return 'lens';
+  if (sub.includes('camera')) return 'camera';
+  return 'other';
+}
 
 const ASSET_CATEGORIES = [
   { id: 'all', name: 'All Equipment' },
@@ -18,9 +38,9 @@ const ASSET_CATEGORIES = [
 
 export default function AssetList() {
   const [searchParams, setSearchParams] = useSearchParams();
-  const [assets, setAssets] = useState(OLD_DATABASE_ASSETS);
-  const [categories, setCategories] = useState(OLD_DATABASE_CATEGORIES);
-  const [loading, setLoading] = useState(false);
+  const [assets, setAssets] = useState([]);
+  const [categories, setCategories] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   const [selectedCategoryId, setSelectedCategoryId] = useState('all');
   const [selectedSubcategoryId, setSelectedSubcategoryId] = useState('all');
@@ -28,58 +48,45 @@ export default function AssetList() {
 
   useEffect(() => {
     let isMounted = true;
+    setLoading(true);
 
     const loadData = async () => {
       try {
         const controller = new AbortController();
         const timeoutId = setTimeout(() => controller.abort(), 12000);
 
-        let assetsData = null;
-        let categoriesData = null;
-
-        try {
-          const [assetsRes, categoriesRes] = await Promise.all([
-            fetch(`${PROD_BACKEND}/api/v1/assets/`, {
-              headers: { 'Content-Type': 'application/json' },
-              signal: controller.signal
-            }).catch(() => null),
-            fetch(`${PROD_BACKEND}/api/v1/categories/`, {
-              headers: { 'Content-Type': 'application/json' },
-              signal: controller.signal
-            }).catch(() => null)
-          ]);
-
-          if (assetsRes && assetsRes.ok) {
-            assetsData = await assetsRes.json();
-          }
-          if (categoriesRes && categoriesRes.ok) {
-            categoriesData = await categoriesRes.json();
-          }
-        } catch (e) {
-          console.warn("API fetch error:", e);
-        }
+        const [assetsRes, categoriesRes] = await Promise.all([
+          fetch(`${PROD_BACKEND}/api/v1/assets/`, {
+            headers: { 'Content-Type': 'application/json' },
+            signal: controller.signal
+          }).catch(() => null),
+          fetch(`${PROD_BACKEND}/api/v1/categories/`, {
+            headers: { 'Content-Type': 'application/json' },
+            signal: controller.signal
+          }).catch(() => null)
+        ]);
 
         clearTimeout(timeoutId);
 
         if (isMounted) {
-          if (Array.isArray(assetsData) && assetsData.length >= OLD_DATABASE_ASSETS.length) {
-            setAssets(assetsData);
-          } else {
-            setAssets(OLD_DATABASE_ASSETS);
+          if (assetsRes && assetsRes.ok) {
+            const assetsData = await assetsRes.json();
+            if (Array.isArray(assetsData)) {
+              setAssets(assetsData);
+            }
           }
 
-          if (Array.isArray(categoriesData) && categoriesData.length > 0) {
-            setCategories(categoriesData);
-          } else {
-            setCategories(OLD_DATABASE_CATEGORIES);
+          if (categoriesRes && categoriesRes.ok) {
+            const categoriesData = await categoriesRes.json();
+            if (Array.isArray(categoriesData)) {
+              setCategories(categoriesData);
+            }
           }
         }
       } catch (err) {
         console.error("AssetList load error:", err);
-        if (isMounted) {
-          setAssets(OLD_DATABASE_ASSETS);
-          setCategories(OLD_DATABASE_CATEGORIES);
-        }
+      } finally {
+        if (isMounted) setLoading(false);
       }
     };
 

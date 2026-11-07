@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { Container, Row, Col, Card, Badge, Button, Spinner } from 'react-bootstrap';
 import { API_BASE, PROD_BACKEND } from '../../auth';
-import { OLD_DATABASE_ASSETS } from '../../oldDatabaseAssets';
 
 export default function AssetDetail() {
   const { id } = useParams();
@@ -28,12 +27,6 @@ export default function AssetDetail() {
         clearTimeout(timeoutId);
 
         if (!response.ok) {
-          const fallback = OLD_DATABASE_ASSETS.find((a) => String(a.id) === String(id));
-          if (fallback && isMounted) {
-            setAsset(fallback);
-            setError(null);
-            return;
-          }
           throw new Error(`HTTP ${response.status}`);
         }
         const data = await response.json();
@@ -44,11 +37,7 @@ export default function AssetDetail() {
         }
       } catch (err) {
         console.error('Error loading asset:', err);
-        const fallback = OLD_DATABASE_ASSETS.find((a) => String(a.id) === String(id));
-        if (fallback && isMounted) {
-          setAsset(fallback);
-          setError(null);
-        } else if (isMounted) {
+        if (isMounted) {
           setError('Failed to load asset details from backend.');
         }
       } finally {

@@ -4,12 +4,55 @@ import DatePicker from 'react-datepicker';
 import { Form, Button, Card, Alert, Row, Col, Badge, Modal, Container } from 'react-bootstrap';
 import 'react-datepicker/dist/react-datepicker.css';
 import { authorizedFetch, getValidAccessToken, clearTokens, API_BASE, PROD_BACKEND } from '../../auth';
-import { getAssetGroup, getGroupDisplayName, getRelatedAssets } from '../../assetGroups';
-import { OLD_DATABASE_ASSETS, OLD_DATABASE_CATEGORIES } from '../../oldDatabaseAssets';
 
-const initialLocations = Array.from(
-  new Map(OLD_DATABASE_ASSETS.filter((a) => a.location).map((a) => [a.location.id, a.location])).values()
-);
+function getAssetGroup(asset) {
+  if (!asset) return 'other';
+  const name = (asset.name || '').toLowerCase().trim();
+  const sub = (asset.subcategory?.name || '').toLowerCase().trim();
+  const cat = (asset.category?.name || '').toLowerCase().trim();
+
+  if (name.includes('battery') || name.includes('charger') || name.includes('power bank') || name.includes('v-mount') || name.includes('adapter')) return 'power';
+  if (name.includes('mic') || name.includes('audio') || name.includes('sound') || name.includes('speaker') || name.includes('mixer') || name.includes('shure') || name.includes('at2040') || name.includes('podcast') || sub.includes('mic') || sub.includes('audio') || cat.includes('audio')) return 'audio';
+  if (name.includes('card') || name.includes('lexar') || name.includes('storage') || name.includes('media') || name.includes('cf express') || name.includes('sd') || sub.includes('card') || sub.includes('lexar') || cat.includes('storage') || cat.includes('media')) return 'storage';
+  if (name.includes('lens') || name.includes('50mm') || name.includes('28 50') || name.includes('gmaster') || name.includes('prime') || name.includes('zoom')) return 'lens';
+  if (name.includes('camera') || name.includes('fx3') || name.includes('canon') || name.includes('sony a') || name.includes('dslr') || name.includes('cinema') || sub.includes('camera') || sub.includes('fx3')) return 'camera';
+  if (name.includes('light') || name.includes('aputure') || name.includes('softbox') || name.includes('led') || name.includes('godox') || cat.includes('light') || sub.includes('light') || sub.includes('softbox')) return 'lighting';
+  if (name.includes('tripod') || name.includes('monopod') || name.includes('gimbal') || name.includes('stabilizer') || name.includes('stand') || name.includes('boom') || name.includes('c-stand') || name.includes('holder') || cat.includes('stand') || cat.includes('support') || sub.includes('stand')) return 'tripod';
+  if (name.includes('backdrop') || name.includes('screen') || name.includes('green screen') || cat.includes('backdrop') || sub.includes('screen')) return 'backdrop';
+
+  if (sub.includes('battery') || sub.includes('charger')) return 'power';
+  if (sub.includes('lens')) return 'lens';
+  if (sub.includes('camera')) return 'camera';
+  return 'other';
+}
+
+function getGroupDisplayName(group) {
+  switch (group) {
+    case 'camera': return 'Cameras & Cinema Gear';
+    case 'audio': return 'Microphones & Audio Equipment';
+    case 'power': return 'Batteries & Power Accessories';
+    case 'lens': return 'Lenses & Optics';
+    case 'storage': return 'Memory Cards & Storage Media';
+    case 'lighting': return 'Lighting & Studio Setup';
+    case 'tripod': return 'Tripods & Supports';
+    case 'backdrop': return 'Backdrops & Studio Rigging';
+    default: return 'Related Equipment';
+  }
+}
+
+function getRelatedAssets(targetAsset, allAssets) {
+  if (!targetAsset || !Array.isArray(allAssets)) return allAssets || [];
+  const targetGroup = getAssetGroup(targetAsset);
+  const sameGroup = allAssets.filter((a) => {
+    if (String(a.id) === String(targetAsset.id)) return true;
+    return getAssetGroup(a) === targetGroup;
+  });
+  return sameGroup.sort((a, b) => {
+    if (String(a.id) === String(targetAsset.id)) return -1;
+    if (String(b.id) === String(targetAsset.id)) return 1;
+    return 0;
+  });
+}
 
 const EQUIPMENT_GROUPS = [
   { id: 'all', label: 'All Equipment' },
@@ -26,9 +69,9 @@ export default function AssetBooking() {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const assetIdParam = searchParams.get('assetId');
-  const [assets, setAssets] = useState(OLD_DATABASE_ASSETS);
-  const [locations, setLocations] = useState(initialLocations);
-  const [categories, setCategories] = useState(OLD_DATABASE_CATEGORIES);
+  const [assets, setAssets] = useState([]);
+  const [locations, setLocations] = useState([]);
+  const [categories, setCategories] = useState([]);
   const [selectedCategoryId, setSelectedCategoryId] = useState(null);
   const [searchQuery, setSearchQuery] = useState('');
 
@@ -122,31 +165,21 @@ export default function AssetBooking() {
         clearTimeout(timeoutId);
 
         if (isMounted) {
-          if (Array.isArray(assetsData) && assetsData.length >= OLD_DATABASE_ASSETS.length) {
+          if (Array.isArray(assetsData) && assetsData.length > 0) {
             setAssets(assetsData);
             const map = new Map();
             assetsData.forEach((a) => {
               if (a.location) map.set(a.location.id, a.location);
             });
             setLocations(Array.from(map.values()));
-          } else {
-            setAssets(OLD_DATABASE_ASSETS);
-            setLocations(initialLocations);
           }
 
           if (categoriesData && Array.isArray(categoriesData) && categoriesData.length > 0) {
             setCategories(categoriesData);
-          } else {
-            setCategories(OLD_DATABASE_CATEGORIES);
           }
         }
       } catch (err) {
         console.error("Fetch error:", err);
-        if (isMounted) {
-          setAssets(OLD_DATABASE_ASSETS);
-          setLocations(initialLocations);
-          setCategories(OLD_DATABASE_CATEGORIES);
-        }
       } finally {
         if (isMounted) setLoading(false);
       }

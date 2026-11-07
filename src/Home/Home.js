@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
 import { Link, useNavigate } from 'react-router-dom';
-import { OLD_DATABASE_ASSETS } from '../oldDatabaseAssets';
+import { PROD_BACKEND } from '../auth';
 
 const shopCategories = [
   { id: 'camera', label: 'Cameras', icon: '📷', query: 'camera' },
@@ -19,8 +19,6 @@ const trustPoints = [
   { icon: '🎧', title: 'Support When', sub: 'You Need It' },
 ];
 
-const recentAssets = OLD_DATABASE_ASSETS.slice(-4);
-
 function categoryLabel(asset) {
   return asset?.category?.name || 'Equipment';
 }
@@ -35,6 +33,18 @@ function formatRate(asset) {
 export default function Home() {
   const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState('');
+  const [recentAssets, setRecentAssets] = useState([]);
+
+  useEffect(() => {
+    fetch(`${PROD_BACKEND}/api/v1/assets/`)
+      .then(res => res.json())
+      .then(data => {
+        if (Array.isArray(data)) {
+          setRecentAssets(data.slice(-4));
+        }
+      })
+      .catch(err => console.error("Error loading recent assets:", err));
+  }, []);
 
   const handleSearch = (e) => {
     e.preventDefault();
