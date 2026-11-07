@@ -2938,14 +2938,16 @@ strong, b, th,
   background-color: #ffffff !important;
   border-bottom: 1.5px solid #e2e8f0 !important;
   box-shadow: 0 2px 10px rgba(15, 23, 42, 0.04) !important;
+  padding-top: 0.75rem !important;
+  padding-bottom: 0.75rem !important;
 }
 
 .ak-nav-link {
-  font-size: 13.5px;
+  font-size: 16px;
   font-weight: 500;
   color: #0a192f !important;
   text-decoration: none;
-  padding: 0.45rem 0.85rem !important;
+  padding: 0.5rem 0.95rem !important;
   border-radius: 9999px;
   transition: all 0.2s ease;
 }
@@ -2959,7 +2961,8 @@ strong, b, th,
   color: #ffffff !important;
   border: 1.5px solid #2563eb;
   font-weight: 600;
-  font-size: 13px;
+  font-size: 15px;
+  padding: 0.55rem 1.35rem !important;
   box-shadow: 0 4px 12px rgba(37, 99, 235, 0.25);
   transition: all 0.2s ease;
 }
@@ -2976,7 +2979,8 @@ strong, b, th,
   border: 1.5px solid #2563eb;
   color: #2563eb !important;
   font-weight: 600;
-  font-size: 13px;
+  font-size: 15px;
+  padding: 0.55rem 1.35rem !important;
   transition: all 0.2s ease;
 }
 .ak-btn-outline:hover {
@@ -2994,11 +2998,11 @@ strong, b, th,
 }
 
 .min-vh-hero {
-  min-height: 440px;
+  min-height: 480px;
 }
 
 .ak-hero-left {
-  padding: 4.5rem 1rem 4.5rem 0;
+  padding: 5rem 1rem 5rem 0;
 }
 
 @media (max-width: 991px) {
@@ -3006,32 +3010,32 @@ strong, b, th,
 }
 
 .ak-hero-eyebrow {
-  font-size: 12px;
+  font-size: 13.5px;
   font-weight: 600;
-  letter-spacing: 1.2px;
+  letter-spacing: 1.4px;
   text-transform: uppercase;
   color: #2563eb;
-  margin-bottom: 0.85rem;
+  margin-bottom: 0.95rem;
 }
 
 .ak-hero-heading {
-  font-size: 2.75rem;
+  font-size: 3.4rem;
   font-weight: 600;
   color: #0a192f;
-  letter-spacing: -1px;
+  letter-spacing: -1.2px;
   line-height: 1.15;
-  margin-bottom: 1rem;
+  margin-bottom: 1.25rem;
 }
 
 @media (max-width: 768px) {
-  .ak-hero-heading { font-size: 2rem; }
+  .ak-hero-heading { font-size: 2.35rem; }
 }
 
 .ak-hero-subtext {
-  font-size: 13px;
+  font-size: 16px;
   color: #475569;
-  line-height: 1.6;
-  margin-bottom: 1.8rem;
+  line-height: 1.65;
+  margin-bottom: 2rem;
   font-weight: 400;
 }
 
@@ -3041,9 +3045,9 @@ strong, b, th,
   align-items: center;
   background: #ffffff;
   border: 1.5px solid #cbd5e1;
-  border-radius: 12px;
+  border-radius: 14px;
   overflow: hidden;
-  max-width: 460px;
+  max-width: 480px;
   box-shadow: 0 4px 16px rgba(15, 23, 42, 0.05);
   transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
@@ -3054,7 +3058,7 @@ strong, b, th,
 }
 
 .ak-search-icon {
-  padding: 0 0.75rem 0 0.9rem;
+  padding: 0 0.85rem 0 1rem;
   display: flex;
   align-items: center;
   flex-shrink: 0;
@@ -3065,16 +3069,16 @@ strong, b, th,
   flex: 1;
   border: none;
   outline: none;
-  font-size: 13px;
+  font-size: 15px;
   color: #0a192f;
-  padding: 0.75rem 0.5rem;
+  padding: 0.85rem 0.5rem;
   background: transparent;
   font-weight: 400;
 }
 
 .ak-search-input::placeholder {
   color: #94a3b8;
-  font-size: 13px;
+  font-size: 15px;
   font-weight: 400;
 }
 
@@ -3082,9 +3086,9 @@ strong, b, th,
   background: linear-gradient(135deg, #1d4ed8 0%, #2563eb 100%);
   color: #ffffff;
   border: none;
-  padding: 0.75rem 1.5rem;
+  padding: 0.85rem 1.65rem;
   font-weight: 600;
-  font-size: 13px;
+  font-size: 15px;
   cursor: pointer;
   flex-shrink: 0;
   transition: all 0.2s ease;
@@ -3114,7 +3118,7 @@ strong, b, th,
 
 .ak-hero-img {
   width: 100%;
-  max-height: 400px;
+  max-height: 420px;
   object-fit: contain;
   object-position: right center;
 }
@@ -3123,13 +3127,13 @@ strong, b, th,
 .ak-trust-strip {
   background: #ffffff;
   border-bottom: 1.5px solid #e2e8f0;
-  padding: 1.5rem 0;
+  padding: 1.75rem 0;
 }
 
 .ak-trust-item {
   display: flex;
   align-items: center;
-  gap: 0.85rem;
+  gap: 0.95rem;
   padding: 0.75rem 1rem;
   border-right: 1px solid #f1f5f9;
 }
@@ -3147,27 +3151,27 @@ strong, b, th,
 }
 
 .ak-trust-icon {
-  font-size: 1.5rem;
+  font-size: 1.75rem;
   flex-shrink: 0;
 }
 
 .ak-trust-title {
-  font-size: 13.5px;
+  font-size: 15px;
   font-weight: 600;
   color: #0a192f;
-  line-height: 1.3;
+  line-height: 1.35;
 }
 
 .ak-trust-sub {
-  font-size: 12px;
+  font-size: 13.5px;
   color: #2563eb;
-  line-height: 1.3;
+  line-height: 1.35;
   font-weight: 500;
 }
 
 /* ── Generic Section Wrapper ── */
 .ak-section {
-  padding: 3.5rem 0;
+  padding: 4rem 0;
 }
 
 .ak-bg-white { background: #ffffff; }
@@ -3177,19 +3181,19 @@ strong, b, th,
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 1.6rem;
+  margin-bottom: 1.85rem;
 }
 
 .ak-section-title {
-  font-size: 1.35rem;
+  font-size: 1.85rem;
   font-weight: 600;
   color: #0a192f;
-  letter-spacing: -0.3px;
+  letter-spacing: -0.4px;
   margin: 0;
 }
 
 .ak-view-all {
-  font-size: 12px;
+  font-size: 15px;
   font-weight: 600;
   color: #2563eb;
   text-decoration: none;
@@ -3205,8 +3209,8 @@ strong, b, th,
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 0.55rem;
-  padding: 1.2rem 0.5rem;
+  gap: 0.65rem;
+  padding: 1.4rem 0.6rem;
   background: #ffffff;
   border: 1.5px solid #e2e8f0;
   border-radius: 16px;
@@ -3224,16 +3228,16 @@ strong, b, th,
 }
 
 .ak-cat-icon-box {
-  font-size: 1.75rem;
+  font-size: 2rem;
   line-height: 1;
 }
 
 .ak-cat-label {
-  font-size: 13px;
+  font-size: 15px;
   font-weight: 600;
   color: #0a192f;
   text-align: center;
-  line-height: 1.3;
+  line-height: 1.35;
 }
 
 /* ── Vision Banner ── */
@@ -3241,48 +3245,48 @@ strong, b, th,
   display: flex;
   align-items: stretch;
   background: linear-gradient(135deg, #0a192f 0%, #1e3a8a 55%, #2563eb 100%);
-  border-radius: 20px;
+  border-radius: 24px;
   overflow: hidden;
-  min-height: 250px;
+  min-height: 270px;
   box-shadow: 0 16px 36px -10px rgba(15, 23, 42, 0.25);
 }
 
 .ak-vision-left {
   flex: 1;
-  padding: 2.75rem 2.25rem;
+  padding: 3rem 2.5rem;
   display: flex;
   flex-direction: column;
   justify-content: center;
 }
 
 .ak-vision-heading {
-  font-size: 1.85rem;
+  font-size: 2.35rem;
   font-weight: 600;
   color: #ffffff;
-  letter-spacing: -0.3px;
+  letter-spacing: -0.5px;
   line-height: 1.25;
-  margin-bottom: 0.75rem;
+  margin-bottom: 0.95rem;
 }
 
 .ak-vision-desc {
-  font-size: 13px;
+  font-size: 16px;
   color: #bfdbfe;
-  line-height: 1.6;
-  margin-bottom: 1.5rem;
+  line-height: 1.65;
+  margin-bottom: 1.75rem;
   font-weight: 400;
 }
 
 .ak-browse-btn {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
+  gap: 8px;
   background: #ffffff;
   color: #0a192f !important;
   border: none;
   border-radius: 9999px;
-  padding: 0.6rem 1.4rem;
+  padding: 0.75rem 1.65rem;
   font-weight: 600;
-  font-size: 13px;
+  font-size: 15px;
   text-decoration: none;
   box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
   transition: all 0.2s ease;
@@ -3315,7 +3319,7 @@ strong, b, th,
   .ak-vision-banner { flex-direction: column; }
   .ak-vision-right { width: 100%; height: 180px; }
   .ak-vision-left { padding: 2rem 1.5rem; }
-  .ak-vision-heading { font-size: 1.6rem; }
+  .ak-vision-heading { font-size: 1.85rem; }
 }
 
 /* ── Product Cards ── */
@@ -3323,7 +3327,7 @@ strong, b, th,
   display: block;
   background: #ffffff;
   border: 1.5px solid #e2e8f0;
-  border-radius: 14px;
+  border-radius: 16px;
   overflow: hidden;
   text-decoration: none;
   transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
@@ -3337,7 +3341,7 @@ strong, b, th,
 }
 
 .ak-product-img-box {
-  height: 155px;
+  height: 165px;
   background: #f8fafc;
   display: flex;
   align-items: center;
@@ -3359,7 +3363,7 @@ strong, b, th,
 }
 
 .ak-product-placeholder {
-  font-size: 2.2rem;
+  font-size: 2.4rem;
   color: #94a3b8;
   display: flex;
   align-items: center;
@@ -3370,15 +3374,15 @@ strong, b, th,
 }
 
 .ak-product-info {
-  padding: 0.85rem 1rem;
+  padding: 1rem 1.15rem;
 }
 
 .ak-product-name {
-  font-size: 13.5px;
+  font-size: 15px;
   font-weight: 600;
   color: #0a192f;
-  line-height: 1.35;
-  margin-bottom: 0.35rem;
+  line-height: 1.4;
+  margin-bottom: 0.45rem;
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
@@ -3386,94 +3390,94 @@ strong, b, th,
 }
 
 .ak-product-rate {
-  font-size: 13px;
+  font-size: 15px;
   font-weight: 600;
   color: #2563eb;
 }
 
 /* ── About Section on Home (Studio Navy & Royal Blue) ── */
 .ak-about-heading {
-  font-size: 1.85rem;
+  font-size: 2.35rem;
   font-weight: 600;
   color: #0a192f;
-  letter-spacing: -0.4px;
+  letter-spacing: -0.5px;
   line-height: 1.25;
-  margin-bottom: 0.9rem;
+  margin-bottom: 1rem;
 }
 
 .ak-about-desc {
-  font-size: 13.5px;
+  font-size: 16px;
   color: #475569;
-  line-height: 1.65;
-  margin-bottom: 1.5rem;
+  line-height: 1.7;
+  margin-bottom: 1.75rem;
   font-weight: 400;
 }
 
 .ak-about-stats {
   display: flex;
-  gap: 1.5rem;
+  gap: 1.75rem;
   flex-wrap: wrap;
 }
 
 .ak-stat-box {
   text-align: center;
-  min-width: 70px;
+  min-width: 80px;
 }
 
 .ak-stat-num {
-  font-size: 1.5rem;
+  font-size: 1.95rem;
   font-weight: 600;
   color: #0a192f;
-  letter-spacing: -0.3px;
+  letter-spacing: -0.4px;
 }
 
 .ak-stat-lbl {
-  font-size: 12px;
+  font-size: 13px;
   font-weight: 600;
   color: #2563eb;
   text-transform: uppercase;
   letter-spacing: 0.6px;
-  margin-top: 2px;
+  margin-top: 4px;
 }
 
 /* About info card */
 .ak-about-info-card {
   background: #ffffff;
   border: 1.5px solid #cbd5e1;
-  border-radius: 18px;
-  padding: 2rem 1.75rem;
+  border-radius: 20px;
+  padding: 2.25rem 2rem;
   display: flex;
   flex-direction: column;
-  gap: 1.35rem;
+  gap: 1.5rem;
   box-shadow: 0 8px 24px -6px rgba(15, 23, 42, 0.06);
 }
 
 .ak-about-info-row {
   display: flex;
-  gap: 0.85rem;
+  gap: 1rem;
   align-items: flex-start;
 }
 
 .ak-about-info-icon {
-  font-size: 1.2rem;
+  font-size: 1.35rem;
   flex-shrink: 0;
   margin-top: 2px;
   color: #2563eb;
 }
 
 .ak-about-info-label {
-  font-size: 12px;
+  font-size: 13px;
   font-weight: 600;
   letter-spacing: 0.6px;
   text-transform: uppercase;
   color: #2563eb;
-  margin-bottom: 0.25rem;
+  margin-bottom: 0.3rem;
 }
 
 .ak-about-info-val {
-  font-size: 13px;
+  font-size: 15px;
   color: #0a192f;
-  line-height: 1.55;
+  line-height: 1.6;
   font-weight: 400;
 }
 
