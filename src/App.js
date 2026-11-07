@@ -8,7 +8,6 @@ import BookingList from './Navpages/Bookings/BookingList';
 import Home from './Home/Home';
 import AssetBooking from './Navpages/Bookings/BookingForm';
 import Footer from './Home/Footer';
-import ChatBot from './Home/ChatBot';
 import About from './Home/About';
 import { API_BASE } from './auth';
 
@@ -100,7 +99,6 @@ function AppContent({ user, setUser, handleLogout }) {
       </main>
 
       <Footer />
-      <ChatBot />
     </div>
   );
 }
