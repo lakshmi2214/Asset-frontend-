@@ -30,48 +30,52 @@ function AppContent({ user, setUser, handleLogout }) {
   return (
     <div className="d-flex flex-column min-vh-100">
       <Navbar
-        variant="dark"
         expand="lg"
         sticky="top"
         expanded={navExpanded}
         onToggle={(expanded) => setNavExpanded(expanded)}
         collapseOnSelect
-        className="py-3 shadow"
-        style={{ backgroundColor: '#0f172a', borderBottom: '1px solid rgba(255, 255, 255, 0.1)' }}
+        className="py-2 ak-navbar"
       >
         <Container>
+          {/* Logo */}
           <Navbar.Brand as={Link} to="/" onClick={closeNav} className="d-flex align-items-center gap-2 text-decoration-none">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#ffffff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#111827" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z" />
               <circle cx="12" cy="13" r="4" />
             </svg>
-            <span style={{ fontWeight: 800, fontSize: '1.25rem', color: '#ffffff', letterSpacing: '-0.3px' }}>Aslikahani</span>
+            <span style={{ fontWeight: 800, fontSize: '1.15rem', color: '#111827', letterSpacing: '-0.3px' }}>AsliKahani</span>
           </Navbar.Brand>
 
-          <Navbar.Toggle
-            aria-controls="basic-navbar-nav"
-            className="border-0 shadow-none text-light"
-          />
+          <Navbar.Toggle aria-controls="ak-nav" className="border-0 shadow-none" />
 
-          <Navbar.Collapse id="basic-navbar-nav">
-            <Nav className="ms-lg-5 me-auto gap-4 align-items-center my-2 my-lg-0">
-              <Nav.Link as={Link} to="/" onClick={closeNav} className="framelease-nav-link active">Home</Nav.Link>
-              <Nav.Link as={Link} to="/#about" onClick={closeNav} className="framelease-nav-link">About</Nav.Link>
-              <Nav.Link as={Link} to="/assets" onClick={closeNav} className="framelease-nav-link">Equipments</Nav.Link>
+          <Navbar.Collapse id="ak-nav">
+            {/* Centre links */}
+            <Nav className="mx-auto gap-1 align-items-center my-2 my-lg-0">
+              <Nav.Link as={Link} to="/" onClick={closeNav} className="ak-nav-link">Home</Nav.Link>
+              <Nav.Link as={Link} to="/assets" onClick={closeNav} className="ak-nav-link">Browse</Nav.Link>
+              <Nav.Link as={Link} to="/#about" onClick={closeNav} className="ak-nav-link">About</Nav.Link>
             </Nav>
 
-            <Nav className="gap-3 align-items-center flex-row justify-content-end">
+            {/* Right actions */}
+            <Nav className="gap-2 align-items-center flex-row justify-content-end">
               {user ? (
                 <>
-                  <Nav.Link as={Link} to="/bookings" onClick={closeNav} className="text-white fw-semibold px-2">My History</Nav.Link>
-                  <Button variant="link" className="text-light opacity-75 text-decoration-none fw-medium p-0" onClick={() => { closeNav(); handleLogout(); }}>
+                  <Nav.Link as={Link} to="/bookings" onClick={closeNav} className="ak-nav-link">My History</Nav.Link>
+                  <button
+                    className="btn ak-btn-outline btn-sm rounded-pill px-3"
+                    onClick={() => { closeNav(); handleLogout(); }}
+                  >
                     Sign Out
-                  </Button>
+                  </button>
                 </>
               ) : (
-                <Link to="/login" onClick={closeNav} className="btn rounded-pill px-4 py-2 fw-semibold text-white border-0" style={{ fontSize: '0.88rem', backgroundColor: '#2563eb', boxShadow: '0 2px 8px rgba(37, 99, 235, 0.3)' }}>
-                  Login
-                </Link>
+                <>
+                  <Link to="/login" onClick={closeNav} className="ak-nav-link px-2">Login</Link>
+                  <Link to="/signup" onClick={closeNav} className="btn ak-btn-dark btn-sm rounded-pill px-3">
+                    Sign Up
+                  </Link>
+                </>
               )}
             </Nav>
           </Navbar.Collapse>

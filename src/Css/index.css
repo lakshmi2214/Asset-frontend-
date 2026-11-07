@@ -2900,3 +2900,520 @@ body {
   cursor: not-allowed;
 }
 
+
+
+/* ================================================================
+   AsliKahani — FrameLease-style Clean Home Page
+   Matches the reference image layout exactly
+================================================================ */
+
+/* ── Navbar (light/white) ── */
+.ak-navbar {
+  background-color: #ffffff !important;
+  border-bottom: 1px solid #e5e7eb;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+}
+
+.ak-nav-link {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #374151 !important;
+  text-decoration: none;
+  padding: 0.4rem 0.75rem !important;
+  border-radius: 6px;
+  transition: color 0.15s ease;
+}
+.ak-nav-link:hover {
+  color: #111827 !important;
+}
+
+.ak-btn-dark {
+  background: #111827;
+  color: #ffffff;
+  border: none;
+  font-weight: 600;
+  font-size: 0.88rem;
+  transition: background 0.2s ease;
+}
+.ak-btn-dark:hover {
+  background: #1f2937;
+  color: #ffffff;
+}
+
+.ak-btn-outline {
+  background: transparent;
+  border: 1.5px solid #d1d5db;
+  color: #374151;
+  font-weight: 500;
+  font-size: 0.88rem;
+}
+.ak-btn-outline:hover {
+  border-color: #111827;
+  color: #111827;
+}
+
+/* ── Hero Section ── */
+.ak-hero-section {
+  background: #f9fafb;
+  padding: 0;
+  overflow: hidden;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.min-vh-hero {
+  min-height: 420px;
+}
+
+.ak-hero-left {
+  padding: 4rem 1rem 4rem 0;
+}
+
+@media (max-width: 991px) {
+  .ak-hero-left { padding: 3rem 0; }
+}
+
+.ak-hero-eyebrow {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 1.4px;
+  text-transform: uppercase;
+  color: #6b7280;
+  margin-bottom: 0.75rem;
+}
+
+.ak-hero-heading {
+  font-size: 3rem;
+  font-weight: 800;
+  color: #111827;
+  letter-spacing: -1.5px;
+  line-height: 1.1;
+  margin-bottom: 1rem;
+}
+
+@media (max-width: 768px) {
+  .ak-hero-heading { font-size: 2.2rem; }
+}
+
+.ak-hero-subtext {
+  font-size: 0.95rem;
+  color: #6b7280;
+  line-height: 1.6;
+  margin-bottom: 2rem;
+}
+
+/* Search bar */
+.ak-search-form {
+  display: flex;
+  align-items: center;
+  background: #ffffff;
+  border: 1.5px solid #d1d5db;
+  border-radius: 10px;
+  overflow: hidden;
+  max-width: 440px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+.ak-search-icon {
+  padding: 0 0.75rem 0 0.9rem;
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.ak-search-input {
+  flex: 1;
+  border: none;
+  outline: none;
+  font-size: 0.9rem;
+  color: #111827;
+  padding: 0.65rem 0.5rem;
+  background: transparent;
+}
+
+.ak-search-input::placeholder {
+  color: #9ca3af;
+}
+
+.ak-search-btn {
+  background: #111827;
+  color: #ffffff;
+  border: none;
+  padding: 0.65rem 1.3rem;
+  font-weight: 600;
+  font-size: 0.88rem;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: background 0.2s;
+}
+
+.ak-search-btn:hover {
+  background: #1f2937;
+}
+
+/* Hero right image */
+.ak-hero-right {
+  align-items: center;
+  justify-content: flex-end;
+  padding: 2rem 0;
+}
+
+.ak-hero-img-wrap {
+  width: 100%;
+  max-width: 480px;
+  height: 100%;
+  min-height: 340px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.ak-hero-img {
+  width: 100%;
+  max-height: 400px;
+  object-fit: contain;
+  object-position: right center;
+}
+
+/* ── Trust Strip ── */
+.ak-trust-strip {
+  background: #ffffff;
+  border-bottom: 1px solid #e5e7eb;
+  padding: 1.5rem 0;
+}
+
+.ak-trust-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 1rem;
+  border-right: 1px solid #f3f4f6;
+}
+
+.ak-trust-item:last-child {
+  border-right: none;
+}
+
+@media (max-width: 767px) {
+  .ak-trust-item {
+    border-right: none;
+    border-bottom: 1px solid #f3f4f6;
+    padding: 0.75rem 0;
+  }
+}
+
+.ak-trust-icon {
+  font-size: 1.5rem;
+  flex-shrink: 0;
+}
+
+.ak-trust-title {
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: #111827;
+  line-height: 1.3;
+}
+
+.ak-trust-sub {
+  font-size: 0.8rem;
+  color: #6b7280;
+  line-height: 1.3;
+}
+
+/* ── Generic Section Wrapper ── */
+.ak-section {
+  padding: 3.5rem 0;
+}
+
+.ak-bg-white { background: #ffffff; }
+.ak-bg-offwhite { background: #f9fafb; border-top: 1px solid #e5e7eb; border-bottom: 1px solid #e5e7eb; }
+
+.ak-section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.75rem;
+}
+
+.ak-section-title {
+  font-size: 1.45rem;
+  font-weight: 800;
+  color: #111827;
+  letter-spacing: -0.5px;
+  margin: 0;
+}
+
+.ak-view-all {
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: #374151;
+  text-decoration: none;
+  transition: color 0.15s;
+}
+.ak-view-all:hover { color: #111827; }
+
+/* ── Category Tiles ── */
+.ak-cat-tile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 1.25rem 0.5rem;
+  background: #f9fafb;
+  border: 1.5px solid #e5e7eb;
+  border-radius: 14px;
+  text-decoration: none;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  cursor: pointer;
+}
+
+.ak-cat-tile:hover {
+  background: #ffffff;
+  border-color: #111827;
+  box-shadow: 0 6px 20px -6px rgba(0,0,0,0.12);
+  transform: translateY(-3px);
+}
+
+.ak-cat-icon-box {
+  font-size: 1.75rem;
+  line-height: 1;
+}
+
+.ak-cat-label {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #374151;
+  text-align: center;
+  line-height: 1.3;
+}
+
+/* ── Vision Banner ── */
+.ak-vision-banner {
+  display: flex;
+  align-items: stretch;
+  background: #111827;
+  border-radius: 20px;
+  overflow: hidden;
+  min-height: 260px;
+}
+
+.ak-vision-left {
+  flex: 1;
+  padding: 2.5rem 2rem 2.5rem 2.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.ak-vision-heading {
+  font-size: 2rem;
+  font-weight: 800;
+  color: #ffffff;
+  letter-spacing: -0.5px;
+  line-height: 1.2;
+  margin-bottom: 0.75rem;
+}
+
+.ak-vision-desc {
+  font-size: 0.9rem;
+  color: #9ca3af;
+  line-height: 1.6;
+  margin-bottom: 1.5rem;
+}
+
+.ak-browse-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: #ffffff;
+  color: #111827;
+  border: none;
+  border-radius: 9999px;
+  padding: 0.6rem 1.4rem;
+  font-weight: 700;
+  font-size: 0.88rem;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  width: fit-content;
+}
+
+.ak-browse-btn:hover {
+  background: #f3f4f6;
+  color: #111827;
+  transform: translateX(2px);
+}
+
+.ak-vision-right {
+  width: 42%;
+  position: relative;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.ak-vision-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  opacity: 0.75;
+}
+
+@media (max-width: 767px) {
+  .ak-vision-banner { flex-direction: column; }
+  .ak-vision-right { width: 100%; height: 180px; }
+  .ak-vision-left { padding: 2rem 1.5rem; }
+  .ak-vision-heading { font-size: 1.6rem; }
+}
+
+/* ── Product Cards (Recently Added) ── */
+.ak-product-card {
+  display: block;
+  background: #ffffff;
+  border: 1.5px solid #e5e7eb;
+  border-radius: 14px;
+  overflow: hidden;
+  text-decoration: none;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.ak-product-card:hover {
+  border-color: #111827;
+  box-shadow: 0 8px 24px -8px rgba(0,0,0,0.14);
+  transform: translateY(-3px);
+}
+
+.ak-product-img-box {
+  height: 160px;
+  background: #f9fafb;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.ak-product-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  padding: 1rem;
+  transition: transform 0.3s ease;
+}
+
+.ak-product-card:hover .ak-product-img {
+  transform: scale(1.05);
+}
+
+.ak-product-placeholder {
+  font-size: 2.5rem;
+  color: #d1d5db;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  background: #f9fafb;
+}
+
+.ak-product-info {
+  padding: 0.9rem 1rem;
+}
+
+.ak-product-name {
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: #111827;
+  line-height: 1.3;
+  margin-bottom: 0.3rem;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.ak-product-rate {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #6b7280;
+}
+
+/* ── About Section ── */
+.ak-about-heading {
+  font-size: 2.2rem;
+  font-weight: 800;
+  color: #111827;
+  letter-spacing: -0.8px;
+  line-height: 1.2;
+  margin-bottom: 1rem;
+}
+
+.ak-about-desc {
+  font-size: 0.95rem;
+  color: #6b7280;
+  line-height: 1.65;
+  margin-bottom: 1.5rem;
+}
+
+.ak-about-stats {
+  display: flex;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.ak-stat-box {
+  text-align: center;
+  min-width: 70px;
+}
+
+.ak-stat-num {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: #111827;
+  letter-spacing: -0.5px;
+}
+
+.ak-stat-lbl {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #6b7280;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-top: 2px;
+}
+
+/* About info card */
+.ak-about-info-card {
+  background: #ffffff;
+  border: 1.5px solid #e5e7eb;
+  border-radius: 18px;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.ak-about-info-row {
+  display: flex;
+  gap: 1rem;
+  align-items: flex-start;
+}
+
+.ak-about-info-icon {
+  font-size: 1.3rem;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.ak-about-info-label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  color: #9ca3af;
+  margin-bottom: 0.3rem;
+}
+
+.ak-about-info-val {
+  font-size: 0.9rem;
+  color: #374151;
+  line-height: 1.55;
+}
