@@ -190,10 +190,10 @@ export default function AssetList() {
         {/* Page Header */}
         <div className="d-flex flex-wrap align-items-center justify-content-between gap-3 mb-4">
           <div>
-            <h1 className="fw-bolder mb-1" style={{ fontSize: '1.9rem', color: '#0f172a', letterSpacing: '-0.5px' }}>
+            <h1 className="fw-bolder mb-1" style={{ fontSize: '1.9rem', color: '#1e3a8a', letterSpacing: '-0.5px' }}>
               Equipment Catalog
             </h1>
-            <p className="text-secondary mb-0" style={{ fontSize: '0.95rem' }}>
+            <p className="mb-0" style={{ fontSize: '0.95rem', color: '#1e40af', opacity: 0.85 }}>
               Explore and reserve high-grade camera gear, lighting, and accessories.
             </p>
           </div>
@@ -201,7 +201,7 @@ export default function AssetList() {
           <div className="d-flex align-items-center gap-2">
             <span
               className="badge px-3 py-2 rounded-pill fw-semibold"
-              style={{ backgroundColor: '#f1f5f9', color: '#475569', fontSize: '0.85rem' }}
+              style={{ backgroundColor: '#eff6ff', color: '#2563eb', border: '1px solid #bfdbfe', fontSize: '0.85rem' }}
             >
               {loading ? 'Loading...' : `${filteredAssets.length} Equipment${filteredAssets.length === 1 ? '' : 's'}`}
             </span>
@@ -209,7 +209,7 @@ export default function AssetList() {
         </div>
 
         {/* Filter & Search Bar */}
-        <div className="bg-white rounded-4 p-3 mb-4 shadow-sm border" style={{ borderColor: '#e2e8f0' }}>
+        <div className="bg-white rounded-4 p-3 mb-4 shadow-sm border" style={{ borderColor: '#dbeafe' }}>
           <div className="d-flex flex-column flex-lg-row align-items-stretch align-items-lg-center justify-content-between gap-3">
 
             <div
@@ -221,7 +221,7 @@ export default function AssetList() {
                 height="17"
                 viewBox="0 0 24 24"
                 fill="none"
-                stroke="#94a3b8"
+                stroke="#2563eb"
                 strokeWidth="2.2"
                 strokeLinecap="round"
                 strokeLinejoin="round"
@@ -233,11 +233,11 @@ export default function AssetList() {
               </svg>
               <input
                 type="text"
-                className="form-control rounded-pill ps-5 pe-4 py-2 border-0"
+                className="form-control rounded-pill ps-5 pe-4 py-2 border"
                 placeholder="Search equipment..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                style={{ backgroundColor: '#f8fafc', fontSize: '0.88rem', color: '#0f172a' }}
+                style={{ backgroundColor: '#f0f7ff', borderColor: '#bfdbfe', fontSize: '0.88rem', color: '#1e3a8a' }}
               />
               {searchQuery && (
                 <button
@@ -265,11 +265,12 @@ export default function AssetList() {
                     key={cat.id}
                     type="button"
                     onClick={() => handleCategorySelect(cat.id)}
-                    className="btn rounded-pill px-3 py-1 fw-semibold border-0 text-nowrap flex-shrink-0"
+                    className="btn rounded-pill px-3 py-1 fw-semibold border text-nowrap flex-shrink-0"
                     style={{
                       fontSize: '0.85rem',
-                      backgroundColor: isActive ? '#0f172a' : '#f8fafc',
-                      color: isActive ? '#ffffff' : '#475569',
+                      backgroundColor: isActive ? '#2563eb' : '#ffffff',
+                      color: isActive ? '#ffffff' : '#1e40af',
+                      borderColor: isActive ? '#2563eb' : '#dbeafe',
                       transition: 'all 0.2s ease',
                     }}
                   >
@@ -536,14 +537,14 @@ export default function AssetList() {
                           to={`/book-asset?assetId=${asset.id}`}
                           className="btn w-100 py-2 fw-semibold text-white d-flex align-items-center justify-content-center gap-1 text-decoration-none shadow-sm"
                           style={{
-                            backgroundColor: '#0f172a',
+                            backgroundColor: '#2563eb',
                             borderRadius: '10px',
                             fontSize: '0.84rem',
                             border: 'none',
                             transition: 'all 0.2s ease',
                           }}
-                          onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = '#2563eb'; }}
-                          onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = '#0f172a'; }}
+                          onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = '#1d4ed8'; }}
+                          onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = '#2563eb'; }}
                         >
                           <span>Book Equipment</span>
                           <span>➔</span>
@@ -559,24 +560,24 @@ export default function AssetList() {
 
         {/* Empty State */}
         {!loading && filteredAssets.length === 0 && (
-          <div className="text-center py-5 my-5 bg-white rounded-4 border p-5 shadow-sm" style={{ borderColor: '#e2e8f0' }}>
+          <div className="text-center py-5 my-5 bg-white rounded-4 border p-5 shadow-sm" style={{ borderColor: '#dbeafe' }}>
             <div
               className="rounded-circle d-inline-flex align-items-center justify-content-center mb-3"
-              style={{ width: '64px', height: '64px', backgroundColor: '#f8fafc', border: '1px solid #e2e8f0' }}
+              style={{ width: '64px', height: '64px', backgroundColor: '#f0f7ff', border: '1px solid #bfdbfe' }}
             >
-              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#64748b" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#2563eb" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <circle cx="11" cy="11" r="8"></circle>
                 <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
               </svg>
             </div>
-            <h4 className="fw-bold mb-2" style={{ color: '#0f172a' }}>No Equipment Found</h4>
-            <p className="text-secondary mb-4 mx-auto" style={{ maxWidth: '420px', fontSize: '0.92rem' }}>
+            <h4 className="fw-bold mb-2" style={{ color: '#1e3a8a' }}>No Equipment Found</h4>
+            <p className="mb-4 mx-auto" style={{ maxWidth: '420px', fontSize: '0.92rem', color: '#1e40af', opacity: 0.85 }}>
               We couldn't find any gear matching your current search or category filter. Try clearing filters or searching for something else.
             </p>
             <button
               type="button"
-              className="btn btn-dark rounded-pill px-4 py-2 fw-semibold border-0"
-              style={{ backgroundColor: '#0f172a', fontSize: '0.88rem' }}
+              className="btn btn-primary rounded-pill px-4 py-2 fw-semibold border-0"
+              style={{ backgroundColor: '#2563eb', fontSize: '0.88rem' }}
               onClick={resetAllFilters}
             >
               Reset All Filters
