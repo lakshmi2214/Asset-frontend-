@@ -3,7 +3,6 @@ import { Link, useSearchParams } from 'react-router-dom';
 import { Container, Row, Col, Badge } from 'react-bootstrap';
 import { API_BASE, PROD_BACKEND } from '../../auth';
 
-// Equipment group classification helper
 function getAssetGroup(asset) {
   if (!asset) return 'other';
   const name = (asset.name || '').toLowerCase().trim();

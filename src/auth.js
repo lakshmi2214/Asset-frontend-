@@ -5,11 +5,8 @@ const isLocalhost = hostname === 'localhost' || hostname === '127.0.0.1' || host
 const isVercel = typeof window !== 'undefined' && Boolean(window.location.hostname && window.location.hostname.includes('vercel.app'));
 
 
-
-// Default production backend containing the full equipment catalog / old database
 export const PROD_BACKEND = 'https://asset-booking-backend.vercel.app';
 
-// Always route to PROD_BACKEND so the old database assets are always displayed
 export const API_BASE = PROD_BACKEND;
 
 export function clearTokens() {

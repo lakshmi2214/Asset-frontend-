@@ -1,264 +1,198 @@
 import React from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import {
+  FaVideo,
+  FaShieldAlt,
+  FaTools,
+  FaWarehouse,
+  FaCalendarAlt,
+  FaArrowRight
+} from 'react-icons/fa';
 
-const values = [
+const studioPillars = [
   {
-    icon: '📖',
-    title: 'Real Stories',
-    desc: 'We go beyond the headlines — uncovering ground-level truth that sparks empathy and drives real-world change.',
+    icon: FaShieldAlt,
+    title: 'Bench-Tested & Cleaned',
+    desc: 'Every camera sensor, optic element, and cable undergoes a rigorous bench test and optical cleaning before each checkout.'
   },
   {
-    icon: '🎙️',
-    title: 'Independent Voice',
-    desc: 'Free from corporate sponsorships and algorithm-driven noise. Our journalism is powered by people, not profit.',
+    icon: FaTools,
+    title: 'Free Camera Prep Bays',
+    desc: 'Our Malleshwaram hub features dedicated, air-conditioned prep bays equipped with test charts, power stations, and balance tables.'
   },
   {
-    icon: '🌍',
-    title: 'Community-First',
-    desc: 'Amplifying unheard voices, grassroots struggles, and everyday changemakers across Bangalore and beyond.',
-  },
-  {
-    icon: '📷',
-    title: 'Multi-Medium',
-    desc: 'From digital magazines and ground reports to documentaries, podcasts and studio production — we tell stories in every format.',
-  },
+    icon: FaWarehouse,
+    title: 'Soundstage Facilities',
+    desc: 'A 2,500 sq.ft acoustically treated studio featuring an 18ft pre-rigged lighting grid, 3-wall cyclorama, and green room.'
+  }
 ];
 
-const stats = [
-  { number: '2018', label: 'Founded' },
-  { number: '50+', label: 'Contributors' },
-  { number: '500+', label: 'Stories Published' },
-  { number: '1M+', label: 'Readers Reached' },
-];
-
-const whatWeDo = [
-  { icon: '📰', label: 'Digital E-Magazine', desc: 'Monthly magazine covering art, culture, business, tech, education & social issues.' },
-  { icon: '🎬', label: 'Documentaries', desc: 'Short-form documentary films on stories that mainstream media ignores.' },
-  { icon: '🎧', label: 'Unmute Podcast', desc: 'Our signature podcast series giving a mic to unheard voices across India.' },
-  { icon: '📡', label: 'Ground Reports', desc: 'On-ground journalism from the streets, villages, and communities of India.' },
-  { icon: '🏢', label: 'Studio & Gear Rental', desc: 'Professional camera gear, soundstages and equipment for creators in Bangalore.' },
-  { icon: '🤝', label: 'Creator Community', desc: 'A collective of journalists, filmmakers, photographers and storytellers.' },
+const studioHighlights = [
+  { number: '350+', label: 'Equipment Assets' },
+  { number: '100%', label: 'Sensor Inspected' },
+  { number: '3 Bays', label: 'Camera Prep Stations' },
+  { number: '24 / 7', label: 'On-Call Tech Support' },
 ];
 
 export default function About() {
   return (
-    <div style={{ backgroundColor: '#ffffff', overflowX: 'hidden' }}>
+    <div className="studio-page-container">
 
-      <section className="about-hero-section">
+      <section className="studio-hero-section">
         <Container>
-          <Row className="align-items-center g-5">
-            <Col lg={7}>
-              <p className="about-eyebrow">ABOUT ASLIKAHANI</p>
-              <h1 className="about-hero-heading">
-                People-Powered<br />Stories That Matter
+          <Row className="align-items-center gy-5">
+            <Col lg={7} md={12}>
+              <div className="studio-eyebrow">
+                <span className="studio-eyebrow-dot" />
+                <span>ABOUT ASLIKAHANI STUDIO</span>
+              </div>
+
+              <h1 className="studio-hero-heading">
+                Quality Equipment for Every Production.
               </h1>
-              <p className="about-hero-desc">
-                AsliKahani is an independent digital media platform and monthly magazine rooted in
-                responsible, grassroots storytelling. We exist to uncover the untold stories that
-                spark empathy, truth, and real-world change — free from corporate noise.
+
+              <p className="studio-hero-description">
+                Based in Malleshwaram, Bengaluru, AsliKahani Studio provides filmmakers, commercial directors,
+                and content creators with industry-standard cinema cameras, master prime lenses, continuous lighting,
+                and dedicated studio facilities.
               </p>
-              <div className="d-flex gap-3 flex-wrap mt-4">
-                <Link to="/assets" className="ak-browse-btn">
-                  Explore Our Equipment →
+
+              <div className="d-flex align-items-center gap-3 mt-4 flex-wrap">
+                <Link to="/assets" className="studio-btn-primary">
+                  <span>Browse Equipment</span>
+                  <FaArrowRight size={12} />
                 </Link>
-                <a
-                  href="https://aslikahani.com"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="about-secondary-btn"
-                >
-                  Visit AsliKahani.com ↗
-                </a>
+                <Link to="/contact" className="studio-btn-secondary">
+                  <span>Contact Our Team</span>
+                </Link>
               </div>
             </Col>
 
-            <Col lg={5}>
-
-              <div className="about-stats-card">
-                {stats.map((s, i) => (
-                  <div key={i} className="about-stat-item">
-                    <div className="about-stat-num">{s.number}</div>
-                    <div className="about-stat-label">{s.label}</div>
-                  </div>
-                ))}
+            <Col lg={5} md={12}>
+              <div className="studio-about-stats-card">
+                <Row className="g-3">
+                  {studioHighlights.map((stat, i) => (
+                    <Col key={i} xs={6}>
+                      <div className="studio-stat-item">
+                        <div className="studio-stat-num">{stat.number}</div>
+                        <div className="studio-stat-label">{stat.label}</div>
+                      </div>
+                    </Col>
+                  ))}
+                </Row>
               </div>
             </Col>
           </Row>
         </Container>
       </section>
 
-      <section className="about-section about-bg-off">
-        <Container>
-          <Row className="align-items-center g-5">
-            <Col lg={6}>
-              <div className="about-story-visual">
-                <div className="about-story-quote-box">
-                  <div className="about-quote-mark">"</div>
-                  <p className="about-quote-text">
-                    We are not just another media outlet. We are a movement driven by
-                    citizens who care — storytellers who believe that every person's
-                    truth deserves to be heard.
-                  </p>
-                  <div className="about-quote-author">— Team AsliKahani</div>
-                </div>
-
-                <div className="about-location-pill">
-                  <span>📍</span>
-                  <span>Malleshwaram, Bengaluru, India</span>
-                </div>
-              </div>
-            </Col>
-
-            <Col lg={6}>
-              <p className="about-eyebrow">OUR STORY</p>
-              <h2 className="about-section-heading">Born From the Streets of Bengaluru</h2>
-              <p className="about-body-text">
-                AsliKahani — which literally translates to <em>"Real Story"</em> in Hindi — was born
-                in the lanes of Malleshwaram, Bengaluru. We started as a small collective of journalists,
-                filmmakers, and citizens frustrated by the gap between mainstream media and the
-                stories that actually matter.
-              </p>
-              <p className="about-body-text">
-                Over the years, we've grown into a full-fledged multi-format media platform — publishing
-                digital magazines, producing documentaries, running the <strong>Unmute Podcast</strong>,
-                and filing ground reports from the heart of communities across India.
-              </p>
-              <p className="about-body-text">
-                Today, our Malleshwaram studio also doubles as a production hub where filmmakers and
-                creators can rent professional camera gear, lighting rigs, and soundstages to tell
-                their own stories.
-              </p>
-            </Col>
-          </Row>
-        </Container>
-      </section>
-
-      <section className="about-section about-bg-white">
+      <section className="studio-section studio-bg-white">
         <Container>
           <div className="text-center mb-5">
-            <p className="about-eyebrow text-center">WHAT WE DO</p>
-            <h2 className="about-section-heading">
-              More Than a Media Platform
-            </h2>
-            <p className="about-body-text mx-auto" style={{ maxWidth: '540px' }}>
-              We deliver stories through every format that connects people — and we give creators
-              the tools to tell their own.
+            <span className="studio-section-eyebrow">OUR COMMITMENT</span>
+            <h2 className="studio-section-title">Built for Working Filmmakers</h2>
+            <p className="studio-section-subtitle mx-auto" style={{ maxWidth: '620px' }}>
+              We know that every minute on set matters. Our focus is ensuring your equipment arrives
+              production-ready, perfectly organized in custom flight cases with zero surprises.
             </p>
           </div>
 
           <Row className="g-4">
-            {whatWeDo.map((item, i) => (
-              <Col key={i} lg={4} md={6}>
-                <div className="about-service-card">
-                  <div className="about-service-icon">{item.icon}</div>
-                  <h3 className="about-service-title">{item.label}</h3>
-                  <p className="about-service-desc">{item.desc}</p>
-                </div>
-              </Col>
-            ))}
+            {studioPillars.map((pillar, idx) => {
+              const IconComp = pillar.icon;
+              return (
+                <Col key={idx} lg={4} md={6} xs={12}>
+                  <div className="studio-pillar-card">
+                    <div className="studio-pillar-icon-wrap">
+                      <IconComp size={20} />
+                    </div>
+                    <h3 className="studio-pillar-title">{pillar.title}</h3>
+                    <p className="studio-pillar-desc">{pillar.desc}</p>
+                  </div>
+                </Col>
+              );
+            })}
           </Row>
         </Container>
       </section>
 
-      <section className="about-section about-bg-dark">
+      <section className="studio-section studio-bg-light border-top border-bottom">
         <Container>
-          <div className="text-center mb-5">
-            <p className="about-eyebrow-light">OUR VALUES</p>
-            <h2 className="about-section-heading-light">What Drives Us</h2>
-          </div>
-
-          <Row className="g-4">
-            {values.map((v, i) => (
-              <Col key={i} lg={3} md={6}>
-                <div className="about-value-card">
-                  <div className="about-value-icon">{v.icon}</div>
-                  <h3 className="about-value-title">{v.title}</h3>
-                  <p className="about-value-desc">{v.desc}</p>
+          <Row className="align-items-center gy-5">
+            <Col lg={6} md={12}>
+              <div className="studio-about-img-box">
+                <img
+                  src={process.env.PUBLIC_URL + '/assets/images/banner_studio.png'}
+                  alt="AsliKahani Studio Soundstage"
+                  className="studio-about-img"
+                  onError={(e) => {
+                    e.target.src = process.env.PUBLIC_URL + '/assets/images/mockup_hero_camera.png';
+                  }}
+                />
+                <div className="studio-about-img-caption">
+                  Malleshwaram Studio Hub &amp; Prep Bay
                 </div>
-              </Col>
-            ))}
-          </Row>
-        </Container>
-      </section>
+              </div>
+            </Col>
 
-      <section className="about-section about-bg-off">
-        <Container>
-          <Row className="g-5 align-items-center">
-            <Col lg={6}>
-              <p className="about-eyebrow">FIND US</p>
-              <h2 className="about-section-heading">Our Studio Hub in Malleshwaram</h2>
-              <p className="about-body-text">
-                We're based in the heart of Malleshwaram — Bengaluru's cultural and creative district.
-                Whether you're dropping by to rent equipment, attend a screening, or pitch a story — our
-                doors are always open.
+            <Col lg={6} md={12}>
+              <span className="studio-section-eyebrow">OUR STORY</span>
+              <h2 className="studio-section-title mb-3">
+                Born in Malleshwaram, Built for Production
+              </h2>
+              <p className="studio-body-lead">
+                AsliKahani started as a creative collective of storytellers and filmmakers in Bengaluru.
+                Early on, we faced the common industry challenge: finding dependable, well-maintained equipment
+                on transparent rental terms was unnecessarily difficult.
+              </p>
+              <p className="studio-body-text">
+                We built our studio hub to solve this. Today, we offer an expansive inventory of cinema cameras
+                (Sony FX, RED, Blackmagic), precision lenses, and continuous lighting, alongside a full 2,500 sq.ft
+                soundstage with a 3-wall cyclorama.
+              </p>
+              <p className="studio-body-text mb-4">
+                Whether you are shooting a national commercial, an indie short film, or an interview podcast, our
+                technical team is here to ensure your gear is prepped, tested, and ready to roll.
               </p>
 
-              <div className="about-contact-list">
-                <div className="about-contact-row">
-                  <span className="about-contact-icon">📍</span>
-                  <div>
-                    <div className="about-contact-label">Address</div>
-                    <div className="about-contact-val">
-                      #280/1, Anniamma Arcade, Sampige Road,<br />
-                      18th Cross, Malleshwaram,<br />
-                      Bengaluru, Karnataka — 560003
-                    </div>
-                  </div>
-                </div>
-                <div className="about-contact-row">
-                  <span className="about-contact-icon">🕐</span>
-                  <div>
-                    <div className="about-contact-label">Hours</div>
-                    <div className="about-contact-val">
-                      Monday – Saturday: 9:00 AM – 8:00 PM<br />
-                      Sunday: By Appointment
-                    </div>
-                  </div>
-                </div>
-                <div className="about-contact-row">
-                  <span className="about-contact-icon">✉️</span>
-                  <div>
-                    <div className="about-contact-label">Get in Touch</div>
-                    <div className="about-contact-val">
-                      <a href="mailto:support@aslikahani.com" className="about-email-link">
-                        support@aslikahani.com
-                      </a><br />
-                      +91 63 66 333 444
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </Col>
-
-            <Col lg={6}>
-              <div className="about-cta-card">
-                <div className="about-cta-icon">🎬</div>
-                <h3 className="about-cta-heading">Ready to Create?</h3>
-                <p className="about-cta-desc">
-                  Whether you need a soundstage for your next film, a Sony FX3 for a shoot,
-                  or a podcast recording suite — we've got everything you need at AsliKahani Studio.
-                </p>
-                <div className="d-flex flex-column gap-2">
-                  <Link to="/assets" className="ak-browse-btn justify-content-center text-center">
-                    Browse Equipment Catalog →
-                  </Link>
-                  <a
-                    href="https://aslikahani.com"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="about-secondary-btn text-center justify-content-center"
-                  >
-                    Visit AsliKahani.com ↗
-                  </a>
-                </div>
+              <div className="d-flex align-items-center gap-3">
+                <Link to="/contact" className="studio-btn-primary">
+                  <span>Visit Our Studio</span>
+                  <FaArrowRight size={12} />
+                </Link>
+                <Link to="/assets" className="studio-link-arrow">
+                  <span>Explore Equipment List</span>
+                </Link>
               </div>
             </Col>
           </Row>
+        </Container>
+      </section>
+s
+      <section className="studio-section studio-bg-white">
+        <Container>
+          <div className="studio-about-cta-box text-center">
+            <span className="studio-section-eyebrow">GET IN TOUCH</span>
+            <h2 className="studio-section-title mb-2">Ready to Plan Your Next Shoot?</h2>
+            <p className="studio-section-subtitle mx-auto mb-4" style={{ maxWidth: '560px' }}>
+              Drop by our Malleshwaram studio to prep your gear, test cameras, or tour Soundstage A.
+            </p>
+            <div className="d-flex justify-content-center gap-3 flex-wrap">
+              <Link to="/assets" className="studio-btn-primary">
+                <span>View Rental Equipment</span>
+                <FaArrowRight size={12} />
+              </Link>
+              <Link to="/contact" className="studio-btn-secondary">
+                <span>Contact &amp; Studio Directions</span>
+              </Link>
+            </div>
+          </div>
         </Container>
       </section>
 
     </div>
   );
 }
+
 

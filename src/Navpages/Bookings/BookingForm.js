@@ -430,45 +430,7 @@ export default function AssetBooking() {
       {!selectedAssetId && (
         <>
 
-          {targetAsset ? (
-            <div className="page-hero-banner mb-4" style={{ background: 'linear-gradient(135deg, #0a192f 0%, #1e3a8a 60%, #2563eb 100%)', borderRadius: '16px', padding: '24px 28px' }}>
-              <div className="d-flex flex-wrap align-items-center justify-content-between gap-3">
-                <div>
-                  <div className="d-flex align-items-center gap-2 mb-2 flex-wrap">
-                    <span className="badge px-3 py-1 rounded-pill" style={{ backgroundColor: '#2563eb', fontSize: '0.8rem' }}>
-                      {getGroupDisplayName(getAssetGroup(targetAsset))}
-                    </span>
-                    <span className="text-white-50 small">
-                      Showing equipment related to <strong className="text-white">{targetAsset.name}</strong>
-                    </span>
-                  </div>
-                  <h1 className="page-hero-title mb-1" style={{ fontSize: '1.85rem' }}>
-                    Related Equipment for "{targetAsset.name}"
-                  </h1>
-                  <p className="page-hero-subtitle mb-0 text-white-50">
-                    Showing related assets in this category instead of all equipment. The selected asset is highlighted in blue below.
-                  </p>
-                </div>
-                <div className="d-flex align-items-center gap-2 flex-wrap">
-                  <Link to="/assets" className="btn btn-outline-light btn-sm rounded-pill px-3 py-2 fw-semibold">
-                    ← Back to All Assets
-                  </Link>
-                  <Button
-                    variant="light"
-                    size="sm"
-                    className="rounded-pill px-3 py-2 fw-semibold"
-                    onClick={() => {
-                      navigate('/book-asset');
-                      setSelectedCategoryId(null);
-                      setSearchQuery('');
-                    }}
-                  >
-                    View All Catalogue
-                  </Button>
-                </div>
-              </div>
-            </div>
-          ) : (
+          {!targetAsset && (
             <div className="page-hero-banner">
               <h1 className="page-hero-title">Book Equipment</h1>
               <p className="page-hero-subtitle">

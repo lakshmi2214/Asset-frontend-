@@ -2,188 +2,432 @@ import React, { useState, useEffect } from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
 import { Link, useNavigate } from 'react-router-dom';
 import { PROD_BACKEND } from '../auth';
+import {
+  FaArrowRight,
+  FaSearch,
+  FaVideo,
+  FaCamera,
+  FaLightbulb,
+  FaMicrophone,
+  FaCheck,
+  FaShieldAlt,
+  FaCalendarAlt,
+  FaClock
+} from 'react-icons/fa';
 
-const shopCategories = [
-  { id: 'camera', label: 'Cameras', icon: '📷', query: 'camera' },
-  { id: 'lens', label: 'Lenses', icon: '🔍', query: 'lenses' },
-  { id: 'lighting', label: 'Lighting', icon: '💡', query: 'lighting' },
-  { id: 'audio', label: 'Audio', icon: '🎙️', query: 'audio' },
-  { id: 'tripod', label: 'Tripods', icon: '📐', query: 'tripod' },
-  { id: 'storage', label: 'Studio Setup', icon: '🎬', query: 'storage' },
+const featuredCategories = [
+  {
+    id: 'camera',
+    title: 'Cinema Cameras',
+    desc: 'Sony FX, RED, ARRI, Blackmagic 6K',
+    image: '/assets/images/mockup_hero_camera.png',
+    icon: FaVideo,
+    query: 'camera'
+  },
+  {
+    id: 'lens',
+    title: 'Lenses & Optics',
+    desc: 'Sony G Master, Cine Primes, Anamorphic',
+    image: '/assets/images/Camera_1.jpeg',
+    icon: FaCamera,
+    query: 'lens'
+  },
+  {
+    id: 'lighting',
+    title: 'Studio Lighting',
+    desc: 'Aputure COBs, Softboxes, RGB tubes, Grip',
+    image: '/assets/images/mockup_item_1.png',
+    icon: FaLightbulb,
+    query: 'lighting'
+  },
+  {
+    id: 'audio',
+    title: 'Sound & Audio',
+    desc: 'Shotguns, 32-bit field recorders, Lavs',
+    image: '/assets/images/mockup_item_3.png',
+    icon: FaMicrophone,
+    query: 'audio'
+  }
 ];
 
-const trustPoints = [
-  { icon: '⭐', title: 'Quality Gear', sub: 'from Top Brands' },
-  { icon: '📅', title: 'Easy Online Booking', sub: '' },
-  { icon: '🔄', title: 'Flexible Rental Plans', sub: '' },
-  { icon: '🎧', title: 'Support When', sub: 'You Need It' },
+const featuredProducts = [
+  {
+    id: 101,
+    name: 'Sony FX3 Full-Frame Cinema Camera',
+    category: 'Cinema Camera',
+    specs: '4K 120p • 15+ Stops Dynamic Range • S-Cinetone',
+    rate: '₹2,200',
+    unit: '/ day',
+    image: '/assets/images/mockup_hero_camera.png',
+    tag: 'Popular'
+  },
+  {
+    id: 102,
+    name: 'Sony FE 24-70mm f/2.8 GM II Lens',
+    category: 'Cine Optics',
+    specs: 'Constant f/2.8 • Dual XD Linear Motors • Nano AR II',
+    rate: '₹950',
+    unit: '/ day',
+    image: '/assets/images/Camera_1.jpeg',
+    tag: 'Sharp Optics'
+  },
+  {
+    id: 103,
+    name: 'Aputure LS 600d Pro Daylight LED',
+    category: 'Studio Lighting',
+    specs: '600W COB • CRI 96+ • Weatherproof IP54',
+    rate: '₹1,500',
+    unit: '/ day',
+    image: '/assets/images/mockup_item_1.png',
+    tag: 'High Output'
+  },
+  {
+    id: 105,
+    name: 'DJI RS 3 Pro Gimbal Stabilizer',
+    category: 'Grip & Motion',
+    specs: '4.5kg Payload • Carbon Fiber Arms • Automated Locks',
+    rate: '₹1,100',
+    unit: '/ day',
+    image: '/assets/images/Tripod_0840.jpg',
+    tag: 'Stabilization'
+  }
 ];
 
-function categoryLabel(asset) {
-  return asset?.category?.name || 'Equipment';
-}
-
-
+const simpleSteps = [
+  {
+    number: '01',
+    title: 'Browse & Reserve',
+    desc: 'Select your equipment and pick your shoot dates with transparent daily rates.'
+  },
+  {
+    number: '02',
+    title: 'Test in Prep Bays',
+    desc: 'Check out and balance your rig in our dedicated, air-conditioned camera prep bays.'
+  },
+  {
+    number: '03',
+    title: 'Shoot & Return',
+    desc: 'Produce with 24/7 on-call tech assistance. Seamless return with rapid deposit release.'
+  }
+];
 
 export default function Home() {
   const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState('');
-  const [recentAssets, setRecentAssets] = useState([]);
+  const [apiGear, setApiGear] = useState([]);
 
   useEffect(() => {
     fetch(`${PROD_BACKEND}/api/v1/assets/`)
       .then(res => res.json())
       .then(data => {
-        if (Array.isArray(data)) {
-          setRecentAssets(data.slice(-4));
+        if (Array.isArray(data) && data.length > 0) {
+          setApiGear(data.slice(0, 4));
         }
       })
-      .catch(err => console.error("Error loading recent assets:", err));
+      .catch(() => {
+      });
   }, []);
 
   const handleSearch = (e) => {
     e.preventDefault();
-    navigate(searchQuery.trim()
-      ? `/assets?q=${encodeURIComponent(searchQuery.trim())}`
-      : '/assets');
+    if (searchQuery.trim()) {
+      navigate(`/assets?q=${encodeURIComponent(searchQuery.trim())}`);
+    } else {
+      navigate('/assets');
+    }
   };
 
+  const displayProducts = React.useMemo(() => {
+    if (apiGear.length >= 4) {
+      return apiGear.map((item, idx) => ({
+        id: item.id || (101 + idx),
+        name: item.name || 'Studio Gear',
+        category: item.category?.name || 'Equipment',
+        specs: item.description || 'Pre-calibrated and bench-tested',
+        rate: item.rental_price ? `₹${item.rental_price}` : (item.price ? `₹${item.price}` : '₹1,200'),
+        unit: '/ day',
+        image: item.image_url || item.image || featuredProducts[idx % featuredProducts.length].image,
+        tag: 'Available'
+      }));
+    }
+    return featuredProducts;
+  }, [apiGear]);
+
   return (
-    <div style={{ backgroundColor: '#ffffff', overflowX: 'hidden', fontFamily: "'Inter', 'Segoe UI', system-ui, sans-serif" }}>
+    <div className="studio-page-container">
 
-      <section className="ak-hero-section">
+      <section className="studio-hero-section">
         <Container>
-          <Row className="align-items-center min-vh-hero g-0">
+          <Row className="align-items-center gy-5">
 
-            <Col lg={6} md={12} className="ak-hero-left">
-              <p className="ak-hero-eyebrow">CAMERA &amp; STUDIO EQUIPMENT RENTAL</p>
-              <h1 className="ak-hero-heading">
-                Create More,<br />Rent Better
+            <Col lg={6} md={12} className="studio-hero-content">
+              <div className="studio-eyebrow">
+                <span className="studio-eyebrow-dot" />
+                <span>STUDIO &amp; PRODUCTION EQUIPMENT RENTALS</span>
+              </div>
+
+              <h1 className="studio-hero-heading">
+                Premium Gear for Your Next Production.
               </h1>
-              <p className="ak-hero-subtext">
-                Professional camera gear, lenses, lighting, audio and<br />
-                studio setups — available for your next shoot.
+
+              <p className="studio-hero-description">
+                Rent cinema cameras, master prime lenses, continuous lighting, and audio equipment in Bangalore.
+                Every piece is bench-tested, sensor-cleaned, and ready to shoot.
               </p>
 
-              <form onSubmit={handleSearch} className="ak-search-form">
-                <span className="ak-search-icon">
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2563eb" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
-                    <circle cx="11" cy="11" r="8" /><line x1="21" y1="21" x2="16.65" y2="16.65" />
-                  </svg>
-                </span>
-                <input
-                  type="text"
-                  className="ak-search-input"
-                  placeholder="Search for equipment..."
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                />
-              </form>
-            </Col>
+              <div className="studio-hero-action-box">
+                <form onSubmit={handleSearch} className="studio-search-bar">
+                  <FaSearch className="studio-search-icon" />
+                  <input
+                    type="text"
+                    className="studio-search-input"
+                    placeholder="Search camera, lens, lighting..."
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                  />
+                  <button type="submit" className="studio-search-submit-btn">
+                    Search
+                  </button>
+                </form>
 
-            <Col lg={6} md={12} className="ak-hero-right d-none d-lg-flex">
-              <div className="ak-hero-img-wrap">
-                <img
-                  src={process.env.PUBLIC_URL + '/assets/images/mockup_hero_camera.png'}
-                  alt="Cinema Camera Setup"
-                  className="ak-hero-img"
-                />
+                <div className="d-flex align-items-center gap-3 mt-3 flex-wrap">
+                  <Link to="/assets" className="studio-btn-primary">
+                    <span>Explore Equipment</span>
+                    <FaArrowRight size={12} />
+                  </Link>
+
+                  <Link to="/about" className="studio-btn-secondary">
+                    <span>Studio Facilities</span>
+                  </Link>
+                </div>
+              </div>
+
+              <div className="studio-trust-row mt-4 pt-3">
+                <div className="studio-trust-item">
+                  <FaShieldAlt className="text-primary me-2" size={13} />
+                  <span>100% Bench-Tested</span>
+                </div>
+                <div className="studio-trust-divider" />
+                <div className="studio-trust-item">
+                  <FaCalendarAlt className="text-primary me-2" size={13} />
+                  <span>Weekend 1-Day Rate</span>
+                </div>
+                <div className="studio-trust-divider" />
+                <div className="studio-trust-item">
+                  <FaClock className="text-primary me-2" size={13} />
+                  <span>Free Prep Bay Access</span>
+                </div>
               </div>
             </Col>
+
+            <Col lg={6} md={12} className="d-none d-md-block">
+              <div className="studio-hero-card">
+                <div className="studio-hero-img-wrap">
+                  <img
+                    src={process.env.PUBLIC_URL + '/assets/images/mockup_hero_camera.png'}
+                    alt="Professional Studio Cinema Rig"
+                    className="studio-hero-img"
+                    onError={(e) => {
+                      e.target.src = process.env.PUBLIC_URL + '/assets/images/Camera_1.jpeg';
+                    }}
+                  />
+                </div>
+                <div className="studio-hero-card-meta">
+                  <div>
+                    <div className="studio-meta-title">Sony FX Cinema Setup</div>
+                    <div className="studio-meta-sub">Calibrated &amp; Ready for Checkout</div>
+                  </div>
+                  <Link to="/assets?category=camera" className="studio-meta-link">
+                    <span>View System</span>
+                    <FaArrowRight size={11} />
+                  </Link>
+                </div>
+              </div>
+            </Col>
+
           </Row>
         </Container>
       </section>
 
-      <section className="ak-trust-strip">
+      <section className="studio-section studio-bg-light">
         <Container>
-          <Row className="g-0 justify-content-around">
-            {trustPoints.map((t, i) => (
-              <Col key={i} xs={6} lg={3} className="ak-trust-item">
-                <span className="ak-trust-icon">{t.icon}</span>
-                <div>
-                  <div className="ak-trust-title">{t.title}</div>
-                  {t.sub && <div className="ak-trust-sub">{t.sub}</div>}
+          <div className="d-flex align-items-end justify-content-between mb-4 flex-wrap gap-2">
+            <div>
+              <span className="studio-section-eyebrow">DEPARTMENTS</span>
+              <h2 className="studio-section-title mb-1">Equipment Categories</h2>
+              <p className="studio-section-subtitle mb-0">Browse curated production departments for your shoot.</p>
+            </div>
+            <Link to="/assets" className="studio-link-arrow">
+              <span>All Equipment</span>
+              <FaArrowRight size={12} />
+            </Link>
+          </div>
+
+          <Row className="g-4">
+            {featuredCategories.map((cat) => {
+              const IconComponent = cat.icon;
+              return (
+                <Col key={cat.id} lg={3} sm={6} xs={12}>
+                  <Link to={`/assets?category=${cat.query}`} className="studio-category-card">
+                    <div className="studio-category-img-box">
+                      <img
+                        src={process.env.PUBLIC_URL + cat.image}
+                        alt={cat.title}
+                        className="studio-category-img"
+                        onError={(e) => {
+                          e.target.style.display = 'none';
+                        }}
+                      />
+                      <div className="studio-category-icon-pill">
+                        <IconComponent size={14} />
+                      </div>
+                    </div>
+                    <div className="studio-category-info">
+                      <h3 className="studio-category-name">{cat.title}</h3>
+                      <p className="studio-category-desc">{cat.desc}</p>
+                      <div className="studio-category-link">
+                        <span>Browse Category</span>
+                        <FaArrowRight size={11} />
+                      </div>
+                    </div>
+                  </Link>
+                </Col>
+              );
+            })}
+          </Row>
+        </Container>
+      </section>
+
+      <section className="studio-section studio-bg-white">
+        <Container>
+          <div className="d-flex align-items-end justify-content-between mb-4 flex-wrap gap-2">
+            <div>
+              <span className="studio-section-eyebrow">CURATED GEAR</span>
+              <h2 className="studio-section-title mb-1">Featured Equipment</h2>
+              <p className="studio-section-subtitle mb-0">Popular cinema and lighting setups bench-tested by our crew.</p>
+            </div>
+            <Link to="/assets" className="studio-link-arrow">
+              <span>View All Equipment</span>
+              <FaArrowRight size={12} />
+            </Link>
+          </div>
+
+          <Row className="g-4">
+            {displayProducts.map((prod) => (
+              <Col key={prod.id} lg={3} sm={6} xs={12}>
+                <div className="studio-product-card">
+                  <div className="studio-product-tag-row">
+                    <span className="studio-product-category">{prod.category}</span>
+                    <span className="studio-product-tag">{prod.tag}</span>
+                  </div>
+
+                  <div className="studio-product-img-box">
+                    <img
+                      src={prod.image}
+                      alt={prod.name}
+                      className="studio-product-img"
+                      onError={(e) => {
+                        e.target.src = process.env.PUBLIC_URL + '/assets/images/mockup_hero_camera.png';
+                      }}
+                    />
+                  </div>
+
+                  <div className="studio-product-details">
+                    <h3 className="studio-product-name" title={prod.name}>{prod.name}</h3>
+                    <p className="studio-product-specs">{prod.specs}</p>
+
+                    <div className="studio-product-footer">
+                      <span className="studio-product-status">
+                        <span className="studio-avail-dot" />
+                        Ready for Shoot
+                      </span>
+
+                      <Link
+                        to={`/book-asset?assetId=${prod.id}`}
+                        className="studio-btn-rent"
+                      >
+                        <span>Book Now</span>
+                        <FaArrowRight size={10} className="ms-1" />
+                      </Link>
+                    </div>
+                  </div>
                 </div>
               </Col>
             ))}
           </Row>
+
+          <div className="text-center mt-5">
+            <Link to="/assets" className="studio-btn-catalog">
+              <span>Explore Entire Rental Catalog</span>
+              <FaArrowRight size={12} />
+            </Link>
+          </div>
         </Container>
       </section>
 
-      <section className="ak-section ak-bg-white">
+      <section className="studio-section studio-bg-cream">
         <Container>
-          <div className="ak-section-header">
-            <h2 className="ak-section-title">Shop by Category</h2>
-            <Link to="/assets" className="ak-view-all">View All →</Link>
-          </div>
-
-          <Row className="g-3">
-            {shopCategories.map((cat) => (
-              <Col key={cat.id} xs={4} md={2}>
-                <Link to={`/assets?category=${cat.query}`} className="ak-cat-tile">
-                  <div className="ak-cat-icon-box">{cat.icon}</div>
-                  <span className="ak-cat-label">{cat.label}</span>
-                </Link>
+          <div className="studio-space-banner">
+            <Row className="align-items-center gy-4">
+              <Col lg={8} md={12}>
+                <span className="studio-section-eyebrow text-secondary">STUDIO FACILITIES</span>
+                <h2 className="studio-space-title">
+                  Looking for a Dedicated Soundstage?
+                </h2>
+                <p className="studio-space-desc">
+                  Rent our 2,500 sq.ft acoustically treated studio in Malleshwaram alongside your gear.
+                  Includes a 3-wall seamless cyclorama, 18ft pre-rigged lighting grid, client green room,
+                  and direct on-site equipment checkout.
+                </p>
+                <div className="d-flex align-items-center gap-3 flex-wrap">
+                  <Link to="/about" className="studio-btn-primary">
+                    <span>Explore Studio &amp; Rates</span>
+                    <FaArrowRight size={12} />
+                  </Link>
+                  <Link to="/assets" className="studio-btn-outline-dark">
+                    <span>Browse Equipment</span>
+                  </Link>
+                </div>
               </Col>
-            ))}
-          </Row>
-        </Container>
-      </section>
 
-      <section className="ak-section ak-bg-offwhite">
-        <Container>
-          <div className="ak-vision-banner">
-
-            <div className="ak-vision-left">
-              <h2 className="ak-vision-heading">Your Vision<br />Our Equipment</h2>
-              <p className="ak-vision-desc">
-                From indie creators to professional productions,<br />
-                we've got the gear you need.
-              </p>
-              <Link to="/assets" className="ak-browse-btn">Browse Equipment →</Link>
-            </div>
-
-            <div className="ak-vision-right">
-              <img
-                src={process.env.PUBLIC_URL + '/assets/images/banner_studio.png'}
-                alt="Studio Setup"
-                className="ak-vision-img"
-              />
-            </div>
+              <Col lg={4} md={12} className="d-none d-lg-block">
+                <div className="studio-space-img-wrap">
+                  <img
+                    src={process.env.PUBLIC_URL + '/assets/images/banner_studio.png'}
+                    alt="AsliKahani Soundstage A"
+                    className="studio-space-img"
+                    onError={(e) => {
+                      e.target.src = process.env.PUBLIC_URL + '/assets/images/mockup_banner.png';
+                    }}
+                  />
+                  <div className="studio-space-badge">
+                    STAGE A • MALLIKHESHWARAM
+                  </div>
+                </div>
+              </Col>
+            </Row>
           </div>
         </Container>
       </section>
 
-      <section className="ak-section ak-bg-white">
+      <section className="studio-section studio-bg-white border-top">
         <Container>
-          <div className="ak-section-header">
-            <h2 className="ak-section-title">Recently Added</h2>
-            <Link to="/assets" className="ak-view-all">View All →</Link>
+          <div className="text-center mb-5">
+            <span className="studio-section-eyebrow">HOW IT WORKS</span>
+            <h2 className="studio-section-title">Simple, Reliable Studio Rentals</h2>
+            <p className="studio-section-subtitle mx-auto" style={{ maxWidth: '580px' }}>
+              We keep the rental process straightforward so you and your team can focus on production.
+            </p>
           </div>
 
-          <Row className="g-3">
-            {recentAssets.map((asset) => (
-              <Col key={asset.id} xs={6} md={3}>
-                <Link to="/assets" className="ak-product-card">
-
-                  <div className="ak-product-img-box">
-                    {asset.image_url || asset.image ? (
-                      <img
-                        src={asset.image_url || asset.image}
-                        alt={asset.name}
-                        className="ak-product-img"
-                        onError={(e) => { e.target.style.display = 'none'; e.target.nextSibling.style.display = 'flex'; }}
-                      />
-                    ) : null}
-                    <div className="ak-product-placeholder" style={{ display: (asset.image_url || asset.image) ? 'none' : 'flex' }}>
-                      📷
-                    </div>
-                  </div>
-
-                  <div className="ak-product-info">
-                    <div className="ak-product-name">{asset.name}</div>
-                  </div>
-                </Link>
+          <Row className="g-4">
+            {simpleSteps.map((step, idx) => (
+              <Col key={idx} lg={4} md={4} sm={12}>
+                <div className="studio-step-card">
+                  <div className="studio-step-num">{step.number}</div>
+                  <h3 className="studio-step-title">{step.title}</h3>
+                  <p className="studio-step-desc">{step.desc}</p>
+                </div>
               </Col>
             ))}
           </Row>

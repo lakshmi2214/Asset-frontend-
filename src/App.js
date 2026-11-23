@@ -9,6 +9,7 @@ import Home from './Home/Home';
 import AssetBooking from './Navpages/Bookings/BookingForm';
 import Footer from './Home/Footer';
 import About from './Home/About';
+import Contact from './Home/Contact';
 import { API_BASE } from './auth';
 
 function AssetRedirect() {
@@ -52,7 +53,7 @@ function AppContent({ user, setUser, handleLogout }) {
             </div>
             <div className="d-flex flex-column">
               <span className="ak-brand-title">AsliKahani</span>
-              <span className="ak-brand-tagline">Studio &amp; Equipment Hub</span>
+              <span className="ak-brand-tagline">Studio &amp; Equipment</span>
             </div>
           </Navbar.Brand>
 
@@ -64,11 +65,14 @@ function AppContent({ user, setUser, handleLogout }) {
               <Nav.Link as={Link} to="/" onClick={closeNav} className={`ak-nav-link ${isActive('/') ? 'active' : ''}`}>
                 Home
               </Nav.Link>
+              <Nav.Link as={Link} to="/assets" onClick={closeNav} className={`ak-nav-link ${isActive('/assets') || isActive('/book-asset') ? 'active' : ''}`}>
+                Equipment
+              </Nav.Link>
               <Nav.Link as={Link} to="/about" onClick={closeNav} className={`ak-nav-link ${isActive('/about') ? 'active' : ''}`}>
                 About
               </Nav.Link>
-              <Nav.Link as={Link} to="/assets" onClick={closeNav} className={`ak-nav-link ${isActive('/assets') || isActive('/book-asset') ? 'active' : ''}`}>
-                Equipments
+              <Nav.Link as={Link} to="/contact" onClick={closeNav} className={`ak-nav-link ${isActive('/contact') ? 'active' : ''}`}>
+                Contact
               </Nav.Link>
             </Nav>
 
@@ -90,8 +94,8 @@ function AppContent({ user, setUser, handleLogout }) {
                   <Link to="/login" onClick={closeNav} className={`ak-nav-link ${isActive('/login') ? 'active' : ''}`}>
                     Login
                   </Link>
-                  <Link to="/signup" onClick={closeNav} className="btn ak-btn-dark">
-                    Sign Up
+                  <Link to="/assets" onClick={closeNav} className="btn studio-nav-cta">
+                    Rent Equipment
                   </Link>
                 </>
               )}
@@ -104,6 +108,7 @@ function AppContent({ user, setUser, handleLogout }) {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<About />} />
+          <Route path="/contact" element={<Contact />} />
           <Route path="/signup" element={<Container className="mt-4"><Signup setUser={setUser} /></Container>} />
           <Route path="/login" element={<Container className="mt-4"><Login setUser={setUser} /></Container>} />
 

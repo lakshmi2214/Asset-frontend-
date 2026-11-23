@@ -59,6 +59,7 @@ const Footer = () => {
               <Link to="/" className="ak-footer-link">Home</Link>
               <Link to="/assets" className="ak-footer-link">Equipment Catalog</Link>
               <Link to="/about" className="ak-footer-link">About Us</Link>
+              <Link to="/contact" className="ak-footer-link">Contact &amp; Studio Hub</Link>
               <Link to="/login" className="ak-footer-link">Sign In / Register</Link>
             </div>
           </Col>
