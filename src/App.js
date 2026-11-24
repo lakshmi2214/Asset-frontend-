@@ -25,6 +25,10 @@ function AppContent({ user, setUser, handleLogout }) {
     setNavExpanded(false);
   }, [location.pathname, location.search, location.hash]);
 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [location.pathname]);
+
   const closeNav = () => setNavExpanded(false);
 
   const isActive = (path) => {
