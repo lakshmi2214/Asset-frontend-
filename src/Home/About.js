@@ -152,7 +152,7 @@ export default function About() {
                 soundstage with a 3-wall cyclorama.
               </p>
               <p className="studio-body-text mb-4">
-                Whether you are shooting a national commercial, an indie short film, or an interview podcast, our
+                Whether you are shooting a national commercial, or an interview podcast, our
                 technical team is here to ensure your gear is prepped, tested, and ready to roll.
               </p>
 

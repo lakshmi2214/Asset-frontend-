@@ -65,11 +65,11 @@ function AppContent({ user, setUser, handleLogout }) {
               <Nav.Link as={Link} to="/" onClick={closeNav} className={`ak-nav-link ${isActive('/') ? 'active' : ''}`}>
                 Home
               </Nav.Link>
-              <Nav.Link as={Link} to="/assets" onClick={closeNav} className={`ak-nav-link ${isActive('/assets') || isActive('/book-asset') ? 'active' : ''}`}>
-                Equipment
-              </Nav.Link>
               <Nav.Link as={Link} to="/about" onClick={closeNav} className={`ak-nav-link ${isActive('/about') ? 'active' : ''}`}>
                 About
+              </Nav.Link>
+              <Nav.Link as={Link} to="/assets" onClick={closeNav} className={`ak-nav-link ${isActive('/assets') || isActive('/book-asset') ? 'active' : ''}`}>
+                Equipment
               </Nav.Link>
               <Nav.Link as={Link} to="/contact" onClick={closeNav} className={`ak-nav-link ${isActive('/contact') ? 'active' : ''}`}>
                 Contact

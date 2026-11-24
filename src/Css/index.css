@@ -32,7 +32,6 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-/* Enforce font-weight not more than 600 everywhere */
 h1, h2, h3, h4, h5, h6,
 .h1, .h2, .h3, .h4, .h5, .h6,
 strong, b, th,
@@ -40,12 +39,10 @@ strong, b, th,
   font-weight: 600 !important;
 }
 
-/* Enforce standard subtext size as 12px */
 .subtext, .subtitle, small, .small, .text-muted, .text-secondary {
   font-size: 12px !important;
 }
 
-/* Animations */
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -76,7 +73,6 @@ strong, b, th,
   animation: slideUp 0.8s ease-out forwards;
 }
 
-/* Premium Card Styles */
 .premium-card {
   background: var(--card-bg);
   border: 1px solid rgba(226, 232, 240, 0.8);
@@ -98,7 +94,6 @@ strong, b, th,
   border: 1px solid rgba(255, 255, 255, 0.3);
 }
 
-/* Button Refinement */
 .btn-premium {
   padding: 0.75rem 1.75rem;
   border-radius: 9999px;
@@ -159,8 +154,6 @@ strong, b, th,
   box-shadow: 0 6px 18px rgba(124, 58, 237, 0.45);
 }
 
-/* Filter & Menu Bar Buttons */
-/* Filter & Menu Bar Buttons */
 .filter-btn {
   border-radius: 12px !important;
   font-weight: 600 !important;
@@ -220,7 +213,6 @@ strong, b, th,
   color: white;
 }
 
-/* Main Navigation Tuning */
 .navbar {
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
@@ -267,7 +259,6 @@ strong, b, th,
   color: white !important;
 }
 
-/* Scrollbar */
 ::-webkit-scrollbar {
   width: 8px;
 }
@@ -285,7 +276,7 @@ strong, b, th,
   background: var(--primary);
 }
 
-/* Asset Card Refinements */
+/* EQUIPMENT PAGE */
 .page-hero-banner {
   background: linear-gradient(135deg, rgba(99, 102, 241, 0.08) 0%, rgba(244, 63, 94, 0.05) 50%, rgba(248, 250, 252, 0.5) 100%);
   border: 1px solid rgba(99, 102, 241, 0.12);
@@ -327,7 +318,6 @@ strong, b, th,
   max-width: 620px;
 }
 
-/* Filter & Search Bar */
 .catalog-filter-bar {
   background: rgba(255, 255, 255, 0.95);
   backdrop-filter: blur(16px);
@@ -367,7 +357,6 @@ strong, b, th,
   box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.12) !important;
 }
 
-/* Asset Card */
 .asset-card {
   border: 1px solid rgba(226, 232, 240, 0.85);
   border-radius: 16px;
@@ -408,7 +397,6 @@ strong, b, th,
   transform: scale(1.05);
 }
 
-/* Placeholder for missing images */
 .asset-card-placeholder {
   width: 100%;
   height: 100%;
@@ -438,7 +426,6 @@ strong, b, th,
   letter-spacing: 0.2px;
 }
 
-/* Floating overlay badges on the image */
 .asset-floating-cat {
   position: absolute;
   top: 10px;
@@ -487,7 +474,6 @@ strong, b, th,
   color: #ffffff;
 }
 
-/* Card Body */
 .asset-card-body {
   padding: 1.25rem 1.25rem 0.75rem 1.25rem;
   display: flex;
@@ -534,7 +520,6 @@ strong, b, th,
   font-weight: 600;
 }
 
-/* Card Footer Button */
 .asset-card-footer {
   background: transparent !important;
   border-top: none !important;
@@ -581,7 +566,7 @@ strong, b, th,
   box-shadow: 0 6px 16px rgba(16, 185, 129, 0.35);
 }
 
-/* Compact Booking Form Styles */
+/* BOOKING PAGE */
 .booking-form-wrapper {
   max-width: 680px;
   margin: 0 auto;
@@ -730,7 +715,7 @@ strong, b, th,
   animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
 }
 
-/* Camera & Mic Home Page Specialized Styles */
+/* HOME PAGE */
 .gear-hero-visual-wrapper {
   position: relative;
   border-radius: 1.5rem;
@@ -862,6 +847,7 @@ strong, b, th,
 }
 
 /* Booking System Platform Styles */
+/* HOME PAGE */
 .booking-hero-search-card {
   background: #ffffff;
   border: 1px solid rgba(226, 232, 240, 0.95);
@@ -919,7 +905,6 @@ strong, b, th,
   box-shadow: 0 16px 32px -8px rgba(37, 99, 235, 0.12);
 }
 
-/* Image + Content Visual Cards */
 .visual-card {
   background: #ffffff;
   border: 1px solid rgba(226, 232, 240, 0.9);
@@ -1020,7 +1005,6 @@ strong, b, th,
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
 }
 
-/* ── LensLoop Creative & Visual (Option 5) Styles ── */
 .lensloop-hero-wrap {
   position: relative;
   background-color: #0f172a;
@@ -1135,7 +1119,6 @@ strong, b, th,
   justify-content: center;
 }
 
-/* 5 Equipment Cards Grid */
 .equipment-card-v5 {
   position: relative;
   height: 220px;
@@ -1181,7 +1164,6 @@ strong, b, th,
   padding: 1rem 1rem 1.15rem 1rem;
 }
 
-/* Ideas Banner Card */
 .ideas-banner-card {
   background: #ffffff;
   border: 1px solid #ede9fe;
@@ -1213,8 +1195,6 @@ strong, b, th,
   }
 }
 
-
-/* ── LensLoop Creative & Visual (Option 5) Styles ── */
 .lensloop-hero-wrap {
   position: relative;
   background-color: #0f172a;
@@ -1329,7 +1309,6 @@ strong, b, th,
   justify-content: center;
 }
 
-/* 5 Equipment Cards Grid */
 .equipment-card-v5 {
   position: relative;
   height: 220px;
@@ -1375,7 +1354,6 @@ strong, b, th,
   padding: 1rem 1rem 1.15rem 1rem;
 }
 
-/* Ideas Banner Card */
 .ideas-banner-card {
   background: #ffffff;
   border: 1px solid #ede9fe;
@@ -1407,10 +1385,7 @@ strong, b, th,
   }
 }
 
-/* ============================================================
-   FrameLease Home Page Styles (Exact Mockup Match)
-============================================================ */
-
+/* HOME PAGE */
 .framelease-nav-link {
   color: #cbd5e1 !important;
   font-weight: 500;
@@ -1425,11 +1400,6 @@ strong, b, th,
   font-weight: 600;
 }
 
-/* ============================================================
-   FrameLease Section Separation & Alternating Layouts
-============================================================ */
-
-/* Section Header & Badges */
 .framelease-section-badge {
   display: inline-flex;
   align-items: center;
@@ -1548,7 +1518,6 @@ strong, b, th,
   margin: 0 auto 2.25rem auto;
 }
 
-/* Search capsule */
 .framelease-search-capsule {
   background: #ffffff;
   border: 1.5px solid #cbd5e1;
@@ -1593,7 +1562,6 @@ strong, b, th,
   background: #2563eb;
 }
 
-/* Hero Quick Category Chips */
 .framelease-hero-chips {
   display: flex;
   align-items: center;
@@ -1623,7 +1591,6 @@ strong, b, th,
   transform: translateY(-1px);
 }
 
-/* Hero Panoramic Gear Showcase (Bottom of Hero) */
 .hero-panoramic-showcase {
   max-width: 960px;
   margin: 3.5rem auto 0;
@@ -1682,7 +1649,6 @@ strong, b, th,
   }
 }
 
-/* 2. Solid Dark Navy Trust Ribbon (Strong Visual Divider) */
 .framelease-trust-ribbon {
   background: #0f172a;
   border-top: 1px solid #1e293b;
@@ -1840,7 +1806,6 @@ strong, b, th,
   transform: translateX(4px);
 }
 
-/* 4. Section 4: Connected Step Roadmap */
 .framelease-roadmap-section {
   background-color: #ffffff;
   padding: 5.5rem 0;
@@ -1900,7 +1865,6 @@ strong, b, th,
   margin: 0;
 }
 
-/* 5. Section 5: Full-Bleed Cinema Dark Showcase (Image Left, Text Right) */
 .framelease-cinema-section {
   background: radial-gradient(circle at 20% 50%, #1e293b 0%, #0b1120 100%);
   color: #ffffff;
@@ -2007,7 +1971,6 @@ strong, b, th,
   border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
-/* 6. Section 6: Spotlight Equipment Layout (1 Big Card Left + 3 Row Cards Right) */
 .framelease-spotlight-section {
   background-color: #ffffff;
   padding: 5.5rem 0;
@@ -2122,7 +2085,6 @@ strong, b, th,
   background: #2563eb;
 }
 
-/* 7. Section 7: Studio Hub & Impact Stats (About Section) */
 .framelease-about-section {
   background-color: #f8fafc;
   padding: 5.5rem 0;
@@ -2204,8 +2166,6 @@ strong, b, th,
   margin-bottom: 0.75rem;
 }
 
-
-/* Equipment card image hover */
 .equipment-img-hover:hover {
   transform: scale(1.05);
 }
@@ -2219,7 +2179,6 @@ strong, b, th,
   box-shadow: 0 14px 30px -8px rgba(15, 23, 42, 0.12) !important;
 }
 
-/* Hide scrollbar utility for clean horizontal pill bars */
 .no-scrollbar::-webkit-scrollbar {
   display: none;
 }
@@ -2228,9 +2187,6 @@ strong, b, th,
   scrollbar-width: none;
 }
 
-/* ============================================================
-   Studio Facilities & Turnkey Production Package Cards
-============================================================ */
 .studio-facilities-section {
   background-color: #ffffff;
   padding: 5.5rem 0;
@@ -2316,7 +2272,6 @@ strong, b, th,
   margin-bottom: 1.25rem;
 }
 
-/* Studio Amenities & Infrastructure Section */
 .studio-amenities-section {
   background-color: #f8fafc;
   padding: 5.5rem 0;
@@ -2378,7 +2333,6 @@ strong, b, th,
   margin-bottom: 0;
 }
 
-/* Production Workflow Section (3-Step Process) */
 .studio-workflow-section {
   background-color: #ffffff;
   padding: 5.5rem 0;
@@ -2426,9 +2380,6 @@ strong, b, th,
   margin-bottom: 0;
 }
 
-/* ============================================================
-   AI Production Studio & Gear Configurator (Modern AI UI/UX)
-============================================================ */
 .ai-planner-section {
   background: linear-gradient(180deg, #0f172a 0%, #1e293b 100%);
   color: #ffffff;
@@ -2609,12 +2560,6 @@ strong, b, th,
   line-height: 1.4;
 }
 
-/* ================================================================
-   AsliKahani — Studio Navy & Royal Slate Theme
-   Headings & Base in Studio Navy (#0a192f), Accents in Royal Blue (#2563eb)
-================================================================ */
-
-/* ── Navbar (White Frosted Glass, Studio Navy & Royal Blue) ── */
 .ak-navbar {
   background-color: rgba(255, 255, 255, 0.94) !important;
   backdrop-filter: blur(14px) !important;
@@ -2738,10 +2683,6 @@ strong, b, th,
   padding: 6px 10px;
 }
 
-/* ================================================================
-   Modern, Light & Elegant Studio Equipment Rental Styles
-================================================================ */
-
 .studio-page-container {
   background-color: #ffffff;
   overflow-x: hidden;
@@ -2749,7 +2690,6 @@ strong, b, th,
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
 
-/* ── Navbar Get Started CTA ── */
 .studio-nav-cta {
   background: #111827 !important;
   color: #ffffff !important;
@@ -2769,7 +2709,6 @@ strong, b, th,
   transform: translateY(-1px);
 }
 
-/* ── 1. Hero Section (Clean Warm-Light Studio Atmosphere) ── */
 .studio-hero-section {
   position: relative;
   background: linear-gradient(180deg, #fdfbf9 0%, #f7f6f4 100%);
@@ -2836,7 +2775,6 @@ strong, b, th,
   max-width: 480px;
 }
 
-/* Minimalist Search Bar */
 .studio-search-bar {
   display: flex;
   align-items: center;
@@ -2891,7 +2829,6 @@ strong, b, th,
   background: #2563eb;
 }
 
-/* Primary and Secondary Buttons */
 .studio-btn-primary {
   display: inline-flex;
   align-items: center;
@@ -2935,7 +2872,6 @@ strong, b, th,
   color: #0f172a !important;
 }
 
-/* Trust Row */
 .studio-trust-row {
   display: flex;
   align-items: center;
@@ -2958,7 +2894,6 @@ strong, b, th,
   background: #e2e8f0;
 }
 
-/* Hero Showcase Card */
 .studio-hero-card {
   background: #ffffff;
   border: 1px solid #ebe8e4;
@@ -3031,7 +2966,6 @@ strong, b, th,
   transform: translateX(2px);
 }
 
-/* ── 2. Generic Section Layouts ── */
 .studio-section {
   padding: 4.5rem 0;
 }
@@ -3093,7 +3027,6 @@ strong, b, th,
   transform: translateX(3px);
 }
 
-/* ── 3. Category Cards (4 Items) ── */
 .studio-category-card {
   background: #ffffff;
   border: 1px solid #e2e8f0;
@@ -3183,7 +3116,6 @@ strong, b, th,
   gap: 5px;
 }
 
-/* ── 4. Featured Equipment Products (4 Items) ── */
 .studio-product-card {
   background: #ffffff;
   border: 1.5px solid #e2e8f0;
@@ -3345,7 +3277,6 @@ strong, b, th,
   box-shadow: 0 6px 18px rgba(15, 23, 42, 0.15);
 }
 
-/* ── 5. Studio Space Feature Banner ── */
 .studio-space-banner {
   background: #ffffff;
   border: 1px solid #e5e2dc;
@@ -3427,7 +3358,6 @@ strong, b, th,
   letter-spacing: 0.5px;
 }
 
-/* ── 6. 3-Step Simple Rental Process ── */
 .studio-step-card {
   background: #fbfaf8;
   border: 1px solid #eeebe6;
@@ -3466,12 +3396,7 @@ strong, b, th,
   margin: 0;
 }
 
-
-/* ================================================================
-   About Page Styles (Studio Navy & Royal Blue Theme)
-================================================================ */
-
-/* Hero */
+/* ABOUT PAGE */
 .about-hero-section {
   background: linear-gradient(180deg, #f8fafc 0%, #ffffff 100%);
   border-bottom: 1.5px solid #e2e8f0;
@@ -3539,7 +3464,6 @@ strong, b, th,
   transform: translateX(2px);
 }
 
-/* Stats card */
 .about-stats-card {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -3574,7 +3498,6 @@ strong, b, th,
   letter-spacing: 0.5px;
 }
 
-/* General section */
 .about-section {
   padding: 4.5rem 0;
 }
@@ -3615,7 +3538,6 @@ strong, b, th,
   font-weight: 400;
 }
 
-/* Story section */
 .about-story-visual {
   position: relative;
   display: flex;
@@ -3708,7 +3630,6 @@ strong, b, th,
   font-weight: 400;
 }
 
-/* Values cards */
 .about-value-card {
   background: rgba(255, 255, 255, 0.08);
   border: 1.5px solid rgba(191, 219, 254, 0.25);
@@ -3744,7 +3665,6 @@ strong, b, th,
   font-weight: 400;
 }
 
-/* Contact list */
 .about-contact-list {
   display: flex;
   flex-direction: column;
@@ -3793,7 +3713,6 @@ strong, b, th,
   text-decoration: underline;
 }
 
-/* CTA card */
 .about-cta-card {
   background: #ffffff;
   border: 1.5px solid #cbd5e1;
@@ -3824,11 +3743,9 @@ strong, b, th,
   font-weight: 400;
 }
 
-/* ================================================================
-   Cinema Studio Footer (Compact Midnight Navy Theme)
-================================================================ */
+/* FOOTER */
 .ak-footer-root {
-  background: linear-gradient(180deg, #071224 0%, #0a192f 100%);
+  background: #142238;
   color: #e2e8f0;
   border-top: 1.5px solid #1e3a8a;
   padding: 2.25rem 0 1.25rem;
@@ -3903,11 +3820,7 @@ strong, b, th,
   font-weight: 400;
 }
 
-/* ================================================================
-   About Page & Contact Page Styles (Light, Minimal & Elegant)
-================================================================ */
-
-/* ── About Stats Card ── */
+/* ABOUT PAGE */
 .studio-about-stats-card {
   background: #ffffff;
   border: 1px solid #e5e2dc;
@@ -3948,7 +3861,6 @@ strong, b, th,
   letter-spacing: 0.5px;
 }
 
-/* ── About Pillars ── */
 .studio-pillar-card {
   background: #fbfaf8;
   border: 1px solid #eeebe6;
@@ -3993,7 +3905,6 @@ strong, b, th,
   margin: 0;
 }
 
-/* ── About Story ── */
 .studio-about-img-box {
   position: relative;
   border-radius: 20px;
@@ -4045,7 +3956,7 @@ strong, b, th,
   padding: 3.5rem 2rem;
 }
 
-/* ── Contact Info Card ── */
+/* CONTACT PAGE */
 .studio-contact-info-card {
   background: #fbfaf8;
   border: 1px solid #eeebe6;
@@ -4105,7 +4016,6 @@ strong, b, th,
   color: #2563eb;
 }
 
-/* ── Contact Form Card ── */
 .studio-form-card {
   background: #ffffff;
   border: 1.5px solid #e2e8f0;
@@ -4169,70 +4079,69 @@ textarea.studio-form-control {
   min-height: 100px;
 }
 
-/* Contact page: a warm, cinematic teal and copper palette. */
 .studio-contact-page .studio-hero-section {
-  background: radial-gradient(ellipse at 50% 0%, #e6f0eb 0%, #f5f3ed 58%, #fbf8f2 100%);
-  border-bottom: 1px solid #d8e3dc;
+  background: #F2F5FA;
+  border-bottom: 1px solid #d8e3f0;
 }
 
 .studio-contact-page .studio-eyebrow,
 .studio-contact-page .studio-section-eyebrow {
-  color: #37635b;
+  color: #365b86;
 }
 
 .studio-contact-page .studio-eyebrow-dot {
-  background-color: #c57655;
+  background-color: #6b93c4;
 }
 
 .studio-contact-page .studio-hero-heading {
-  color: #193c39;
+  color: #183a63;
 }
 
 .studio-contact-page .studio-hero-description {
-  color: #5c706a;
+  color: #5a6f88;
 }
 
 .studio-contact-page .studio-contact-main-section {
-  background: #f8f7f3;
+  background: #F2F5FA;
 }
 
 .studio-contact-page .studio-contact-info-card {
-  background: linear-gradient(150deg, #edf3ee 0%, #f5f3ed 100%);
-  border-color: #d7e2da;
+  background: linear-gradient(150deg, #eaf2fc 0%, #f4f7fc 100%);
+  border-color: #d7e2f0;
 }
 
 .studio-contact-page .studio-form-card {
-  border-color: #d9e4de;
-  box-shadow: 0 14px 36px rgba(31, 67, 59, 0.08);
+  border-color: #d9e4f1;
+  box-shadow: 0 14px 36px rgba(31, 67, 99, 0.08);
 }
 
 .studio-contact-page .studio-info-icon-box {
-  color: #376b60;
-  background: #f8fbf8;
-  border-color: #d6e4dc;
+  color: #365f91;
+  background: #f7faff;
+  border-color: #d6e2f1;
 }
 
 .studio-contact-page .studio-contact-link {
-  color: #24574e;
+  color: #244f80;
 }
 
 .studio-contact-page .studio-contact-link:hover {
-  color: #b66345;
+  color: #416fa6;
 }
 
 .studio-contact-page .studio-form-control:focus {
-  border-color: #548777;
-  box-shadow: 0 0 0 3px rgba(84, 135, 119, 0.16);
+  border-color: #6289b9;
+  box-shadow: 0 0 0 3px rgba(98, 137, 185, 0.16);
 }
 
 .studio-contact-page .studio-btn-primary {
-  background: #214d47;
-  box-shadow: 0 5px 14px rgba(33, 77, 71, 0.16);
+  background: #244f80;
+  box-shadow: 0 5px 14px rgba(36, 79, 128, 0.16);
 }
 
 .studio-contact-page .studio-btn-primary:hover {
-  background: #b66345;
-  box-shadow: 0 7px 18px rgba(182, 99, 69, 0.22);
+  background: #416fa6;
+  box-shadow: 0 7px 18px rgba(65, 111, 166, 0.22);
 }
 
 .studio-form-success {
