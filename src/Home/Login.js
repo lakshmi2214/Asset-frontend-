@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { Form, Alert } from 'react-bootstrap';
-import { FaFacebookF, FaEye, FaEyeSlash } from 'react-icons/fa';
+import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import { API_BASE, PROD_BACKEND } from '../auth';
 
 export default function Login({ setUser }) {
@@ -178,30 +178,6 @@ export default function Login({ setUser }) {
               Signup
             </Link>
           </div>
-
-
-          <div className="d-flex align-items-center my-3">
-            <div className="flex-grow-1 border-top" style={{ borderColor: '#cbd5e1' }}></div>
-            <span className="px-3 text-muted small fw-medium" style={{ fontSize: '0.85rem' }}>Or</span>
-            <div className="flex-grow-1 border-top" style={{ borderColor: '#cbd5e1' }}></div>
-          </div>
-
-
-          <button
-            type="button"
-            onClick={() => setMsg('Facebook OAuth authentication integration initiated.')}
-            className="btn w-100 py-3 fw-semibold text-white d-flex align-items-center justify-content-center gap-2 shadow-sm"
-            style={{
-              backgroundColor: '#1877f2',
-              borderRadius: '14px',
-              fontSize: '0.96rem',
-              border: 'none',
-              boxShadow: '0 4px 14px rgba(24, 119, 242, 0.25)'
-            }}
-          >
-            <FaFacebookF size={18} />
-            <span>Login with Facebook</span>
-          </button>
         </Form>
 
         {msg && (
